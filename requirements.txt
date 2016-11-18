@@ -9,8 +9,11 @@ functools32==3.2.3-2
 imagesize==0.7.1
 jsonschema==2.5.1
 marple-py==0.1
+numpy==1.11.2
+pandas==0.19.1
 py==1.4.31
 pytest==3.0.3
+python-dateutil==2.6.0
 pytz==2016.7
 six==1.10.0
 snowballstemmer==1.2.1
