@@ -1,0 +1,564 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>marple package &mdash; Marple Python Modules 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Marple Python Modules 0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Marple Python Modules 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="marple-package">
+<h1>marple package<a class="headerlink" href="#marple-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-marple.dataset">
+<span id="marple-dataset-module"></span><h2>marple.dataset module<a class="headerlink" href="#module-marple.dataset" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="marple.dataset.Category">
+<em class="property">class </em><tt class="descclassname">marple.dataset.</tt><tt class="descname">Category</tt><big>(</big><em>cat_id</em>, <em>pos</em>, <em>cat_json</em><big>)</big><a class="headerlink" href="#marple.dataset.Category" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#marple.dataset.JSONStatObject" title="marple.dataset.JSONStatObject"><tt class="xref py py-class docutils literal"><span class="pre">marple.dataset.JSONStatObject</span></tt></a></p>
+<dl class="attribute">
+<dt id="marple.dataset.Category.json">
+<tt class="descname">json</tt><a class="headerlink" href="#marple.dataset.Category.json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="marple.dataset.Category.label">
+<tt class="descname">label</tt><a class="headerlink" href="#marple.dataset.Category.label" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">category label, if any. Otherwise id.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="marple.dataset.Dataset">
+<em class="property">class </em><tt class="descclassname">marple.dataset.</tt><tt class="descname">Dataset</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#marple.dataset.Dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#marple.dataset.JSONStatObject" title="marple.dataset.JSONStatObject"><tt class="xref py py-class docutils literal"><span class="pre">marple.dataset.JSONStatObject</span></tt></a></p>
+<p>Represents a Dataset object</p>
+<dl class="docutils">
+<dt>..todo:: Handle these concepts:</dt>
+<dd><ul class="first last simple">
+<li>href</li>
+<li>role</li>
+<li>link</li>
+<li>note</li>
+<li>error</li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="marple.dataset.Dataset.add_labels">
+<tt class="descname">add_labels</tt><big>(</big><em>dim_id</em>, <em>labels</em><big>)</big><a class="headerlink" href="#marple.dataset.Dataset.add_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a labels to categories of a given dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dim_id</strong> (<em>str</em>) &#8211; id of dimension</li>
+<li><strong>labels</strong> (<em>dict</em>) &#8211; A dictionary with category id&#8217;s as keys and labels as values.
+E.g. { &#8220;M&#8221;: &#8220;Male&#8221;, &#8220;F&#8221;: &#8220;Female&#8221;}</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="marple.dataset.Dataset.append">
+<tt class="descname">append</tt><big>(</big><em>dataset_to_append</em><big>)</big><a class="headerlink" href="#marple.dataset.Dataset.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append another dataset. Metadata from original dataset
+will override metadata from appended dataset (e.g. labels).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Dataset_to_append:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">A dataset to append (Dataset)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="marple.dataset.Dataset.dimension">
+<tt class="descname">dimension</tt><big>(</big><em>dim_id</em><big>)</big><a class="headerlink" href="#marple.dataset.Dataset.dimension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get dimension by id</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dim_id</strong> (<em>str</em>) &#8211; Id of dimension</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="marple.dataset.Dataset.dimensions">
+<tt class="descname">dimensions</tt><a class="headerlink" href="#marple.dataset.Dataset.dimensions" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of all dimensions as Dimension instances</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="marple.dataset.Dataset.extension">
+<tt class="descname">extension</tt><a class="headerlink" href="#marple.dataset.Dataset.extension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience attribute. 
+:returns: The extension property of the json stat object as dict.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="marple.dataset.Dataset.filter">
+<tt class="descname">filter</tt><big>(</big><em>filter_fn</em>, <em>content='index'</em><big>)</big><a class="headerlink" href="#marple.dataset.Dataset.filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform the dataset to dataframe and apply a filter.
+:param filter: A function to filter by, e.g. lambda x: x[&#8216;gender&#8217;] == &#8216;M&#8217;
+:returns: self</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="marple.dataset.Dataset.filter_by_query">
+<tt class="descname">filter_by_query</tt><big>(</big><em>query</em>, <em>content='index'</em><big>)</big><a class="headerlink" href="#marple.dataset.Dataset.filter_by_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple filtering of a dataset. Get all rows that equals a given value.
+For example dataset.filter_by_query({&#8220;region&#8221;: &#8220;Stockholms kommun&#8221;})</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>query</strong> (<em>dict</em>) &#8211; dimension id as key, value as value e.g. { &#8220;gender&#8221;: &#8220;M&#8221; }</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Self</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="marple.dataset.Dataset.from_dataframe">
+<tt class="descname">from_dataframe</tt><big>(</big><em>df</em>, <em>value='value'</em><big>)</big><a class="headerlink" href="#marple.dataset.Dataset.from_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a Pandas dataframe to a json stat object. Note that the created
+dataset won&#8217;t have any labels, roles, units etc</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>df</strong> (<em>pandas.Dataframe</em>) &#8211; Data frame with only the columns to be included</li>
+<li><strong>value</strong> (<em>string</em>) &#8211; name of value column</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Itself to chain calls</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="marple.dataset.Dataset.from_file">
+<tt class="descname">from_file</tt><big>(</big><em>file_path</em><big>)</big><a class="headerlink" href="#marple.dataset.Dataset.from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse from json file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file_path</strong> (<em>str</em>) &#8211; Path to json file.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Itself to chain calls</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="marple.dataset.Dataset.from_json">
+<tt class="descname">from_json</tt><big>(</big><em>json_data</em><big>)</big><a class="headerlink" href="#marple.dataset.Dataset.from_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a json structure and initialize this dataset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_data</strong> &#8211; json structure</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Dict json_data:</th><td class="field-body">dict</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Itself to chain calls</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="marple.dataset.Dataset.from_string">
+<tt class="descname">from_string</tt><big>(</big><em>json_string</em><big>)</big><a class="headerlink" href="#marple.dataset.Dataset.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a string containing a jsonstat and initialize this dataset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_string</strong> (<em>str</em>) &#8211; String containing a jsonstat</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Itself to chain calls</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="marple.dataset.Dataset.json">
+<tt class="descname">json</tt><a class="headerlink" href="#marple.dataset.Dataset.json" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A json representation of the dataset as dict.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="marple.dataset.Dataset.label">
+<tt class="descname">label</tt><a class="headerlink" href="#marple.dataset.Dataset.label" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The label property of the json stat object as str.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="marple.dataset.Dataset.source">
+<tt class="descname">source</tt><a class="headerlink" href="#marple.dataset.Dataset.source" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The source property of the json stat object as str.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="marple.dataset.Dataset.to_dataframe">
+<tt class="descname">to_dataframe</tt><big>(</big><em>content='label'</em>, <em>value_column='value'</em><big>)</big><a class="headerlink" href="#marple.dataset.Dataset.to_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms the dataset to a pandas dataframe.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>content</strong> &#8211; Can be &#8220;label&#8221; or &#8220;id&#8221;. If labels are not defined index 
+will be used instead.</li>
+<li><strong>value_column</strong> &#8211; name of value column</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of rows, first line is the header, every row is tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="marple.dataset.Dataset.to_table">
+<tt class="descname">to_table</tt><big>(</big><em>content='label'</em>, <em>value_column='value'</em><big>)</big><a class="headerlink" href="#marple.dataset.Dataset.to_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms a dataset into a table (a list of rows as tuple)
+Like so:
+[</p>
+<blockquote>
+<div>(&#8216;region&#8217;, u&#8217;gender&#8217;, &#8216;value&#8217;),
+(&#8216;Stockholm&#8217;, &#8216;Male&#8217;, 1),
+(&#8216;Stockholm&#8217;, &#8216;Female&#8217;, 2),
+(&#8216;Solna&#8217;, &#8216;Male&#8217;, 3),
+(&#8216;Solna&#8217;, &#8216;Female&#8217;, 4)</div></blockquote>
+<p>]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>content</strong> &#8211; Can be &#8220;label&#8221; or &#8220;id&#8221;. If labels are not defined index 
+will be used instead.</li>
+<li><strong>value_column</strong> &#8211; name of value column</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of rows, first line is the header, every row is tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="marple.dataset.Dataset.updated">
+<tt class="descname">updated</tt><a class="headerlink" href="#marple.dataset.Dataset.updated" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The updated property of the json stat object as str.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="marple.dataset.Dimension">
+<em class="property">class </em><tt class="descclassname">marple.dataset.</tt><tt class="descname">Dimension</tt><big>(</big><em>dim_id</em>, <em>dim_json</em><big>)</big><a class="headerlink" href="#marple.dataset.Dimension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#marple.dataset.JSONStatObject" title="marple.dataset.JSONStatObject"><tt class="xref py py-class docutils literal"><span class="pre">marple.dataset.JSONStatObject</span></tt></a></p>
+<p>Represents a dimension in a Dataset</p>
+<dl class="docutils">
+<dt>..todo:: Handle these concepts:</dt>
+<dd><ul class="first last simple">
+<li>child</li>
+<li>coordinates</li>
+<li>unit</li>
+<li>decimals</li>
+<li>symbol</li>
+<li>position</li>
+<li>extension</li>
+</ul>
+</dd>
+</dl>
+<p>..todo:: Separate class for Category?</p>
+<dl class="attribute">
+<dt id="marple.dataset.Dimension.categories">
+<tt class="descname">categories</tt><a class="headerlink" href="#marple.dataset.Dimension.categories" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of category ids for this dimension, sorted by position.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="marple.dataset.Dimension.category">
+<tt class="descname">category</tt><big>(</big><em>id_or_label</em><big>)</big><a class="headerlink" href="#marple.dataset.Dimension.category" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="marple.dataset.Dimension.id">
+<tt class="descname">id</tt><a class="headerlink" href="#marple.dataset.Dimension.id" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The id of the dimension</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="marple.dataset.Dimension.json">
+<tt class="descname">json</tt><a class="headerlink" href="#marple.dataset.Dimension.json" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The json representation of the dimension (as dict)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="marple.dataset.Dimension.label">
+<tt class="descname">label</tt><a class="headerlink" href="#marple.dataset.Dimension.label" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The label of the dimension (if any), otherwise id</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="marple.dataset.Dimension.labels">
+<tt class="descname">labels</tt><a class="headerlink" href="#marple.dataset.Dimension.labels" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the category labels of this dataset (if any)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="marple.dataset.Dimension.length">
+<tt class="descname">length</tt><a class="headerlink" href="#marple.dataset.Dimension.length" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of categories in index</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="marple.dataset.JSONStatObject">
+<em class="property">class </em><tt class="descclassname">marple.dataset.</tt><tt class="descname">JSONStatObject</tt><a class="headerlink" href="#marple.dataset.JSONStatObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Represents a JSON Stat object</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="marple.dataset.MalformedJSONStat">
+<em class="property">exception </em><tt class="descclassname">marple.dataset.</tt><tt class="descname">MalformedJSONStat</tt><a class="headerlink" href="#marple.dataset.MalformedJSONStat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="marple.dataset.MergeFailure">
+<em class="property">exception </em><tt class="descclassname">marple.dataset.</tt><tt class="descname">MergeFailure</tt><a class="headerlink" href="#marple.dataset.MergeFailure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="marple.dataset.meta_property">
+<em class="property">class </em><tt class="descclassname">marple.dataset.</tt><tt class="descname">meta_property</tt><a class="headerlink" href="#marple.dataset.meta_property" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">property</span></tt></p>
+<p>We use this decorator class to define what properties should be preserved
+when datasets are filtered, extended or modified in some other way.
+Used for labels, source, extension etc.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-marple">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-marple" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">marple package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-marple.dataset">marple.dataset module</a></li>
+<li><a class="reference internal" href="#module-marple">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/marple.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Marple Python Modules 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Journalism Robotics.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
