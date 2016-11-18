@@ -103,8 +103,9 @@ def test_dataframe_to_dataset_and_back():
     df = pd.DataFrame().from_csv("tests/data/dataset_dataframe.csv").reset_index()
     ds = Dataset().from_dataframe(df)
     new_df = ds.to_dataframe()
-    m_sthlm = new_df.loc[(new_df.gender=="M") & (new_df.region=="Stockholm"),"value"]
-    assert int(m_sthlm) == 2
+    m_sthlm = new_df.loc[(new_df.gender=="M") & (new_df.region=="Stockholm"),:]
+    assert m_sthlm.value[0] == 2
+    assert m_sthlm.status[0] == "foo"
     assert new_df.gender.unique().tolist() == ["M", "F"]
     assert new_df.region.unique().tolist() == ["Stockholm", "Solna"]
 

@@ -153,24 +153,29 @@ class Dataset(JSONStatObject):
         
         return self
 
-    def from_dataframe(self, df, value="value"):
+    def from_dataframe(self, df, value_column="value", status_column="status"):
         """ 
         Parse a Pandas dataframe to a json stat object. Note that the created
         dataset won't have any labels, roles, units etc
             
         :param df: Data frame with only the columns to be included 
         :type df: pandas.Dataframe
-        :param value: name of value column
-        :type value: string
+        :param value_column: name of value column
+        :type value_column: str
+        :param status_column: name of status column
+        :type status_column: str
         :returns: Itself to chain calls
         """
-        if value not in df.columns:
-            msg = u"there is no value column named {} in dataframe".format(value)
+        if value_column not in df.columns:
+            msg = u"there is no value column named {} in dataframe".format(value_column)
             raise KeyError(msg)
 
         dims = list(df.columns)
-        dims.remove(value)
-        df = self._complete_missing(df, dims=dims, value=value)
+        has_status = status_column in dims
+        dims.remove(value_column)
+        if has_status:
+            dims.remove(status_column)
+        df = self._complete_missing(df, dims=dims)
 
         # Replace numpy NaN with None for correct json formating
         df = df.where((pd.notnull(df)), None)
@@ -206,7 +211,14 @@ class Dataset(JSONStatObject):
             json_data["size"].append(size)
 
         # Populate value
-        json_data["value"] = list(df[value])
+        json_data["value"] = list(df[value_column])
+
+        if has_status:
+            status = list(df[status_column])
+            # Replace None with ""
+            # null/None not allowed as status value
+            status = ["" if x == None else x for x in status]
+            json_data["status"] = status
 
         self.from_json(json_data)
 
@@ -314,7 +326,59 @@ class Dataset(JSONStatObject):
         """
         return [self.dimension(dim_id) for dim_id in self.json["id"]]
     
+    @property
+    def length(self):
+        """
+        Get total number of values (based on size property)
+        :rtype: int
+        """
+        return reduce(lambda x, y: x * y, self.json["size"])
 
+    @property
+    def value_list(self):
+        """
+        Get a list of values. Turns dict representation to list.
+        :returns: A list of values
+        """
+        values = self.json["value"]
+        if isinstance(values, list):
+            return values
+        else:
+            _values = [ None for x in range(0, self.length) ]
+            for pos, value in values:
+                try:
+                    _values[pos] = value
+                except:
+                    msg = "Error in value property. Index {} is out of range."\
+                        .format(pos)
+                    raise MalformedJSONStat(msg)
+            return _values
+
+    @property
+    def status_list(self):
+        """
+        Get a list of status values. Turns dict representation to list.
+        :returns: A list of statuses
+        """
+        _statuses = [ "" for x in range(0, self.length) ]
+        
+        if "status" not in self.json:
+            return _statuses
+
+        if isinstance(self.json["status"], list):
+            return self.json["status"]
+        else:
+            for pos, status in self.json["status"].iteritems():
+                try:
+                    _statuses[pos] = status
+                except:
+                    msg = "Error in status property. Index {} is out of range."\
+                        .format(pos)
+                    raise MalformedJSONStat(msg)
+            return _statuses
+
+
+    
     # ========================
     #   PUBLIC METHODS
     # ======================== 
@@ -336,21 +400,29 @@ class Dataset(JSONStatObject):
     # ========================
     #   PUBLIC METHOS: Export
     # ========================     
-    def to_dataframe(self, content="label", value_column="value"):
+    def to_dataframe(self, content="label", value_column="value", 
+        status_column="status", include_status=True):
         """
         Transforms the dataset to a pandas dataframe.
 
         :param content: Can be "label" or "id". If labels are not defined index 
             will be used instead.
         :param value_column: name of value column
+        :type value_column: str
+        :param status_column: name of status column
+        :type status_column: str
+        :param include_status: should the data frame inlude a status column?
+        :type include_status: bool
         :returns: a list of rows, first line is the header, every row is tuple
         """
-        table = self.to_table(content=content, value_column=value_column)
+        table = self.to_table(content=content, value_column=value_column, 
+            status_column="status", include_status=include_status)
         df = pd.DataFrame(table[1:], columns=table[0])
         return df
 
 
-    def to_table(self, content="label", value_column="value"):
+    def to_table(self, content="label", value_column="value", status_column="status",
+        include_status=True):
         """
         Transforms a dataset into a table (a list of rows as tuple)
         Like so:
@@ -365,6 +437,11 @@ class Dataset(JSONStatObject):
         :param content: Can be "label" or "id". If labels are not defined index 
             will be used instead.
         :param value_column: name of value column
+        :type value_column: str
+        :param status_column: name of status column
+        :type status_column: str
+        :param include_status: should the data frame inlude a status column?
+        :type include_status: bool
         :returns: a list of rows, first line is the header, every row is tuple
         """
         table = []
@@ -376,6 +453,8 @@ class Dataset(JSONStatObject):
             header = [dim.id for dim in self.dimensions]
 
         header.append(value_column)
+        if include_status:
+            header.append(status_column)
 
         # Get id's/labels for all dimensions
         all_categories = []
@@ -392,8 +471,13 @@ class Dataset(JSONStatObject):
         combinations = list(itertools.product(*all_categories))
 
         # Add values
-        values = [(x,) for x in self.json["value"]]
-        table = zip(combinations, values)
+        values = [(x,) for x in self.value_list]
+
+        if include_status:
+            statuses = [(x,) for x in self.status_list]
+            table = zip(combinations, values, statuses)
+        else:
+            table = zip(combinations, values)
 
         # Flatten
         table = [sum(row, ()) for row in table]
@@ -543,8 +627,7 @@ class Dataset(JSONStatObject):
                 raise MalformedJSONStat(msg)
 
         # 5. Make sure that the size factors and value length are identical
-        size_total = reduce(lambda x, y: x * y, self.json["size"])
-        if len(self.json["value"]) != size_total:
+        if len(self.value_list) != self.length:
             msg = "size factors don't match length of values. Got {}, expected {}."\
                 .format(size_total, len(self.json["value"]))
             raise MalformedJSONStat(msg)
@@ -578,7 +661,7 @@ class Dataset(JSONStatObject):
         
         return self
 
-    def _complete_missing(self, df, dims=[], value="value"):
+    def _complete_missing(self, df, dims=[]):
         """ 
         Completes a long dataframe with NaN for index combos that are missing
         Example:
@@ -592,7 +675,6 @@ class Dataset(JSONStatObject):
 
         :param df: A pandas dataframe
         :param dims: List of dimensions to index by
-        :param value: Name of value column
         :returns: A pandas dataframe
         """
         values = [list(df[dim_id].unique()) for dim_id in dims]
@@ -618,7 +700,6 @@ class Dimension(JSONStatObject):
         - position
         - extension
 
-    ..todo:: Separate class for Category?
     """
     def __init__(self, dim_id, dim_json):
         """
@@ -698,6 +779,14 @@ class Dimension(JSONStatObject):
         return self._categories
 
     def category(self, id_or_label):
+        """
+        Get a category by label or id
+
+        :param id_or_label: Id or label of category
+        :type id_or_label: str
+        :returns: The category
+        :rtype: Category 
+        """
         for category in self.categories:
             if (category.id == id_or_label) or (category.label == id_or_label):
                 return category

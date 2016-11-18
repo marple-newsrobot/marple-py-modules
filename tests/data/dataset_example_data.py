@@ -5,6 +5,7 @@ complete_dataset = {
     "class": "dataset",
     "id": ["region", u"gender"],
     "value": [1,2,3,4],
+    "status": { 1: "x" },
     "size": [2,2],
     "label": "Test dataset",
     "source": "My source",
