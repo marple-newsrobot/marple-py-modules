@@ -99,7 +99,7 @@ class Dataset(JSONStatObject):
         """
         self._json_data = None
         # Schema used for validation
-        self._schema_path = "marple_py/schemas/jsonstat_dataset_schema.json"
+        self._schema_path = "marple/schemas/jsonstat_dataset_schema.json"
 
         if args:
             # Determine data type
