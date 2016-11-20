@@ -108,7 +108,7 @@ class Dataset(JSONStatObject):
 
         """
         self._json_data = None
-        
+
         # Schema used for validation
         self._schema_path = self._make_absolute_path("schemas/jsonstat_dataset_schema.json")
 
@@ -514,19 +514,19 @@ class Dataset(JSONStatObject):
     #   Modifications should happen elsewhere
     # ========================     
 
-    def filter(self, filter_fn, content="index"):
+    def filter(self, filter_fn, content="index", include_status=True):
         """ Transform the dataset to dataframe and apply a filter.
         :param filter: A function to filter by, e.g. lambda x: x['gender'] == 'M'
         :returns: self
         """
-        df = self.to_dataframe(content=content)
+        df = self.to_dataframe(content=content, include_status=include_status)
         filtered_df = df[df.apply(filter_fn, axis=1)]
 
         self._rebuild(filtered_df)
 
         return self
 
-    def filter_by_query(self, query, content="index"):
+    def filter_by_query(self, query, content="index", include_status=True):
         """ Simple filtering of a dataset. Get all rows that equals a given value.
             For example:
 
@@ -542,9 +542,9 @@ class Dataset(JSONStatObject):
                     return False
             return True
 
-        return self.filter(filter_fn, content="index")
+        return self.filter(filter_fn, content=content, include_status=include_status)
 
-    def append(self, dataset_to_append):
+    def append(self, dataset_to_append, include_status=True):
         """ Append another dataset. Metadata from original dataset
         will override metadata from appended dataset (e.g. labels).
 
@@ -564,8 +564,8 @@ class Dataset(JSONStatObject):
             raise MergeFailure(msg)
 
 
-        df1 = ds1.to_dataframe(content="index").reset_index()
-        df2 = ds2.to_dataframe(content="index").reset_index()
+        df1 = ds1.to_dataframe(content="index",include_status=include_status).reset_index()
+        df2 = ds2.to_dataframe(content="index",include_status=include_status).reset_index()
 
         df = pd.concat([df1, df2]).drop_duplicates()
 
