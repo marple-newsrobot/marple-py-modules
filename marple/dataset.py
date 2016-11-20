@@ -423,16 +423,15 @@ class Dataset(JSONStatObject):
 
     def to_table(self, content="label", value_column="value", status_column="status",
         include_status=True):
-        """
-        Transforms a dataset into a table (a list of rows as tuple)
-        Like so:
-        [
-            ('region', u'gender', 'value'),
-            ('Stockholm', 'Male', 1),
-            ('Stockholm', 'Female', 2),
-            ('Solna', 'Male', 3),
-            ('Solna', 'Female', 4)
-        ]
+        """Transforms a dataset into a table (a list of rows as tuple)
+            Like so:
+                [
+                    ('region', u'gender', 'value'),
+                    ('Stockholm', 'Male', 1),
+                    ('Stockholm', 'Female', 2),
+                    ('Solna', 'Male', 3),
+                    ('Solna', 'Female', 4)
+                ]
 
         :param content: Can be "label" or "id". If labels are not defined index 
             will be used instead.
@@ -495,8 +494,7 @@ class Dataset(JSONStatObject):
     # ========================     
 
     def filter(self, filter_fn, content="index"):
-        """
-        Transform the dataset to dataframe and apply a filter.
+        """ Transform the dataset to dataframe and apply a filter.
         :param filter: A function to filter by, e.g. lambda x: x['gender'] == 'M'
         :returns: self
         """
@@ -509,7 +507,9 @@ class Dataset(JSONStatObject):
 
     def filter_by_query(self, query, content="index"):
         """ Simple filtering of a dataset. Get all rows that equals a given value.
-            For example dataset.filter_by_query({"region": "Stockholms kommun"})
+            For example:
+
+                dataset.filter_by_query({"region": "Stockholms kommun"})
 
             :param query: dimension id as key, value as value e.g. { "gender": "M" }
             :type query: dict
@@ -524,8 +524,7 @@ class Dataset(JSONStatObject):
         return self.filter(filter_fn, content="index")
 
     def append(self, dataset_to_append):
-        """ 
-        Append another dataset. Metadata from original dataset
+        """ Append another dataset. Metadata from original dataset
         will override metadata from appended dataset (e.g. labels).
 
         :dataset_to_append: A dataset to append (Dataset)
@@ -569,8 +568,7 @@ class Dataset(JSONStatObject):
         return self
 
     def add_labels(self, dim_id, labels):
-        """
-        Add a labels to categories of a given dimension.
+        """Add a labels to categories of a given dimension.
 
         :param dim_id: id of dimension
         :type dim_id: str
@@ -585,8 +583,7 @@ class Dataset(JSONStatObject):
     #     INTERNAL METHODS
     # ========================
     def _validate(self, json_data):
-        """
-        Validate that this is a correctly formated jsonstat dataset. Raises
+        """Validate that this is a correctly formated jsonstat dataset. Raises
         error if validation fails.
         
         :param json_data: A json stat object
