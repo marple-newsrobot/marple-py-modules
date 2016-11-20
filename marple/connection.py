@@ -9,6 +9,8 @@ from requests.auth import HTTPBasicAuth
 from simplejson import JSONDecodeError
 from bson import json_util
 from marple.postgrest import Api 
+from glob import glob
+from os.path import basename
 
 
 class Connection(object):
@@ -66,22 +68,31 @@ class LocalConnection(Connection):
         return self.get_by_filename(id_ + ".json")
 
     def get(self, **kwargs):
-        from glob import glob
-        from os.path import basename
-        file_expr = self._get_path_expr_from_query(kwargs)
-        for file_path in glob(os.path.join(self.path, file_expr)):
-            filename = os.path.basename(file_path)
-            yield self.get_by_filename(filename)
+        if "id" in kwargs:
+            yield self.get_by_id(kwargs["id"])
+        else:
+            file_expr = self._get_path_expr_from_query(kwargs)
+            for file_path in glob(os.path.join(self.path, file_expr)):
+                filename = os.path.basename(file_path)
+                yield self.get_by_filename(filename)
 
     def store(self, filename, json_data, folder=None):
-        """ Store the file """
-        if filename[-5] != ".json":
+        """ Store the file 
+        :param filename: name of file or id. ".json" added if missing  
+        :param json_data: json data to be stored
+        :param folder: Path to output folder. Defaults to connection folder.
+        """
+        if folder == None:
+            folder = self.path
+
+        if filename[-5:] != ".json":
             filename += ".json"
 
         file_path = os.path.join(folder, filename)
         with open(file_path, 'w') as outfile:
             json.dump(json_data, outfile,
                       ignore_nan=True,
+                      indent=4, sort_keys=True,
                       default=json_util.default)
 
 
