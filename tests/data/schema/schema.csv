@@ -1,0 +1,5 @@
+dimension,datatype,label
+region,"region",Region
+measure,measure,"Mått"
+timepoint,date,"Tidpunkt"
+value,value,"Värde"

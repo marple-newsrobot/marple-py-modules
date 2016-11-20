@@ -1,0 +1,5 @@
+dimension,datatype,label
+region,"country,county,municipality",Region
+age_group,age_group,"Åldersgrupp"
+foreignborn,foreignborn,"Utlandsfödd"
+gender,gender,"Kön"

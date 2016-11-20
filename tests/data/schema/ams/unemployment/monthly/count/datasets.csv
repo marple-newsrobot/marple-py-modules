@@ -1,0 +1,4 @@
+id,label,source,periodicity,geographic_extent,measure,divisions
+total,"Antal öppet arbetslösa",AMS,month,Sweden,count,"counties,municipalities"
+youth,"Antal öppet arbetslösa ungodmar (16-24 år)",AMS,month,Sweden,count,"counties,municipalities"
+foreignborn,"Antal öppet arbetslösa utlandsfödda",AMS,month,Sweden,count,"counties,municipalities"
