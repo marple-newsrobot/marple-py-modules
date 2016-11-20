@@ -7,7 +7,7 @@ import json
 import pandas as pd
 
 from marple.dataset import Dataset, MalformedJSONStat
-from data.dataset_example_data import *
+from data.dataset.dataset_example_data import *
 from jsonschema.exceptions import ValidationError
 
 # ==== INITIALIZATION TESTS ======
@@ -21,9 +21,9 @@ def test_init_from_json():
 
 
 def test_init_from_file():
-    """ Test agains all tests/data/dataset_*.json files 
+    """ Test agains all tests/data/dataset/dataset_*.json files 
     """
-    files = glob("tests/data/dataset_*.json")
+    files = glob("tests/data/dataset/dataset_*.json")
     for file_path in files:
         ds = Dataset(file_path)
         with open(file_path) as f:
@@ -33,7 +33,7 @@ def test_init_from_file():
 def test_init_from_dataframe():
     """ Test to init from simple Pandas dataframe
     """
-    df = pd.DataFrame().from_csv("tests/data/dataset_dataframe.csv").reset_index()
+    df = pd.DataFrame().from_csv("tests/data/dataset/dataset_dataframe.csv").reset_index()
     ds = Dataset(df)
     assert len(ds.dimensions) == 2
     assert ds.dimension("gender")
@@ -100,7 +100,7 @@ def test_dataframe_to_dataset_and_back():
     """ Create a dataset from csv, transform back to dataframe and
         assert they are the same.
     """
-    df = pd.DataFrame().from_csv("tests/data/dataset_dataframe.csv").reset_index()
+    df = pd.DataFrame().from_csv("tests/data/dataset/dataset_dataframe.csv").reset_index()
     ds = Dataset().from_dataframe(df)
     new_df = ds.to_dataframe()
     m_sthlm = new_df.loc[(new_df.gender=="M") & (new_df.region=="Stockholm"),:]
