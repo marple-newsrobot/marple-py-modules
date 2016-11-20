@@ -4,6 +4,7 @@ import itertools
 import operator
 from copy import deepcopy
 import pandas as pd
+import os
 from jsonschema import Draft4Validator, FormatChecker
 
 class meta_property(property):
@@ -72,6 +73,15 @@ class JSONStatObject(object):
 
         return self
 
+    def _make_absolute_path(self, relative_path):
+        """ Get an absolute path file relative this script
+            http://stackoverflow.com/questions/4060221/how-to-reliably-open-a-file-in-the-same-directory-as-a-python-script
+        """
+        __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+        return os.path.join(__location__, relative_path)
+
+
+
 class Dataset(JSONStatObject):
     """ Represents a Dataset object
 
@@ -98,8 +108,9 @@ class Dataset(JSONStatObject):
 
         """
         self._json_data = None
+        
         # Schema used for validation
-        self._schema_path = "marple/schemas/jsonstat_dataset_schema.json"
+        self._schema_path = self._make_absolute_path("schemas/jsonstat_dataset_schema.json")
 
         if args:
             # Determine data type
@@ -316,7 +327,7 @@ class Dataset(JSONStatObject):
     def updated(self, value):
         """ Set value of updated
         """
-        self.json["label"] = value
+        self.json["updated"] = value
 
 
     @property
@@ -485,6 +496,16 @@ class Dataset(JSONStatObject):
         table = [tuple(header)] + table
 
         return table
+
+    def to_json_file(self, filename):
+        """ Save to file as json
+
+        :param filename: path to output file.
+        """
+        with open(filename, 'w') as f:
+            json.dump(self.json, f, indent=4, sort_keys=True)
+
+        return self
 
     # ========================
     #   PUBLIC METHOS: Modification
@@ -839,6 +860,14 @@ class Category(JSONStatObject):
             return self.json["label"][self.id]
         except KeyError:
             return self.id
+
+    @label.setter
+    def label(self, value):
+        if "label" not in self.json:
+            self.json["label"] = {}
+        
+        self.json["label"][self.id] = value
+
 
     
     
