@@ -53,13 +53,17 @@ class LocalConnection(Connection):
         """Check if any objects like this exists """
         objects = self.get(**kwargs)
         # Check if more than 0
-        if sum(1 for e in objects):
+        if sum(1 for e in objects if e != None):
             return True
         else:
             return False
 
     def get_by_filename(self, filename):
         file_path = os.path.join(self.path, filename)
+        if not os.path.isfile(file_path):
+            # File is missing!
+            return None
+
         with open(file_path) as json_file:
             json_data = json.load(json_file, encoding="utf-8")
         return json_data        

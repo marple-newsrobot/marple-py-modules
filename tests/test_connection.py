@@ -19,6 +19,11 @@ def test_get_by_id_with_local_connection():
     assert file_content == { "id": "file1" } 
 
 
+def test_missing_file_should_not_exist():
+    connection = LocalConnection("tests/data/connection")
+    assert connection.exists(id="missing_file") == False
+
+
 def test_list_schemas_from_api():
     """ Make sure that listing schemas from database works
     """
