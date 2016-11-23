@@ -285,7 +285,7 @@ class DatabaseSchemaConnection(Connection):
         if r.status_code != 200:
             raise RequestException("{}: {}".format(r.status_code, r.reason), r)        
 
-        return r.json()
+        return r.json()["json_data"]
 
 class RequestException(Exception):
     """ Custom exception for request errors. Makes the

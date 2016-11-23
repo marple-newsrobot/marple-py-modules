@@ -228,7 +228,7 @@ class Schema(object):
 
     def _to_json_schema(self):
         # Open schema base from data types repo
-        base_schema = self.json_schema_connection.get_by_id("marple-dataset.json")["schema"]
+        base_schema = self.json_schema_connection.get_by_id("marple-dataset.json")
 
         json_schema = deepcopy(base_schema)
 
