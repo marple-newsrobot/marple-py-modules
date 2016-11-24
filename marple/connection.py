@@ -9,6 +9,7 @@ from requests.auth import HTTPBasicAuth
 from simplejson import JSONDecodeError
 from bson import json_util
 from marple.postgrest import Api 
+from marple.dataset import Dataset
 from glob import glob
 from os.path import basename
 
@@ -38,6 +39,10 @@ class Connection(object):
 
     def store(self, filename, json_data, folder=None):
         """ Store the file """
+        raise NotImplementedError("This method must be overridden")
+
+    def delete(self, id_):
+        """ Delete an object by id """
         raise NotImplementedError("This method must be overridden")
 
 
@@ -264,6 +269,60 @@ class DatabaseConnection(Connection):
                 .request()  
 
         return r
+
+class DatabaseDatasetConnection(DatabaseConnection):
+    """ Datasets behave differently than other objects (alarms and newsleads).
+        On `.store()` we need to be able to append to existing dataset.
+    """
+    def store(self, filename, json_data, override=False, **kwargs):
+        """ Insert, or if object already exist, append.
+        
+        :param filename (str): File name (which should be same as id)
+        :param json_data (dict): The json data to be stored.
+        :param override (bool): Override existing file? Appends to existing if `False`
+        :returns (Requests.Response): A response instance from the Request module. 
+        """
+        id = filename.replace(".json","")
+
+        # Try insert
+        r = self.api.post(self.model)\
+            .jwt_auth(self._jwt_token, { "role": self._db_role })\
+            .json(json_data)\
+            .request()
+
+        # Newslead already exist => update/overrride
+        if r.status_code == 409:
+            if not override:
+                # Append to existing dataset
+                _r = self.api.get(self.model)\
+                    .eq("id", id)\
+                    .single()\
+                    .request()
+                existing_ds = Dataset(_r.json()["json_data"])
+                new_ds = Dataset(json_data)
+                existing_ds.append(new_ds)
+                json_data = existing_ds.json
+
+
+            r = self.api.patch(self.model)\
+                .jwt_auth(self._jwt_token, { "role": self._db_role })\
+                .json(json_data)\
+                .eq("id", id)\
+                .request()  
+
+        return r
+
+    def delete(self, id_):
+        """ Remove an object from database by id
+        """
+        # Handle both "my_id" and "my_id.json"
+        id_ = filename.replace(".json","")
+
+        return self.api.delete(self.model)\
+            .jwt_auth(self._jwt_token, { "role": self._db_role })\
+            .eq(id_)\
+            .request()
+        
 
 class DatabaseSchemaConnection(Connection):
     def __init__(self, api_url):
