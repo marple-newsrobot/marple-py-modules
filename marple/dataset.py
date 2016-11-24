@@ -122,7 +122,7 @@ class Dataset(JSONStatObject):
             elif isinstance(data, pd.DataFrame):
                 # Init with dataframe
                 self.from_dataframe(data)
-            elif isinstance(data, str):
+            elif isinstance(data, str) or isinstance(data, unicode):
                 try:
                     # Init with json string
                     json_data = json.loads(data)
@@ -144,8 +144,8 @@ class Dataset(JSONStatObject):
         :type file_path: str
         :returns: Itself to chain calls
         """
-        
         with open(file_path) as f:
+
             json_string = f.read()
             self.from_string(json_string)
 
