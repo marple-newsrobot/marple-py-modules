@@ -1,8 +1,9 @@
 # encoding: utf-8
 import pytest
+import json
 from copy import deepcopy
 from marple.connection import (LocalConnection, DatabaseSchemaConnection,
-    DatabaseDatasetConnection)    
+    DatabaseDatasetConnection, DatabaseConnection)    
 from marple.dataset import Dataset
 from data.config import POSTGREST_URL, POSTGREST_JWT_TOKEN, POSTGREST_ROLE
 
@@ -11,7 +12,7 @@ def test_get_with_local_connection():
     """
     connection = LocalConnection("tests/data/connection")
     files = [x for x in connection.get()]
-    assert len(files) == 3
+    assert len(files) == 4
 
 def test_get_by_id_with_local_connection():
     """ Open file1.json and verify that content is correct
@@ -43,6 +44,9 @@ def test_get_schema_from_api():
     assert resp['$schema'] == 'http://json-schema.org/draft-04/schema#'
     assert isinstance(resp,dict)
 
+# ===================
+#    DATASET TESTS
+# ===================
 @pytest.fixture(scope="session")
 def database_dataset_connection():
     """ Set up database dataset test by adding an existing dataset
@@ -97,3 +101,21 @@ def test_override_existing_dataset_on_database_connection(database_dataset_conne
     
     assert timepoint_new != timepoint_original
 
+
+# ==========================
+#    ALARM/NEWSLEAD TESTS
+# ==========================
+@pytest.fixture(scope="session")
+def database_alarm_connection():
+    #return DatabaseConnection(POSTGREST_URL, "alarm_test",
+    return DatabaseConnection("http://0.0.0.0:8080", "alarm_test",
+        jwt_token=POSTGREST_JWT_TOKEN, db_role=POSTGREST_ROLE)
+
+def test_add_alarm_database_connection(database_alarm_connection):
+    """ Trying adding an alarm to database
+    """
+    connection = database_alarm_connection
+    with open("tests/data/connection/alarm/example_alarm.json") as f:
+        alarm = json.load(f)
+    r = connection.store(alarm["id"], alarm)
+    assert r.status_code in [201, 204]
