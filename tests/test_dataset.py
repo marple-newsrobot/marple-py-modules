@@ -160,6 +160,17 @@ def test_that_metadata_is_preserved_after_append():
                 # should fetched from that
                 appended_label = dim2.category(cat.id).label
                 assert appended_label == new_label
+
+def test_that_length_is_correct_after_append():
+    """ Merge two datasets and assert that it has grown as expected
+    """
+    ds1 = Dataset().from_json(deepcopy(complete_dataset))
+    ds2 = Dataset().from_json(deepcopy(dataset_to_append))
+    original_ds = deepcopy(ds1)
+    ds1.append(ds2)
+    assert ds1.length == 6
+    assert ds1.dimension("region").length == 3
+
                 
 def test_categories():
     ds = Dataset(deepcopy(complete_dataset))
