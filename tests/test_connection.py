@@ -12,7 +12,7 @@ def test_get_with_local_connection():
     """
     connection = LocalConnection("tests/data/connection")
     files = [x for x in connection.get()]
-    assert len(files) == 4
+    assert len(files) == 5
 
 def test_get_by_id_with_local_connection():
     """ Open file1.json and verify that content is correct
@@ -64,7 +64,7 @@ def database_dataset_connection():
     return connection, existing_ds
 
 
-def test_append_dataset_on_database_connection(database_dataset_connection):
+def _test_append_dataset_on_database_connection(database_dataset_connection):
     """ Append a dataset to an existing one
     """
     connection, existing_ds = database_dataset_connection
@@ -81,7 +81,7 @@ def test_append_dataset_on_database_connection(database_dataset_connection):
     assert ds_from_db.dimension("timepoint").length == 2
     assert ds_from_db.dimension("region").length == original_ds.dimension("region").length
 
-def test_override_existing_dataset_on_database_connection(database_dataset_connection):
+def _test_override_existing_dataset_on_database_connection(database_dataset_connection):
     """ Override an existing dataset with override=True param
     """
     connection, existing_ds = database_dataset_connection
@@ -103,12 +103,11 @@ def test_override_existing_dataset_on_database_connection(database_dataset_conne
 
 
 # ==========================
-#    ALARM/NEWSLEAD TESTS
+#    ALARM TESTS
 # ==========================
 @pytest.fixture(scope="session")
 def database_alarm_connection():
-    #return DatabaseConnection(POSTGREST_URL, "alarm_test",
-    return DatabaseConnection("http://0.0.0.0:8080", "alarm_test",
+    return DatabaseConnection(POSTGREST_URL, "alarm_test",
         jwt_token=POSTGREST_JWT_TOKEN, db_role=POSTGREST_ROLE)
 
 def test_add_alarm_database_connection(database_alarm_connection):
@@ -118,4 +117,22 @@ def test_add_alarm_database_connection(database_alarm_connection):
     with open("tests/data/connection/alarm/example_alarm.json") as f:
         alarm = json.load(f)
     r = connection.store(alarm["id"], alarm)
+    assert r.status_code in [201, 204]
+
+
+# ==========================
+#    NEWSLEAD TESTS
+# ==========================
+@pytest.fixture(scope="session")
+def database_alarm_connection():
+    return DatabaseConnection(POSTGREST_URL, "alarm_test",
+        jwt_token=POSTGREST_JWT_TOKEN, db_role=POSTGREST_ROLE)
+
+def test_add_alarm_database_connection(database_alarm_connection):
+    """ Trying adding an alarm to database
+    """
+    connection = database_alarm_connection
+    with open("tests/data/connection/newslead/example_newslead.json") as f:
+        newslead = json.load(f)
+    r = connection.store(newslead["id"], newslead)
     assert r.status_code in [201, 204]
