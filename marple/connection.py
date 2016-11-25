@@ -53,6 +53,7 @@ class LocalConnection(Connection):
     def __init__(self, folder_path):
         super(LocalConnection, self).__init__()
         self.path = folder_path
+        self.type = "local"
 
     def exists(self, **kwargs):
         """Check if any objects like this exists """
@@ -85,11 +86,12 @@ class LocalConnection(Connection):
                 filename = os.path.basename(file_path)
                 yield self.get_by_filename(filename)
 
-    def store(self, filename, json_data, folder=None):
+    def store(self, filename, json_data, folder=None, override=True):
         """ Store the file 
         :param filename: name of file or id. ".json" added if missing  
         :param json_data: json data to be stored
         :param folder: Path to output folder. Defaults to connection folder.
+        :param override: Override existing file (not implemented yet)
         """
         if folder == None:
             folder = self.path
@@ -176,6 +178,7 @@ class DatabaseConnection(Connection):
     model = None # dataset|alarm|newslead
 
     def __init__(self, api_url, model, jwt_token=None, db_role=None):
+        self.type = "database"
         self.api = Api(api_url)
         self.model = model
         self._jwt_token = jwt_token
@@ -300,9 +303,8 @@ class DatabaseDatasetConnection(DatabaseConnection):
                     .request()
                 existing_ds = Dataset(_r.json()["json_data"])
                 new_ds = Dataset(json_data)
-                existing_ds.append(new_ds)
+                existing_ds.append(new_ds, include_status=False)
                 json_data = existing_ds.json
-
 
             r = self.api.patch(self.model)\
                 .jwt_auth(self._jwt_token, { "role": self._db_role })\
