@@ -11,5 +11,6 @@ setup(name='marple',
       author_email='stockholm@jplusplus.org',
       license='MIT',
       packages=['marple'],
+      include_package_data=True,
       install_requires=required,
       zip_safe=False)
