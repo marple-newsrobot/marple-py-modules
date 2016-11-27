@@ -372,7 +372,6 @@ class Dataset(JSONStatObject):
         :returns: A list of statuses
         """
         _statuses = [ "" for x in range(0, self.length) ]
-        
         if "status" not in self.json:
             return _statuses
 
@@ -381,7 +380,7 @@ class Dataset(JSONStatObject):
         else:
             for pos, status in self.json["status"].iteritems():
                 try:
-                    _statuses[pos] = status
+                    _statuses[int(pos)] = status
                 except:
                     msg = "Error in status property. Index {} is out of range."\
                         .format(pos)
