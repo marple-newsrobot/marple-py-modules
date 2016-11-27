@@ -3,17 +3,24 @@
 A python package for modules shared across the Marple project.
 
 
-### Install packages
+### Get started
+
+`make install` (sets up local environment and installs dependencies)
+
+### Install package
 
 `pip install git+ssh://git@github.com/marple-newsrobot/marple-py-modules.git`
 
 ### Run tests
 
-`sh run test.sh`
+`make tests` (run all tests)
+
+`make test path/to/test` (run specific test)
 
 ### Update docs
 
 `cd docs`
+
 `make html`
 
 ### Notes to self
