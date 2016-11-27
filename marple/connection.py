@@ -177,7 +177,7 @@ class DatabaseConnection(Connection):
     api = None
     model = None # dataset|alarm|newslead
 
-    def __init__(self, api_url, model, jwt_token=None, db_role=None):
+    def __init__(self, api_url, model, jwt_token="", db_role=""):
         self.type = "database"
         self.api = Api(api_url)
         self.model = model
@@ -256,7 +256,6 @@ class DatabaseConnection(Connection):
         :returns (Requests.Response): A response instance from the Request module. 
         """
         id = filename.replace(".json","")
-
         # Try insert
         r = self.api.post(self.model)\
             .jwt_auth(self._jwt_token, { "role": self._db_role })\

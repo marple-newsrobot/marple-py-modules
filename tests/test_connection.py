@@ -110,7 +110,7 @@ def database_alarm_connection():
     return DatabaseConnection(POSTGREST_URL, "alarm_test",
         jwt_token=POSTGREST_JWT_TOKEN, db_role=POSTGREST_ROLE)
 
-def test_add_alarm_database_connection(database_alarm_connection):
+def test_add_alarm_on_database_connection(database_alarm_connection):
     """ Trying adding an alarm to database
     """
     connection = database_alarm_connection
@@ -120,18 +120,25 @@ def test_add_alarm_database_connection(database_alarm_connection):
     assert r.status_code in [201, 204]
 
 
+def test_alarm_connection_on_database_without_auth():
+    """ Make a basic request without auth
+    """
+    connection = DatabaseConnection(POSTGREST_URL, "alarm_test")
+    # Sample query
+    assert connection.exists(id="foo") == False
+
 # ==========================
 #    NEWSLEAD TESTS
 # ==========================
 @pytest.fixture(scope="session")
-def database_alarm_connection():
-    return DatabaseConnection(POSTGREST_URL, "alarm_test",
+def database_newslead_connection():
+    return DatabaseConnection(POSTGREST_URL, "newslead_test",
         jwt_token=POSTGREST_JWT_TOKEN, db_role=POSTGREST_ROLE)
 
-def test_add_alarm_database_connection(database_alarm_connection):
+def test_add_newslead_on_database_connection(database_newslead_connection):
     """ Trying adding an alarm to database
     """
-    connection = database_alarm_connection
+    connection = database_newslead_connection
     with open("tests/data/connection/newslead/example_newslead.json") as f:
         newslead = json.load(f)
     r = connection.store(newslead["id"], newslead)
