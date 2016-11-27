@@ -7,6 +7,7 @@ complete_dataset = {
     "value": [1,2,3,4],
     "status": { 1: "x" },
     "size": [2,2],
+    "updated": "2016-10-10",
     "label": "Test dataset",
     "source": "My source",
     "dimension": {
