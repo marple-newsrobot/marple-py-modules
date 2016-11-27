@@ -4,7 +4,7 @@ with open('requirements.txt') as f:
     required = f.read().splitlines()
 
 setup(name='marple',
-      version='0.1',
+      version='0.0.2',
       description='Shared Marple python modules',
       url='http://github.com/marple-newsrobot/marple-py-modules',
       author='Journalism Robotics Stockholm',
