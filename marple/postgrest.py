@@ -224,6 +224,19 @@ class ApiRequest(object):
         """
         return self.filter(column, "eq", value)
 
+    def is_in(self, column, value):
+        """A convenience method for filtering on the `in` opertor
+        Named `is_in` as "in" is reserved.
+
+        :param column (str): Column name.
+        :param value (str|list): A comma separetad list of values (or list=.
+        :returns: The API request object.
+        :rtype: ApiRequest        
+        """
+        if isinstance(value, list):
+            value = ",".join(value)
+        return self.filter(column, "in", value)
+
     """ TODO:
         Add methods for all filter operators dynamically
     """
