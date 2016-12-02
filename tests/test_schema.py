@@ -1,41 +1,42 @@
 # encoding: utf-8
 
 import json
+import pytest
 from jsonschema import Draft4Validator, FormatChecker
 from marple.schema import Schema
 from marple.connection import DatabaseSchemaConnection
 from data.config import POSTGREST_URL
 
-
-def test_sample_schema():
-    """ Open a sample schema and do some chekcs
-    """
+@pytest.fixture(scope="session")
+def get_schema():
     connection = DatabaseSchemaConnection(POSTGREST_URL)
     test_schema_id = 'ams-unemployment-monthly-rate-foreignborn'
-    x = Schema(test_schema_id, connection)
+    return Schema(test_schema_id, connection, base_dir="tests/data/schema",
+        datatypes_dir="tests/data/datatypes")
+
+def test_sample_schema(get_schema):
+    """ Open a sample schema and do some chekcs
+    """
+    x = get_schema
     assert len(x.dimensions) == 6
     assert x.label == u"Andel öppet arbetslösa utlandsfödda"
-    assert x.id == test_schema_id
+    assert x.id == 'ams-unemployment-monthly-rate-foreignborn'
     assert x.source == "AMS"
     assert x.topic == "unemployment"
 
-def test_dimension_metods():
+def test_dimension_metods(get_schema):
     """ Test that dimension metods and props have as they should
     """
-    connection = DatabaseSchemaConnection(POSTGREST_URL)
-    test_schema_id = 'ams-unemployment-monthly-rate-foreignborn'
-    x = Schema(test_schema_id, connection)
+    x = get_schema
     dim = x.dimension("gender")
     assert dim.label == u"Kön"
     assert isinstance(dim.labels, dict)
     assert dim.labels.keys().sort() == dim.allowed_values.sort() 
 
-def test_json_schema_output():
+def test_json_schema_output(get_schema):
     """ Make sure that the json schema output is a valid json schema
     """
-    connection = DatabaseSchemaConnection(POSTGREST_URL)
-    test_schema_id = 'ams-unemployment-monthly-rate-foreignborn'
-    x = Schema(test_schema_id, connection)
+    x = get_schema
     with open("tests/data/schema/jsonschema-draft-04.json") as f:
         # Get the schema for jsonschemas (much meta!)
         schema_for_schema = json.load(f)

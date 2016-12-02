@@ -1,0 +1,26 @@
+id,label,level,parent_id,parent_original_id,original_id
+alkohol och narkotikabrott,Alkohol- och narkotikabrott,1,,,3625
+bilbrott,Bilbrott,1,,,3622
+fickstölder,Fickstölder,2,stöldbrott,3620,3634
+hot kränknings och frihetsbrott,"Hot-, kränknings och frihetsbrott",1,,,3616
+lägenhets och villainbrott,Lägenhets- och villainbrott,2,stöldbrott,3620,3632
+misshandelsfall,Misshandelsfall,2,våldsbrott,3614,3628
+narkotikabrott,Narkotikabrott,2,alkohol- och narkotikabrott,3625,3642
+rån,Rån,2,våldsbrott,3614,3627
+skadegörelser på motorfordon,Skadegörelser på motorfordon,2,bilbrott,3622,3641
+skadegörelsebrott,Skadegörelsebrott,1,,,3623
+stölder och snatteri i butik varuhus.,Stölder och snatteri i butik och varuhus,2,stöldbrott,3620,3633
+stölder ur och från motorfordon (stöldbrott),Stölder ur och från motorfordon (stöldbrott),2,stöldbrott,3620,3631
+stölder ur och från motorfordon (bilbrott),Stölder ur och från motorfordon (bilbrott),2,bilbrott,3622,3640
+bilstölder (stöldbrott),Bilstölder (stöldbrott),2,stöldbrott,3620,3629
+bilstölder (bilbrott),Bilstölder (bilbrott),2,bilbrott,3622,3636
+cykelstölder,Cykelstölder,2,stöldbrott,3620,3630
+stöldbrott,Stöldbrott,1,,,3620
+fullbordade bilstölder,Fullbordade bilstölder,3,bilstölder (bilbrott),3636,3638
+bilstöldsförsök,Bilstöldsförsök,3,bilstölder (bilbrott),3636,3639
+brottsanmälningar totalt,Brottsanmälningar totalt,1,,,3613
+vapenbrott,Vapenbrott,1,,,3626
+trafikbrott,Trafikbrott,1,,,3624
+våldsbrott,Våldsbrott,1,,,3614
+vårdslöshet och vållandebrott,Vårdslöshet och vållandebrott,1,,,3618
+övrig stölder,Övrig stölder,2,stöldbrott,3620,3635

@@ -1,0 +1,1061 @@
+id,name,parent_id,level,original_id,parent_original_id
+03,03 totalt,,1,2761,
+030,försök till mord och dråp,03,2,90000,2761
+0303,försök till mord eller dråp utan skjutvapen mot kvinna/flickor,030,3,2772,90000
+0304,försök till mord eller dråp utan skjutvapen mot man/pojkar,030,3,2773,90000
+0307,försök till mord eller dråp med skjutvapen mot kvinna/flickor,030,3,2776,90000
+0308,försök till mord eller dråp med skjutvapen mot man/pojkar,030,3,2777,90000
+0309,barnadråp,030,3,2778,90000
+031,fullbordade mord eller dråp,03,2,90001,2761
+0310,fullbordade mord eller dråp utan skjutvapen mot kvinna/flickor,031,3,2779,90001
+0311,fullbordade mord eller dråp utan skjutvapen mot man/pojkar,031,3,2780,90001
+0312,fullbordade mord eller dråp med skjutvapen mot kvinna/flickor,031,3,2781,90001
+0313,fullbordade mord eller dråp med skjutvapen mot man/pojkar,031,3,2782,90001
+0315,vållande till annans död i samband med trafikolycka,031,3,2784,90001
+0318,"vållande till kroppsskada/sjukdom,ej i samb m trafikolycka(upph.år 1983)",031,3,2786,90001
+035,"misshandelsfall, utomhus",03,2,90002,2761
+0355,misshandelsfall utomhus mot kvinnor 18 år eller äldre som inte är bekant med offret,035,3,2804,90002
+0356,misshandelsfall utomhus mot kvinnor 18 år eller äldre som är bekant med offret,035,3,2805,90002
+03,03 totalt,,1,2761,
+030,försök till mord och dråp,03,2,90000,2761
+0303,försök till mord eller dråp utan skjutvapen mot kvinna/flickor,030,3,2772,90000
+0304,försök till mord eller dråp utan skjutvapen mot man/pojkar,030,3,2773,90000
+0307,försök till mord eller dråp med skjutvapen mot kvinna/flickor,030,3,2776,90000
+0308,försök till mord eller dråp med skjutvapen mot man/pojkar,030,3,2777,90000
+0309,barnadråp,030,3,2778,90000
+031,fullbordade mord eller dråp,03,2,90001,2761
+0310,fullbordade mord eller dråp utan skjutvapen mot kvinna/flickor,031,3,2779,90001
+0311,fullbordade mord eller dråp utan skjutvapen mot man/pojkar,031,3,2780,90001
+0312,fullbordade mord eller dråp med skjutvapen mot kvinna/flickor,031,3,2781,90001
+0313,fullbordade mord eller dråp med skjutvapen mot man/pojkar,031,3,2782,90001
+0315,vållande till annans död i samband med trafikolycka,031,3,2784,90001
+0318,"vållande till kroppsskada/sjukdom,ej i samb m trafikolycka(upph.år 1983)",031,3,2786,90001
+035,"misshandelsfall, utomhus",03,2,90002,2761
+0355,misshandelsfall utomhus mot kvinnor 18 år eller äldre som inte är bekant med offret,035,3,2804,90002
+0356,misshandelsfall utomhus mot kvinnor 18 år eller äldre som är bekant med offret,035,3,2805,90002
+0357,misshandelsfall utomhus mot män äldre än 18 år där offret är obekant,035,3,2806,90002
+0358,misshandelsfall utomhus mot män äldre än 18 år där offret är bekant,035,3,2807,90002
+036,"misshandelsfall inomhus, 18 år eller äldre som inte är bekanta med offret",03,2,90003,2761
+0365,misshandelsfall inomhus mot kvinnor 18 år eller äldre som inte är bekanta med offret,036,3,2812,90003
+0367,misshandelsfall inomhus mot män 18 år eller äldre som inte är bekanta med offret,036,3,2814,90003
+037,"grova misshandelsfall utomhus, 18 år eller äldre",03,2,90004,2761
+0375,grova misshandelsfall utomhus mot kvinnor 18 år eller äldre som är inte bekanta med offret,037,3,2820,90004
+0376,grova misshandelsfall utomhus mot kvinnor 18 år eller äldre där gärningsmännen varit bekanta med offret,037,3,2821,90004
+0377,grova misshandelsfall utomhus mot män 18 år eller äldre som är inte bekanta med offret,037,3,2822,90004
+0378,grova misshandelsfall utomhus mot män 18 år eller äldre där gärningsmännen varit bekanta med offret,037,3,2823,90004
+038,"grova misshandelsfall inomhus, 18 år eller äldre",03,2,90005,2761
+0385,grova misshandelsfall inomhus mot kvinnor 18 år eller äldre som är inte bekanta med offret,038,3,2828,90005
+0387,"grova misshandelsfall inomhus mot män 18 år eller äldre, obek m offret",038,3,2830,90005
+039,vållande till annans död,03,2,90006,2761
+0391,vållande till annans död i samband med arbetsolyckor,039,3,2832,90006
+0392,vållande till annans död i övriga fall,039,3,2833,90006
+0393,vållande till kroppsskada i samband med arbetsolyckor,039,3,2834,90006
+0394,vållande till kroppsskada i övriga fall,039,3,2835,90006
+0395,framkallande av fara för arbetstagare,039,3,2836,90006
+0396,framkallande av fara i övriga fall,039,3,2837,90006
+04,04 totalt,,1,2762,
+040,hemfridsbrott och ofredande,04,2,90007,2762
+0401,hemfridsbrott och olaga intrång,040,3,2838,90007
+0407,ofredande mot män 18 år eller äldre,040,3,2844,90007
+0408,ofredande mot kvinnor 18 år eller äldre,040,3,2845,90007
+041,"grova kvinnofridskränkningar, ofredanden mot grupp, dataintrång och fall av människohandel för sexuella ändamål",04,2,90008,2762
+0412,grova kvinnofridskränkningar,041,3,2849,90008
+0414,ofredande mot grupp,041,3,2851,90008
+0415,dataintrång,041,3,2852,90008
+0418,fall av fall av människohandel för sexuella ändamål med barn under 18 år,041,3,4513,90008
+0419,all av fall av människohandel för sexuella ändamål med personer 18 år eller äldre,041,3,4514,90008
+042,grova fridkränkningar och ofredande mot barn,04,2,90009,2762
+0422,grova fridskränkning mot flickor under 18 år,042,3,4517,90009
+0423,grova fridskränkning mot pojkar under 18 år,042,3,4518,90009
+0424,grova fridskränkning mot kvinnor 18 år eller äldre,042,3,4519,90009
+0425,grova fridskränkning mot män 18 år eller äldre,042,3,4520,90009
+0428,ofredande mot flickor under 18 år,042,3,4523,90009
+0429,ofredande mot pojkar under 18 år,042,3,4524,90009
+043,"människorov, olaga tvång och anmälningar om kränkande foto",04,2,90010,2762
+0430,brott mot människorov och olaga frihetsberövande,043,3,4688,90010
+0431,brott mot olaga tvång och avlyssning,043,3,4689,90010
+0432,kränkande fotografering,043,3,4799,90010
+0433,anmälningar om äktenskapstvång,043,3,4820,90010
+0434,anmälningar om vilseledande till tvångsäktenskapsresa,043,3,4821,90010
+044,fall av olaga förföljelse,04,2,90011,2762
+0440,fall av olaga förföljelse mot flickor under 18 år,044,3,4708,90011
+0441,fall av olaga förföljelse mot pojkar under 18 år,044,3,4709,90011
+0442,fall av olaga förföljelse mot kvinnor 18 år eller äldre,044,3,4710,90011
+0443,fall av olaga förföljelse mot män 18 år eller äldre,044,3,4711,90011
+047,fall av människohandel,04,2,90012,2762
+0470,fall av människohandel för tvångsarbete med barn under 18 år,047,3,4773,90012
+0471,fall av människohandel för tvångsarbete med personer 18 år eller äldre,047,3,4774,90012
+0472,fall av människohandel för tiggeri med barn under 18 år,047,3,4775,90012
+0473,fall av människohandel för tiggeri med personer 18 år eller äldre,047,3,4776,90012
+0474,fall av människohandel för organhandel med barn under 18 år,047,3,4777,90012
+0475,fall av människohandel för organhandel med personer 18 år eller äldre,047,3,4778,90012
+0476,fall av människohandel för krigstjänst med barn under 18 år,047,3,4789,90012
+0477,fall av människohandel för krigstjänst med personer 18 år eller äldre,047,3,4790,90012
+0478,fall av människohandel för övriga ändamål med barn under 18 år,047,3,4791,90012
+0479,fall av människohandel för övriga ändamål med personer 18 år eller äldre,047,3,4792,90012
+05,05 - 07 totalt,,1,2763,
+060,fall av sexuellt ofredande och koppleri,05,2,90013,2763
+0607,fall av sexuellt ofredande och exhibitionism,060,3,2861,90013
+0609,fall av koppleri,060,3,2863,90013
+061,fall av sexuellt utnyttjande av minderårig,05,2,90014,2763
+0610,köp av sexuell handling av barn under 18 år,061,3,2864,90014
+0611,utnyttjande av barn under 18 år för sexuell posering,061,3,4108,90014
+0613,"fall av sexuellt tvång, sexuellt utnyttjande av personer i beroendeställning, samlag med avkomling eller syskon mot kvinnor 18 år eller äldre",061,3,4753,90014
+0614,"fall av sexuellt tvång, sexuellt utnyttjande av personer i beroendeställning, samlag med avkomling eller syskon mot män 18 år eller äldre",061,3,4754,90014
+0615,"fall av sexuellt tvång, sexuellt utnyttjande av personer i beroendeställning, samlag med avkomling eller syskon, mot flickor 15-17 år",061,3,4755,90014
+0616,"fall av sexuellt tvång, sexuellt utnyttjande av personer i beroendeställning, samlag med avkomling eller syskon, mot pojkar 15-17 år",061,3,4756,90014
+064-069,försök till och fullbordade våldtäkter och fall av sexuellt utnyttjande,05,2,90015,2763
+0640,våldtäktsförsök utomhus mot flickor under 15 år,064-069,3,4193,90015
+0641,våldtäktsförsök inomhus mot flickor under 15 år,064-069,3,4194,90015
+0642,våldtäktsförsök utomhus mot pojkar under 15 år,064-069,3,4195,90015
+0643,våldtäktsförsök inomhus mot pojkar under 15 år,064-069,3,4196,90015
+0648,"försök till våldtäkt, inkl. grov, utomhus mot kvinnor 18 år eller äldre",064-069,3,4201,90015
+0649,"försök till våldtäkt, inkl. grov, inomhus mot kvinnor 18 år eller äldre",064-069,3,4202,90015
+0650,våldtäktsförsök utomhus mot män 18 år eller äldre,064-069,3,4203,90015
+0651,våldtäktsförsök inomhus mot män 18 år eller äldre,064-069,3,4204,90015
+0652,fullbordade våldtäkter utomhus mot flickor under 15 år,064-069,3,4205,90015
+0653,fullbordade våldtäkter inomhus mot flickor under 15 år,064-069,3,4206,90015
+0654,fullbordade våldtäkter utomhus mot pojkar under 15 år,064-069,3,4207,90015
+0655,fullbordade våldtäkter inomhus mot pojkar under 15 år,064-069,3,4208,90015
+0660,fullbordade våldtäkter utomhus mot kvinnor 18 år eller äldre,064-069,3,4213,90015
+0661,fullbordade våldtäkter inomhus mot kvinnor 18 år eller äldre,064-069,3,4214,90015
+0662,fullbordade våldtäkter utomhus mot män 18 år eller äldre,064-069,3,4215,90015
+0663,fullbordade våldtäkter inomhus mot män 18 år eller äldre,064-069,3,4216,90015
+0669,fall av sexuellt utnyttjande av flickor under 15 år,064-069,3,4526,90015
+0670,fall av sexuellt utnyttjande av pojkar under 15 år,064-069,3,4527,90015
+0671,fall av sexuellt utnyttjande av flickor 15-17 år,064-069,3,4528,90015
+0672,fall av sexuellt utnyttjande av pojkar 15-17 år,064-069,3,4529,90015
+0673,fall av sexuellt övergrepp mot flickor under 15 år,064-069,3,4530,90015
+0674,fall av sexuellt övergrepp mot pojkar under 15 år,064-069,3,4531,90015
+0675,fall av sexuellt övergrepp mot flickor 15-17 år,064-069,3,4532,90015
+0676,fall av sexuellt övergrepp mot pojkar 15-17 år,064-069,3,4533,90015
+-0681,kontakter med flickor under 15 år i sexuellt syfte,064-069,3,4640,90015
+0682,kontakter med pojkar under 15 år i sexuellt syfte,064-069,3,4641,90015
+0684,våldtäktsförsök mot flickor 15-17 år utomhus,064-069,3,4765,90015
+0685,våldtäktsförsök mot flickor 15-17 år inomhus,064-069,3,4766,90015
+0686,våldtäktsförsök mot pojkar 15-17 år utomhus,064-069,3,4767,90015
+0687,våldtäktsförsök mot pojkar 15-17 år inomhus,064-069,3,4768,90015
+0688,fullbordade våldtäkter mot flickor 15-17 år utomhus,064-069,3,4769,90015
+0689,fullbordade våldtäkter mot flickor 15-17 år inomhus,064-069,3,4770,90015
+0690,fullbordade våldtäkter mot pojkar 15-17 år utomhus,064-069,3,4771,90015
+0691,fullbordade våldtäkter mot pojkar 15-17 år inomhus,064-069,3,4772,90015
+0692,våldtäktsförsök mot flickor 15-17 år utomhus,064-069,3,4757,90015
+0693,våldtäktsförsök mot flickor 15-17 år inomhus,064-069,3,4758,90015
+0694,våldtäktsförsök mot pojkar 15-17 år utomhus,064-069,3,4759,90015
+0695,våldtäktsförsök mot pojkar 15-17 år inomhus,064-069,3,4760,90015
+0696,fullbordade våldtäkter mot flickor 15-17 år utomhus,064-069,3,4761,90015
+0697,fullbordade våldtäkter mot flickor 15-17 år inomhus,064-069,3,4762,90015
+0698,fullbordade våldtäkter mot pojkar 15-17 år utomhus,064-069,3,4763,90015
+0699,fullbordade våldtäkter mot pojkar 15-17 år inomhus,064-069,3,4764,90015
+071,fall av egenmäktighet med barn och tvegifte,05,2,90021,2763
+0711,fall av egenmäktighet med barn,071,3,2882,90021
+0712,"tvegiften, olovliga äktenskap och partnerskap",071,3,2883,90021
+08,08 totalt,,1,2764,
+080,tillgrepp av motordrivna fortskaffningsmedel,08,2,90022,2764
+0801,försök till tillgrepp av motordrivna fortskaffningsmedel,080,3,2884,90022
+0802,fullbordade tillgrepp av motordrivna fortskaffningsmedel,080,3,2885,90022
+0803,tillgrepp av motorcyklar,080,3,2886,90022
+0804,tillgrepp av mopeder,080,3,2887,90022
+0805,tillgrepp av båtar,080,3,2888,90022
+0806,tillgrepp av övriga motordrivna fortskaffningsmedel som snöskotrar,080,3,2889,90022
+0807,tillgrepp av cyklar,080,3,2890,90022
+0808,tillgrepp av ej motordrivna båtar,080,3,2891,90022
+0809,tillgrepp av andra ej motordrivna fordon,080,3,2892,90022
+081,inbrottsstölder,08,2,90023,2764
+0811,"inbrottsstölder i skolor, bibliotek, undervisningslokaler, förskolor och fritidshem",081,3,2894,90023
+0812,"inbrottsstölder i idrotts-, bad- och sportanläggningar",081,3,2895,90023
+0813,inbrottsstölder i läkar- eller tandläkarpraktiker och sjukhus,081,3,2896,90023
+0814,"stölder i biografer, teatrar, nöjes-, samlings- och ungdomslokaler",081,3,2897,90023
+0815,inbrottsstölder i hotell och pensionat,081,3,2898,90023
+0816,"inbrottsstölder i kaféer, konditorier, restauranger och näringsställen",081,3,2899,90023
+0817,"inbrottsstölder i apotek, apoteks- och läkemedelsförråd",081,3,2900,90023
+0818,"inbrottsstölder i butiker, varuhus, kommersiella utställningslokaler",081,3,2901,90023
+0819,"inbrottsstölder i kiosker, automater, skyltskåp",081,3,2902,90023
+0820,inbrottsstölder i kontor,081,3,2903,90023
+0821,"inbrottsstölder i fabriker, lager och verkstäder",081,3,2904,90023
+0822,inbrottsstölder ur baracker och bodar på byggplatser,081,3,2905,90023
+0823,"inbrottsstölder i garage, bensinstationer och bilverkstäder",081,3,2906,90023
+0825,inbrottsstölder i källare och på vindar,081,3,2908,90023
+0826,inbrottsstölder i fritidshus,081,3,2909,90023
+0827,inbrottsstölder inom militärförläggningar och militära förråd,081,3,2910,90023
+0829,inbrottsstölder inom hamnområden,081,3,2912,90023
+083,stölder genom inbrott,08,2,90025,2764
+0830,andra stölder med inbrott,083,3,2913,90025
+0831,inbrottsstölder av skjutvapen från militära förråd,083,3,2914,90025
+0832,inbrottsstölder av skjutvapen inom militärförläggningar,083,3,2915,90025
+0833,inbrottsstölder av skjutvapen från skytteorganisations lokaler eller förråd,083,3,2916,90025
+0834,inbrottsstölder av skjutvapen från vapenhandelslokaler eller förråd,083,3,2917,90025
+0835,inbrottsstölder av skjutvapen från sprängämnesförråd (ej militärt),083,3,2918,90025
+0836,inbrottsstölder av skjutvapen i bostäder,083,3,2919,90025
+0837,inbrottsstölder av skjutvapen i fritidshus,083,3,2920,90025
+0838,inbrottsstölder av skjutvapen ur motorfordon,083,3,2921,90025
+0839,"övrig inbrottsstölder av skjutvapen, ammunition och sprängämnen",083,3,2922,90025
+084-089,stölder utan inbrott och rån,08,2,90026,2764
+0840,"stölder ur eller från motordrivet fordon, släpfordon och husvagnar",084-089,3,2923,90026
+0841,stölder från cyklar,084-089,3,2924,90026
+0846,"stölder utan inbrott i skolor, bibliotek, undervisningslokaler, förskolor och fritidshem",084-089,3,2927,90026
+0847,"stölder utan inbrott i idrotts-, bad- och sportanläggningar",084-089,3,2928,90026
+0848,stölder utan inbrott i läkar- och tandläkarpraktiker och sjukhus,084-089,3,2929,90026
+0849,"stölder utan inbrott i biografer, teatrar, nöjes-, samlings- och ungdomslokaler",084-089,3,2930,90026
+0850,stölder utan inbrott inom hamnområden,084-089,3,2931,90026
+0851,stölder utan inbrott inom campingplatser och strandbad,084-089,3,2932,90026
+0852,stölder utan inbrott i hotell och pensionat,084-089,3,2933,90026
+0853,"stölder utan inbrott i butiker, varuhus och kommersiella utställningslokaler",084-089,3,2934,90026
+0854,stölder utan inbrott i kontor,084-089,3,2935,90026
+0855,rån utan skjutvapen,084-089,3,2936,90026
+0856,rån med skjutvapen,084-089,3,2937,90026
+0857,försök till inbrott i villor och radhus,084-089,3,2938,90026
+0858,stölder utan inbrott i bostäder hos funktionsnedsatt,084-089,3,2939,90026
+0859,stölder hos icke-funktionsnedsatta,084-089,3,2940,90026
+0860,"stölder utan inbrott i källare, vind",084-089,3,2941,90026
+0861,"stölder utan inbrott inom militärförläggning, militärt förråd",084-089,3,2942,90026
+0862,bankrån med skjutvapen,084-089,3,2943,90026
+0864,butiksrån med skjutvapen,084-089,3,2945,90026
+0865,taxirån med skjutvapen,084-089,3,2946,90026
+0866,rån mot värdetransporter med skjutvapen,084-089,3,2947,90026
+0867,rån mot värdebefordran med skjutvapen,084-089,3,2948,90026
+0868,bankrån utan skjutvapen,084-089,3,2949,90026
+0870,butiksrån utan skjutvapen,084-089,3,2951,90026
+0871,taxirån utan skjutvapen,084-089,3,2952,90026
+0872,rån mot värdetransporter utan skjutvapen,084-089,3,2953,90026
+0873,rån mot värdebefordran utan skjutvapen,084-089,3,2954,90026
+0874,försök till inbrott i lägenheter,084-089,3,2955,90026
+0875,"övr brott kap. 8, egenmäktigt förfar/självtäkt/olovl kraftavledn",084-089,3,2956,90026
+0880,stölder utan inbrott och snatteri utan inbrott,084-089,3,2961,90026
+0883,"stölder utan inbrott i fabriker, lager och verkstäder",084-089,3,2964,90026
+0884,stölder utan inbrott ur bodar och baracker på byggplatser,084-089,3,2965,90026
+0886,"stölder av kulturföremål genom inbrott i kyrkor, museer och hembygdsgårdar",084-089,3,2967,90026
+0887,stölder kulturföremål ej inbr kyrkor/museer/hembygdsgårdar,084-089,3,2968,90026
+0888,"stölder utan inbrott i kafé, konditori, restaurang, näringsställe",084-089,3,2969,90026
+0892,rån mot funktionsnedsatt utomhus med skjutvapen,084-089,3,2973,90026
+0893,rån mot funktionsnedsatt inomhus med skjutvapen,084-089,3,2974,90026
+0896,rån mot funktionsnedsatt utomhus utan skjutvapen,084-089,3,2977,90026
+0897,rån mot funktionsnedsatt inomhus utan skjutvapen,084-089,3,2978,90026
+09,09 totalt,,1,2765,
+090-092,bedrägerier,09,2,90032,2765
+0901,datorbedrägerier,090-092,3,2981,90032
+0902,automatmissbruk,090-092,3,2982,90032
+0903,"bedrägerier mot hotell, restauranger, taxi, bussar, tåg och spårvagnar",090-092,3,2983,90032
+0904,bedrägerier med kontokort,090-092,3,2984,90032
+0905,bedrägerier mot funktionsnedsatta,090-092,3,2985,90032
+0906,övriga bedrägerier,090-092,3,2986,90032
+0912,fall av bedrägligt beteende avseende bluffakturor,090-092,3,4078,90032
+0913,bedrägerier med hjälp av internet,090-092,3,4111,90032
+0914,bedrägerier mot EU:s finansiella intressen,090-092,3,4716,90032
+0915,övriga brott mot kapitel 9,090-092,3,4717,90032
+0916,fall av subventionsmissbruk,090-092,3,4718,90032
+0922,checkbedrägerier,090-092,3,2992,90032
+0929,försäkringsbedrägerier,090-092,3,2999,90032
+0930,tillfälliga häleriförseelser,090-092,3,3000,90032
+0931,vanemässiga och storskaliga häleriförseelser,090-092,3,3001,90032
+0932,överskridningar av egna konton,090-092,3,3002,90032
+0935,investeringsbedrägerier,090-092,3,4627,90032
+094,fall av utpressning och ocker,09,2,90036,2765
+0940,fall av utpressning,094,3,4779,90036
+0941,fall av ockerfall,094,3,4780,90036
+10,10 - 19 totalt,,1,2766,
+100,fall av förskingring,10,2,90037,2766
+1001,fall av grov förskingring,100,3,3003,90037
+1002,fall av olovligt förfogande över avbetalningsgods,100,3,3004,90037
+1003,andra fall av olovligt förfogande,100,3,3005,90037
+1004,fyndförseelser,100,3,3006,90037
+1007,fall av trolöshet mot huvudman,100,3,3009,90037
+1009,fall av olovligt brukande,100,3,3011,90037
+101,behörighetsmissbruk,10,2,90038,2766
+1010,behörighetsmissbruk,101,3,3012,90038
+1011,fall av handel med inflytande och vårdslös finansiering av mutbrott,101,3,4745,90038
+111,fall av oredlighet och vårdslöshet mot borgenär,10,2,90039,2766
+1111,oredligheter mot borgenärer,111,3,3014,90039
+1112,fall av vårdslöshet mot borgenärer,111,3,3015,90039
+1113,fall mannamån mot borgenärer,111,3,3016,90039
+1115,fall av försvårande av konkurs eller exekutiv förrättning,111,3,4109,90039
+112,bokföringsbrott,10,2,90040,2766
+1120,ringa bokföringsbrott vid konkurser,112,3,4783,90040
+1121,bokföringsbrott av normalgraden vid konkurser,112,3,4784,90040
+1122,grova bokföringsbrott vid konkurser,112,3,4785,90040
+1123,ringa bokföringsbrott utanför konkurser,112,3,4786,90040
+1124,bokföringsbrott av normalgraden utanför konkurser,112,3,4787,90040
+1125,grova bokföringsbrott utanför konkurser,112,3,4788,90040
+120,skadegörelser och klotter,10,2,90041,2766
+1201,skadegörelser på motorfordon,120,3,3018,90041
+1203,andra skadegörelser,120,3,3020,90041
+1204,taganden av olovlig väg,120,3,3021,90041
+1205,"skadegörelser mot stat, kommuner och landsting",120,3,3022,90041
+1206,datasabotage,120,3,3023,90041
+1208,fall av klotter mot kollektivtrafik,120,3,4081,90041
+1209,övriga klotterfall,120,3,4082,90041
+130,"mordbränder, förgiftningar och fall av vårdslöshet",10,2,90042,2766
+1301,Mordbränder och grova mordbränder,130,3,3025,90042
+1302,vållanden av bränder,130,3,3026,90042
+1303,fall av allmänfarlig vårdslöshet,130,3,3027,90042
+1304,"övriga brott mot kapital 13 som allmänfarlig ödeläggelse, sabotage och kapning",130,3,3028,90042
+1307,"fall av gift- och smitspridning, förgöring, vårdslöshet med gift och smitta",130,3,4073,90042
+140,förfalskningsbrott,10,2,90043,2766
+1401,förfalskningsbrott av checker,140,3,3031,90043
+1402,förfalskningsbrott av svenska körkort,140,3,3032,90043
+1404,förfalskningsbrott av tjänste- eller identitetskort,140,3,3034,90043
+1405,förfalskningsbrott av andra legitimationshandlingar,140,3,3035,90043
+1406,övriga urkundsförfalskningar,140,3,3036,90043
+1407,signaturförfalskningar,140,3,3037,90043
+1408,penningförfalskningar,140,3,3038,90043
+1409,övriga brott mot kap. 14,140,3,3039,90043
+1410,förfalskningsbrott av handlingar för illegal invandring som pass och resedokument,140,3,3040,90043
+150,fall av mened och missbruk av urkund,10,2,90045,2766
+1501,fall av mened och osann partsutsaga,150,3,3041,90045
+1503,urkundsmissbruk av pass och resedokument,150,3,3043,90045
+1504,utfärdande av pass på falska grunder,150,3,4232,90045
+1505,fall av falska och vårdslösa tillvitelser,150,3,4538,90045
+1506,övriga brott mot kapitel 15,150,3,4539,90045
+160,160 totalt,10,2,90046,2766
+1602,falska larm,160,3,3045,90046
+1603,missbruk av larmordning,160,3,3046,90046
+1604,fall av hets mot folkgrupp,160,3,3047,90046
+1605,fall av olaga diskriminering,160,3,3048,90046
+1607,barnpornografibrott,160,3,3050,90046
+1608,internetrelaterade barnpornografibrott,160,3,4110,90046
+1609,fall av djurplågeri,160,3,4750,90046
+1610,övriga brott mot kapitel 16,160,3,4751,90046
+170,fall av våld mot tjänstemän och våldsamt motstånd,10,2,90048,2766
+1701,fall av våld mot tjänstemän och poliser som blivit arbetsoförmögen ett dygn eller mindre,170,3,3051,90048
+1702,fall av våld mot tjänstemän och poliser som blivit arbetsoförmögen minst ett dygn,170,3,3052,90048
+1703,fall av våld mot ordningsvakter,170,3,3053,90048
+1704,övriga fall av våld mot tjänstemän,170,3,3054,90048
+1705,hot eller förgripelser mot tjänstemän,170,3,3055,90048
+1706,fall av våldsamt motstånd,170,3,3056,90048
+1708,givanden av mutor,170,3,4540,90048
+1709,övergrepp i rättssak,170,3,4541,90048
+1710,"övriga brott mot 17 kap, otillbörligt verkande vid röstn mm",170,3,4542,90048
+20,20 - 50 totalt,,1,2767,
+200,"fall av tjänstefel, tagande av muta och brott mot tystnadsplikt",20,2,90050,2767
+2002,fall av tjänstefel,200,3,4543,90050
+2003,tagande av mutor,200,3,4544,90050
+2004,brott mot tystnadsplikt,200,3,4545,90050
+220,220 totalt,20,2,90051,2767
+2204,brott mot 22 kap. brb,220,3,4693,90051
+2205,brott mot mänskligheten och krigsförbrytelser,220,3,4836,90051
+300,fall av vårdslöshet i trafik och rattfyllerier,20,2,90052,2767
+3001,fall av grov vårdslöshet i trafik,300,3,3060,90052
+3002,olovliga körningar,300,3,3061,90052
+3003,brott mot föreskrifter,300,3,3062,90052
+3004,fall av att ha tillåtit olovlig körning,300,3,3063,90052
+3005,rattfyllerier,300,3,3064,90052
+3006,smitningar,300,3,3065,90052
+3070,rattfyllerier under påverkan av narkotika,300,3,3066,90052
+3161,övriga trafikbrott med fängelse i straffskalan,300,3,4084,90052
+320,sjöfyllerier,20,2,90055,2767
+3201,sjöfyllerier,320,3,4086,90055
+3203,övriga sjötrafikbrott med fängelse i straffskalan,320,3,4088,90055
+400,fall av olaga vapeninnehav,20,2,90056,2767
+4007,"olaga innehav av pistoler, revolvrar och kulsprutepistoler",400,3,3073,90056
+4008,olaga innehav av jaktvapen,400,3,3074,90056
+4009,olaga innehav av andra vapen,400,3,3075,90056
+401,"brott mot vapen-, jakt- och fiskelagen",20,2,90057,2767
+4010,andra brott mot vapenlagstiftningen,401,3,3076,90057
+4011,brott mot jaktlagen,401,3,3077,90057
+4012,brott mot fiskelagen,401,3,3078,90057
+4013,övriga brott enligt speciallagstiftningen då fängelse ingår i straffskal,401,3,3079,90057
+4016,brott mot arbetsmiljölagen,401,3,3081,90057
+402,brott mot besöksförbud och fall av illegal flyktinghjälp,20,2,90058,2767
+4021,brott mot lagen om besöksförbud,402,3,3086,90058
+4023,brott mot lagen om förbud beträffande knivar och andra farliga föremål,402,3,3088,90058
+4024,köp av sexuella tjänster,402,3,3089,90058
+4025,fall där personer hjälpt utlänningar att illegalt komma in i Sverige,402,3,3090,90058
+4026,fall där personer hjälpt utlänningar att illegalt komma in i Sverige med vinstsyfte eller i organiserad verksamhet,402,3,3091,90058
+4027,fall där personer gömmer flyktingar och hindrar av- eller utvisningar,402,3,3092,90058
+4028,överträdelser av tillträdesförbud vid idrottsarrangemang,402,3,4112,90058
+4029,hindrande av elektronisk övervakning,402,3,4712,90058
+403,403 totalt,20,2,90059,2767
+4030,brott mot personuppgiftslagen,403,3,3093,90059
+4031,"fall av illegal rovdjursjakt (varg, björn, järv, lodjur kungsörn)",403,3,4113,90059
+404,fall av smuggling och tullbrott,20,2,90060,2767
+4044,fall av smuggling och olovlig införsel och utförsel,404,3,4599,90060
+4045,fall av grov smuggling,404,3,4600,90060
+4046,fall av narkotikasmuggling,404,3,4601,90060
+4047,fall av grov narkotikasmuggling,404,3,4602,90060
+4048,tullbrott och fall av vårdslös tullredovisning,404,3,4603,90060
+4049,grova tullbrott,404,3,4604,90060
+4050,fall av olovlig befattning med smuggelgods,404,3,4605,90060
+4051,fall av grov olovlig befattning med smuggelgods,404,3,4606,90060
+4053,fall av olovlig förflyttning och befattning med punktskattepliktiga varor,404,3,4649,90060
+500,fall av innehav och framställning av narkotika,20,2,90062,2767
+5001,"brott ang. kontr av narkotika, bedriver verksamhet utan tillst etc.",500,3,3098,90062
+5004,fall av narkotikaframställning,500,3,3101,90062
+5005,fall av narkotikaöverlåtelse,500,3,3102,90062
+5010,fall av narkotikainnehav,500,3,3107,90062
+5011,fall av narkotikabruk,500,3,3108,90062
+501,brott mot dopingslagen,20,2,90063,2767
+5013,fall av dopningframställning,501,3,4746,90063
+5014,fall av dopningöverlåtelse,501,3,4747,90063
+5015,fall av dopninginnehav,501,3,4748,90063
+5016,fall av dopningbruk,501,3,4749,90063
+502,skattebrott,20,2,90064,2767
+5020,skattebrott avseende mervärdesskattelagen,502,3,3110,90064
+5021,skattebrott mot övrig skattelagstiftning,502,3,3111,90064
+5022,inlämningar av vårdslösa skatteuppgifter,502,3,3112,90064
+5023,vårdslösa skatteredovisningar,502,3,3113,90064
+5024,försvårande av skattekontroll,502,3,3114,90064
+5025,skatteavdragsbrott,502,3,3115,90064
+5026,grova skattebrott,502,3,4087,90064
+503,brott mot näringsförbud och insiderbrott,20,2,90065,2767
+5030,brott mot lagen om näringsförbud och överträdelser av näringsförbud,503,3,3116,90065
+5033,brott mot insiderstrafflagen och otillbörliga kurspåverkningar,503,3,3119,90065
+5034,åsidosättande av rapportering vid insiderbrott,503,3,4236,90065
+5035,fall av underlåtenhet att föra/hålla aktiebok tillgänglig,503,3,4684,90065
+5036,brott mot låneförbudet,503,3,4685,90065
+5037,brott mot målvaktsbestämmelser,503,3,4686,90065
+5038,övriga brott mot aktiebolagslagen,503,3,4687,90065
+504,brott mot alkohol- och tobakslagen,20,2,90066,2767
+5042,fall av olovlig vin- och öltillverkning,504,3,3122,90066
+5043,fall av olovligt anskaffande av alkoholdrycker och olovlig dryckeshantering,504,3,3123,90066
+5045,fall av olovlig befattning med olovligt tillverkad sprit,504,3,3125,90066
+5046,fall av olovlig befattning med sprit genom tillverkning,504,3,4719,90066
+5047,fall av olovlig försäljning av alkohol och olovligt innehav av alkoholdrycker,504,3,4720,90066
+5048,fall av olovlig försäljning av teknisk sprit,504,3,4721,90066
+5049,brott mot tobakslagen,504,3,4752,90066
+506,bidragsbrott,20,2,90067,2767
+5060,ringa bidragsbrott mot försäkringskassan,506,3,4237,90067
+5061,bidragsbrott mot försäkringskassan av normalgraden,506,3,4238,90067
+5062,grova bidragsbrott mot försäkringskassan,506,3,4239,90067
+5063,vårdslösa bidragsbrott mot försäkringskassan,506,3,4240,90067
+5064,ringa bidragsbrott mot kommunerna,506,3,4241,90067
+5065,bidragsbrott mot kommunerna av normalgraden,506,3,4242,90067
+5066,grova bidragsbrott mot kommunerna,506,3,4243,90067
+5067,vårdslösa bidragsbrott mot kommunerna,506,3,4244,90067
+5068,ringa bidragsbrott mot a-kassorna,506,3,4245,90067
+5069,bidragsbrott mot a-kassorna av normalgraden,506,3,4246,90067
+5070,grova bidragsbrott mot a-kassorna,506,3,4247,90067
+5071,vårdslösa bidragsbrott mot a-kassorna,506,3,4248,90067
+5072,ringa bidragsbrott mot övriga myndigheter,506,3,4249,90067
+5073,bidragsbrott mot övriga myndigheter av normalgraden,506,3,4250,90067
+5074,grova bidragsbrott mot övriga myndigheter,506,3,4251,90067
+5075,vårdslösa bidragsbrott mot övriga myndigheter,506,3,4252,90067
+5076,insiderbrott,506,3,4650,90067
+5077,obehörigt röjande av insiderinformation,506,3,4651,90067
+510,upphovsrättsbrott,20,2,90069,2767
+5101,fildelningsbrott,510,3,4652,90069
+5102,brott mot upphovsrätten som inte är fildelning,510,3,4653,90069
+5103,brott mot det industriella rättsskyddet med hjälp av internet,510,3,4654,90069
+5104,brott mot det industriella rättsskyddet ej med hjälp av internet,510,3,4655,90069
+512,penningtvättsbrott,20,2,90070,2767
+5121,penningtvättsbrott,512,3,4812,90070
+5122,grova penningtvättsbrott,512,3,4813,90070
+5123,penningtvättsförseelser,512,3,4814,90070
+5124,fall av näringspenningtvätt,512,3,4815,90070
+5125,fall av grov näringspenningtvätt,512,3,4816,90070
+5126,fall av ringa näringspenningtvätt,512,3,4817,90070
+80,80 - 98 totalt,,1,2768,
+800,brott mot miljöbalken,80,2,90071,2768
+8001,brott mot miljöbalken och grova miljöbrott,800,3,3127,90071
+8003,fall av miljöfarlig kemikaliehantering och olovlig kemikaliehantering,800,3,3129,90071
+8004,fall av otillåten miljöverksamhet genom avsaknad av tillstånd,800,3,3130,90071
+8005,fall av otillåten miljöverksamhet genom villkorsbrott,800,3,3131,90071
+8006,fall av försvårande av miljökontroll,800,3,3132,90071
+8007,fall av bristfällig miljöinformation,800,3,3133,90071
+8008,fall av nedskräpning,800,3,3134,90071
+801,föroreningsbrott,80,2,90072,2768
+8014,brott mot lagen om åtgärder mot föroreningar från fartyg,801,3,3140,90072
+8015,brott mot områdesskydd och förseelse mot områdesskydd,801,3,4233,90072
+8016,artskyddsbrott,801,3,4234,90072
+8017,övriga brott mot miljöbalken,801,3,4235,90072
+8018,fall av otillåten nationell avfallstransport,801,3,4682,90072
+8019,"fall av otillåten gränsöverskridande (inom, till och från EU) avfallstransport",801,3,4683,90072
+930,misshandelsfall mot personer under 18 år,80,2,90073,2768
+9301,misshandelsfall utomhus mot flickor 0-6 år där gärningspersonen varit obekant med offret,930,3,4144,90073
+9302,misshandelsfall utomhus mot flickor 0-6 år där gärningspersonen varit bekant med offret,930,3,4146,90073
+9303,misshandelsfall utomhus mot pojkar 0-6 år där gärningspersonen varit obekant med offret,930,3,4147,90073
+9304,misshandelsfall utomhus mot pojkar 0-6 år där gärningspersonen varit bekant med offret,930,3,4148,90073
+9305,misshandelsfall inomhus mot flickor 0-6 år där gärningspersonen varit obekant med offret,930,3,4149,90073
+9306,misshandelsfall inomhus mot flickor 0-6 år där gärningspersonen varit bekant med offret,930,3,4150,90073
+9307,misshandelsfall inomhus mot pojkar 0-6 år där gärningspersonen varit obekant med offret,930,3,4151,90073
+9308,misshandelsfall inomhus mot pojkar 0-6 år där gärningspersonen varit bekant med offret,930,3,4152,90073
+9309,misshandelsfall utomhus mot flickor 7-14 år där gärningspersonen varit obekant med offret,930,3,4153,90073
+9310,misshandelsfall utomhus mot flickor 7-14 år där gärningspersonen varit bekant med offret,930,3,4154,90073
+9311,misshandelsfall utomhus mot pojkar 7-14 år där gärningspersonen varit obekant med offret,930,3,4155,90073
+9312,misshandelsfall utomhus mot pojkar 7-14 år där gärningspersonen varit bekant med offret,930,3,4156,90073
+9313,misshandelsfall inomhus mot flickor 7-14 år där gärningspersonen varit obekant med offret,930,3,4157,90073
+9314,misshandelsfall inomhus mot flickor 7-14 år där gärningspersonen varit bekant med offret,930,3,4158,90073
+9315,misshandelsfall inomhus mot pojkar 7-14 år där gärningspersonen varit obekant med offret,930,3,4159,90073
+9316,misshandelsfall inomhus mot pojkar 7-14 år där gärningspersonen varit bekant med offret,930,3,4160,90073
+9317,misshandelsfall utomhus mot flickor 15-17 år där gärningspersonen varit obekant med offret,930,3,4161,90073
+9318,misshandelsfall utomhus mot flickor 15-17 år där gärningspersonen varit bekant med offret,930,3,4162,90073
+9319,misshandelsfall utomhus mot pojkar 15-17 år där gärningspersonen varit obekant med offret,930,3,4163,90073
+9320,misshandelsfall utomhus mot pojkar 15-17 år där gärningspersonen varit bekant med offret,930,3,4164,90073
+9321,misshandelsfall inomhus mot flickor 15-17 år där gärningspersonen varit obekant med offret,930,3,4165,90073
+9322,misshandelsfall inomhus mot flickor 15-17 år där gärningspersonen varit bekant med offret,930,3,4166,90073
+9323,misshandelsfall inomhus mot pojkar 15-17 år där gärningspersonen varit obekant med offret,930,3,4167,90073
+9324,misshandelsfall inomhus mot pojkar 15-17 år där gärningspersonen varit bekant med offret,930,3,4168,90073
+9325,grova misshandelsfall utomhus mot flickor 0-6 år där gärningspersonen varit obekant med offret,930,3,4169,90073
+9326,grova misshandelsfall utomhus mot flickor 0-6 år där gärningspersonen varit bekant med offret,930,3,4170,90073
+9327,grova misshandelsfall utomhus mot pojkar 0-6 år där gärningspersonen varit obekant med offret,930,3,4171,90073
+9328,grova misshandelsfall utomhus mot pojkar 0-6 år där gärningspersonen varit bekant med offret,930,3,4172,90073
+9329,grova misshandelsfall inomhus mot flickor 0-6 år där gärningspersonen varit obekant med offret,930,3,4173,90073
+9330,grova misshandelsfall inomhus mot flickor 0-6 år där gärningspersonen varit bekant med offret,930,3,4174,90073
+9331,grova misshandelsfall inomhus mot pojkar 0-6 år där gärningspersonen varit obekant med offret,930,3,4175,90073
+9332,grova misshandelsfall inomhus mot pojkar 0-6 år där gärningspersonen varit bekant med offret,930,3,4176,90073
+9333,grova misshandelsfall utomhus mot flickor 7-14 år där gärningspersonen varit obekant med offret,930,3,4177,90073
+9334,grova misshandelsfall utomhus mot flickor 7-14 år där gärningspersonen varit bekant med offret,930,3,4178,90073
+9335,grova misshandelsfall utomhus mot pojkar 7-14 år där gärningspersonen varit obekant med offret,930,3,4179,90073
+9336,grova misshandelsfall utomhus mot pojkar 7-14 år där gärningspersonen varit bekant med offret,930,3,4180,90073
+9337,grova misshandelsfall inomhus mot flickor 7-14 år där gärningspersonen varit obekant med offret,930,3,4181,90073
+9338,grova misshandelsfall inomhus mot flickor 7-14 år där gärningspersonen varit bekant med offret,930,3,4182,90073
+9339,grova misshandelsfall inomhus mot pojkar 7-14 år där gärningspersonen varit obekant med offret,930,3,4183,90073
+9340,grova misshandelsfall inomhus mot pojkar 7-14 år där gärningspersonen varit bekant med offret,930,3,4184,90073
+9341,grova misshandelsfall utomhus mot flickor 15-17 år där gärningspersonen varit obekant med offret,930,3,4185,90073
+9342,grova misshandelsfall utomhus mot flickor 15-17 år där gärningspersonen varit bekant med offret,930,3,4186,90073
+9343,grova misshandelsfall utomhus mot pojkar 15-17 år där gärningspersonen varit obekant med offret,930,3,4187,90073
+9344,grova misshandelsfall utomhus mot pojkar 15-17 år där gärningspersonen varit bekant med offret,930,3,4188,90073
+9345,grova misshandelsfall inomhus mot flickor 15-17 år där gärningspersonen varit obekant med offret,930,3,4189,90073
+9346,grova misshandelsfall inomhus mot flickor 15-17 år där gärningspersonen varit bekant med offret,930,3,4190,90073
+9347,grova misshandelsfall inomhus mot pojkar 15-17 år där gärningspersonen varit obekant med offret,930,3,4191,90073
+9348,grova misshandelsfall inomhus mot pojkar 15-17 år där gärningspersonen varit bekant med offret,930,3,4192,90073
+935,misshandelsfall mot personer över 18 år,80,2,90078,2768
+9349,misshandelsfall inomhus mot kvinnor 18 år eller äldre i nära relation med gärningspersonen,935,3,4525,90078
+9350,"misshandelsfall inomhus mot kvinnor 18 år eller äldre där gärningspersonen varit bekant, men ej i nära relation med gärningspersonen",935,3,4546,90078
+9351,misshandelsfall inomhus mot män 18 år eller äldre i nära relation med gärningspersonen,935,3,4547,90078
+9352,"misshandelsfall inomhus mot män 18 år eller äldre där gärningspersonen varit bekant, men ej i nära relation med gärningspersonen",935,3,4548,90078
+9353,grova misshandelsfall inomhus mot kvinnor 18 år eller äldre i nära relation med gärningspersonen,935,3,4549,90078
+9354,"grova misshandelsfall inomhus mot kvinnor 18 år eller äldre där gärningspersonen varit bekant, men ej i nära relation med gärningspersonen",935,3,4550,90078
+9355,grova misshandelsfall inomhus mot män 18 år eller äldre i nära relation med gärningspersonen,935,3,4551,90078
+9356,"grova misshandelsfall inomhus mot män 18 år eller äldre där gärningspersonen varit bekant, men ej i nära relation med gärningspersonen",935,3,4552,90078
+959,alt,80,2,90079,2768
+9599,brott mot lagen med förbud mot könsstympning av kvinnor,959,3,4822,90079
+960,fall av sexuellt ofredande,80,2,90080,2768
+9601,fall av sexuellt ofredande mot flickor under 15 år,960,3,4793,90080
+9602,fall av sexuellt ofredande mot pojkar under 15 år,960,3,4794,90080
+9603,fall av sexuellt ofredande mot flickor 15-17 år,960,3,4795,90080
+9604,fall av sexuellt ofredande mot pojkar 15-17 år,960,3,4796,90080
+9605,fall av sexuellt ofredande mot kvinnor 18 år eller äldre,960,3,4797,90080
+9606,fall av sexuellt ofredande mot män 18 år eller äldre,960,3,4798,90080
+980,"inbrott i villor, radhus och lägenheter, samt stölder utan inbrott och rån",80,2,90081,2768
+9801,fullbordade inbrott i villor och radhus,980,3,3141,90081
+9802,fullbordade inbrott i lägenheter,980,3,3142,90081
+9803,"tillgrepp av lastbilar, släp och järnvägsvagnar",980,3,4114,90081
+9804,"stölder ur lastbilar, släp och järnvägsvagnar",980,3,4116,90081
+9806,rån mot privatpersoner under 18 år utan skjutvapen utomhus,980,3,4222,90081
+9807,rån mot privatpersoner under 18 år utan skjutvapen inomhus,980,3,4223,90081
+9808,"rån mot privatpersoner under 18 år, med skjutvapen utomhus",980,3,4224,90081
+9809,"rån mot privatpersoner under 18 år, med skjutvapen inomhus",980,3,4225,90081
+9810,rån mot privatpersoner 18 år eller äldre utan skjutvapen utomhus,980,3,4226,90081
+9811,rån mot privatpersoner 18 år eller äldre utan skjutvapen inomhus,980,3,4227,90081
+9812,"rån mot privatpersoner 18 år eller äldre, med skjutvapen utomhus",980,3,4228,90081
+9813,"rån mot privatpersoner 18 år eller äldre, med skjutvapen inomhus",980,3,4229,90081
+9814,stölder under övriga yrkesmässiga transporter,980,3,4645,90081
+9815,stölder ur och från båtar,980,3,4646,90081
+9816,stölder av båtmotorer,980,3,4648,90081
+9817,fickstölder,980,3,4675,90081
+9818,fickstölder mot funktionsnedsatta,980,3,4676,90081
+9819,väskryckningar,980,3,4677,90081
+9820,väskryckningar mot funktionsnedsatta,980,3,4678,90081
+delsfall utomhus mot män äldre än 18 år där offret är obekant,035,3,2806,90002
+0358,misshandelsfall utomhus mot män äldre än 18 år där offret är bekant,035,3,2807,90002
+036,"misshandelsfall inomhus, 18 år eller äldre som inte är bekanta med offret",03,2,90003,2761
+0365,misshandelsfall inomhus mot kvinnor 18 år eller äldre som inte är bekanta med offret,036,3,2812,90003
+0367,misshandelsfall inomhus mot män 18 år eller äldre som inte är bekanta med offret,036,3,2814,90003
+037,"grova misshandelsfall utomhus, 18 år eller äldre",03,2,90004,2761
+0375,grova misshandelsfall utomhus mot kvinnor 18 år eller äldre som är inte bekanta med offret,037,3,2820,90004
+0376,grova misshandelsfall utomhus mot kvinnor 18 år eller äldre där gärningsmännen varit bekanta med offret,037,3,2821,90004
+0377,grova misshandelsfall utomhus mot män 18 år eller äldre som är inte bekanta med offret,037,3,2822,90004
+0378,grova misshandelsfall utomhus mot män 18 år eller äldre där gärningsmännen varit bekanta med offret,037,3,2823,90004
+037,"grova misshandelsfall inomhus, 18 år eller äldre",03,2,90005,2761
+0385,grova misshandelsfall inomhus mot kvinnor 18 år eller äldre som är inte bekanta med offret,037,3,2828,90005
+0387,"grova misshandelsfall inomhus mot män 18 år eller äldre, obek m offret",037,3,2830,90005
+039,vållande till annans död,03,2,90006,2761
+0391,vållande till annans död i samband med arbetsolyckor,039,3,2832,90006
+0392,vållande till annans död i övriga fall,039,3,2833,90006
+0393,vållande till kroppsskada i samband med arbetsolyckor,039,3,2834,90006
+0394,vållande till kroppsskada i övriga fall,039,3,2835,90006
+0395,framkallande av fara för arbetstagare,039,3,2836,90006
+0396,framkallande av fara i övriga fall,039,3,2837,90006
+04,04 totalt,,1,2762,
+040,hemfridsbrott och ofredande,04,2,90007,2762
+0401,hemfridsbrott och olaga intrång,040,3,2838,90007
+0407,ofredande mot män 18 år eller äldre,040,3,2844,90007
+0408,ofredande mot kvinnor 18 år eller äldre,040,3,2845,90007
+041,"grova kvinnofridskränkningar, ofredanden mot grupp, dataintrång och fall av människohandel för sexuella ändamål",04,2,90008,2762
+0412,grova kvinnofridskränkningar,041,3,2849,90008
+0414,ofredande mot grupp,041,3,2851,90008
+0415,dataintrång,041,3,2852,90008
+0418,fall av fall av människohandel för sexuella ändamål med barn under 18 år,041,3,4513,90008
+0419,all av fall av människohandel för sexuella ändamål med personer 18 år eller äldre,041,3,4514,90008
+042,grova fridkränkningar och ofredande mot barn,04,2,90009,2762
+0422,grova fridskränkning mot flickor under 18 år,042,3,4517,90009
+0423,grova fridskränkning mot pojkar under 18 år,042,3,4518,90009
+0424,grova fridskränkning mot kvinnor 18 år eller äldre,042,3,4519,90009
+0425,grova fridskränkning mot män 18 år eller äldre,042,3,4520,90009
+0428,ofredande mot flickor under 18 år,042,3,4523,90009
+0429,ofredande mot pojkar under 18 år,042,3,4524,90009
+043,"människorov, olaga tvång och anmälningar om kränkande foto",04,2,90010,2762
+0430,brott mot människorov och olaga frihetsberövande,043,3,4688,90010
+0431,brott mot olaga tvång och avlyssning,043,3,4689,90010
+0432,kränkande fotografering,043,3,4799,90010
+0433,anmälningar om äktenskapstvång,043,3,4820,90010
+0434,anmälningar om vilseledande till tvångsäktenskapsresa,043,3,4821,90010
+044,fall av olaga förföljelse,04,2,90011,2762
+0440,fall av olaga förföljelse mot flickor under 18 år,044,3,4708,90011
+0441,fall av olaga förföljelse mot pojkar under 18 år,044,3,4709,90011
+0442,fall av olaga förföljelse mot kvinnor 18 år eller äldre,044,3,4710,90011
+0443,fall av olaga förföljelse mot män 18 år eller äldre,044,3,4711,90011
+047,fall av människohandel,04,2,90012,2762
+0470,fall av människohandel för tvångsarbete med barn under 18 år,047,3,4773,90012
+0471,fall av människohandel för tvångsarbete med personer 18 år eller äldre,047,3,4774,90012
+0472,fall av människohandel för tiggeri med barn under 18 år,047,3,4775,90012
+0473,fall av människohandel för tiggeri med personer 18 år eller äldre,047,3,4776,90012
+0474,fall av människohandel för organhandel med barn under 18 år,047,3,4777,90012
+0475,fall av människohandel för organhandel med personer 18 år eller äldre,047,3,4778,90012
+0476,fall av människohandel för krigstjänst med barn under 18 år,047,3,4789,90012
+0477,fall av människohandel för krigstjänst med personer 18 år eller äldre,047,3,4790,90012
+0478,fall av människohandel för övriga ändamål med barn under 18 år,047,3,4791,90012
+0479,fall av människohandel för övriga ändamål med personer 18 år eller äldre,047,3,4792,90012
+05,05 - 07 totalt,,1,2763,
+060,fall av sexuellt ofredande och koppleri,05,2,90013,2763
+0607,fall av sexuellt ofredande och exhibitionism,060,3,2861,90013
+0609,fall av koppleri,060,3,2863,90013
+061,fall av sexuellt utnyttjande av minderårig,05,2,90014,2763
+0610,köp av sexuell handling av barn under 18 år,061,3,2864,90014
+0611,utnyttjande av barn under 18 år för sexuell posering,061,3,4108,90014
+0613,"fall av sexuellt tvång, sexuellt utnyttjande av personer i beroendeställning, samlag med avkomling eller syskon mot kvinnor 18 år eller äldre",061,3,4753,90014
+0614,"fall av sexuellt tvång, sexuellt utnyttjande av personer i beroendeställning, samlag med avkomling eller syskon mot män 18 år eller äldre",061,3,4754,90014
+0615,"fall av sexuellt tvång, sexuellt utnyttjande av personer i beroendeställning, samlag med avkomling eller syskon, mot flickor 15-17 år",061,3,4755,90014
+0616,"fall av sexuellt tvång, sexuellt utnyttjande av personer i beroendeställning, samlag med avkomling eller syskon, mot pojkar 15-17 år",061,3,4756,90014
+064-069,försök till och fullbordade våldtäkter och fall av sexuellt utnyttjande,05,2,90015,2763
+0640,våldtäktsförsök utomhus mot flickor under 15 år,064-069,3,4193,90015
+0641,våldtäktsförsök inomhus mot flickor under 15 år,064-069,3,4194,90015
+0642,våldtäktsförsök utomhus mot pojkar under 15 år,064-069,3,4195,90015
+0643,våldtäktsförsök inomhus mot pojkar under 15 år,064-069,3,4196,90015
+0648,"försök till våldtäkt, inkl. grov, utomhus mot kvinnor 18 år eller äldre",064-069,3,4201,90015
+0649,"försök till våldtäkt, inkl. grov, inomhus mot kvinnor 18 år eller äldre",064-069,3,4202,90015
+0650,våldtäktsförsök utomhus mot män 18 år eller äldre,064-069,3,4203,90015
+0651,våldtäktsförsök inomhus mot män 18 år eller äldre,064-069,3,4204,90015
+0652,fullbordade våldtäkter utomhus mot flickor under 15 år,064-069,3,4205,90015
+0653,fullbordade våldtäkter inomhus mot flickor under 15 år,064-069,3,4206,90015
+0654,fullbordade våldtäkter utomhus mot pojkar under 15 år,064-069,3,4207,90015
+0655,fullbordade våldtäkter inomhus mot pojkar under 15 år,064-069,3,4208,90015
+0660,fullbordade våldtäkter utomhus mot kvinnor 18 år eller äldre,064-069,3,4213,90015
+0661,fullbordade våldtäkter inomhus mot kvinnor 18 år eller äldre,064-069,3,4214,90015
+0662,fullbordade våldtäkter utomhus mot män 18 år eller äldre,064-069,3,4215,90015
+0663,fullbordade våldtäkter inomhus mot män 18 år eller äldre,064-069,3,4216,90015
+0669,fall av sexuellt utnyttjande av flickor under 15 år,064-069,3,4526,90015
+0670,fall av sexuellt utnyttjande av pojkar under 15 år,064-069,3,4527,90015
+0671,fall av sexuellt utnyttjande av flickor 15-17 år,064-069,3,4528,90015
+0672,fall av sexuellt utnyttjande av pojkar 15-17 år,064-069,3,4529,90015
+0673,fall av sexuellt övergrepp mot flickor under 15 år,064-069,3,4530,90015
+0674,fall av sexuellt övergrepp mot pojkar under 15 år,064-069,3,4531,90015
+0675,fall av sexuellt övergrepp mot flickor 15-17 år,064-069,3,4532,90015
+0676,fall av sexuellt övergrepp mot pojkar 15-17 år,064-069,3,4533,90015
+-0681,kontakter med flickor under 15 år i sexuellt syfte,064-069,3,4640,90015
+0682,kontakter med pojkar under 15 år i sexuellt syfte,064-069,3,4641,90015
+0684,våldtäktsförsök mot flickor 15-17 år utomhus,064-069,3,4765,90015
+0685,våldtäktsförsök mot flickor 15-17 år inomhus,064-069,3,4766,90015
+0686,våldtäktsförsök mot pojkar 15-17 år utomhus,064-069,3,4767,90015
+0687,våldtäktsförsök mot pojkar 15-17 år inomhus,064-069,3,4768,90015
+0688,fullbordade våldtäkter mot flickor 15-17 år utomhus,064-069,3,4769,90015
+0689,fullbordade våldtäkter mot flickor 15-17 år inomhus,064-069,3,4770,90015
+0690,fullbordade våldtäkter mot pojkar 15-17 år utomhus,064-069,3,4771,90015
+0691,fullbordade våldtäkter mot pojkar 15-17 år inomhus,064-069,3,4772,90015
+0692,våldtäktsförsök mot flickor 15-17 år utomhus,064-069,3,4757,90015
+0693,våldtäktsförsök mot flickor 15-17 år inomhus,064-069,3,4758,90015
+0694,våldtäktsförsök mot pojkar 15-17 år utomhus,064-069,3,4759,90015
+0695,våldtäktsförsök mot pojkar 15-17 år inomhus,064-069,3,4760,90015
+0696,fullbordade våldtäkter mot flickor 15-17 år utomhus,064-069,3,4761,90015
+0697,fullbordade våldtäkter mot flickor 15-17 år inomhus,064-069,3,4762,90015
+0698,fullbordade våldtäkter mot pojkar 15-17 år utomhus,064-069,3,4763,90015
+0699,fullbordade våldtäkter mot pojkar 15-17 år inomhus,064-069,3,4764,90015
+071,fall av egenmäktighet med barn och tvegifte,05,2,90021,2763
+0711,fall av egenmäktighet med barn,071,3,2882,90021
+0712,"tvegiften, olovliga äktenskap och partnerskap",071,3,2883,90021
+08,08 totalt,,1,2764,
+080,tillgrepp av motordrivna fortskaffningsmedel,08,2,90022,2764
+0801,försök till tillgrepp av motordrivna fortskaffningsmedel,080,3,2884,90022
+0802,fullbordade tillgrepp av motordrivna fortskaffningsmedel,080,3,2885,90022
+0803,tillgrepp av motorcyklar,080,3,2886,90022
+0804,tillgrepp av mopeder,080,3,2887,90022
+0805,tillgrepp av båtar,080,3,2888,90022
+0806,tillgrepp av övriga motordrivna fortskaffningsmedel som snöskotrar,080,3,2889,90022
+0807,tillgrepp av cyklar,080,3,2890,90022
+0808,tillgrepp av ej motordrivna båtar,080,3,2891,90022
+0809,tillgrepp av andra ej motordrivna fordon,080,3,2892,90022
+081,inbrottsstölder,08,2,90023,2764
+0811,"inbrottsstölder i skolor, bibliotek, undervisningslokaler, förskolor och fritidshem",081,3,2894,90023
+0812,"inbrottsstölder i idrotts-, bad- och sportanläggningar",081,3,2895,90023
+0813,inbrottsstölder i läkar- eller tandläkarpraktiker och sjukhus,081,3,2896,90023
+0814,"stölder i biografer, teatrar, nöjes-, samlings- och ungdomslokaler",081,3,2897,90023
+0815,inbrottsstölder i hotell och pensionat,081,3,2898,90023
+0816,"inbrottsstölder i kaféer, konditorier, restauranger och näringsställen",081,3,2899,90023
+0817,"inbrottsstölder i apotek, apoteks- och läkemedelsförråd",081,3,2900,90023
+0818,"inbrottsstölder i butiker, varuhus, kommersiella utställningslokaler",081,3,2901,90023
+0819,"inbrottsstölder i kiosker, automater, skyltskåp",081,3,2902,90023
+0820,inbrottsstölder i kontor,081,3,2903,90023
+0821,"inbrottsstölder i fabriker, lager och verkstäder",081,3,2904,90023
+0822,inbrottsstölder ur baracker och bodar på byggplatser,081,3,2905,90023
+0823,"inbrottsstölder i garage, bensinstationer och bilverkstäder",081,3,2906,90023
+0825,inbrottsstölder i källare och på vindar,081,3,2908,90023
+0826,inbrottsstölder i fritidshus,081,3,2909,90023
+0827,inbrottsstölder inom militärförläggningar och militära förråd,081,3,2910,90023
+0829,inbrottsstölder inom hamnområden,081,3,2912,90023
+083,stölder genom inbrott,08,2,90025,2764
+0830,andra stölder med inbrott,083,3,2913,90025
+0831,inbrottsstölder av skjutvapen från militära förråd,083,3,2914,90025
+0832,inbrottsstölder av skjutvapen inom militärförläggningar,083,3,2915,90025
+0833,inbrottsstölder av skjutvapen från skytteorganisations lokaler eller förråd,083,3,2916,90025
+0834,inbrottsstölder av skjutvapen från vapenhandelslokaler eller förråd,083,3,2917,90025
+0835,inbrottsstölder av skjutvapen från sprängämnesförråd (ej militärt),083,3,2918,90025
+0836,inbrottsstölder av skjutvapen i bostäder,083,3,2919,90025
+0837,inbrottsstölder av skjutvapen i fritidshus,083,3,2920,90025
+0838,inbrottsstölder av skjutvapen ur motorfordon,083,3,2921,90025
+0839,"övrig inbrottsstölder av skjutvapen, ammunition och sprängämnen",083,3,2922,90025
+084-089,stölder utan inbrott och rån,08,2,90026,2764
+0840,"stölder ur eller från motordrivet fordon, släpfordon och husvagnar",084-089,3,2923,90026
+0841,stölder från cyklar,084-089,3,2924,90026
+0846,"stölder utan inbrott i skolor, bibliotek, undervisningslokaler, förskolor och fritidshem",084-089,3,2927,90026
+0847,"stölder utan inbrott i idrotts-, bad- och sportanläggningar",084-089,3,2928,90026
+0848,stölder utan inbrott i läkar- och tandläkarpraktiker och sjukhus,084-089,3,2929,90026
+0849,"stölder utan inbrott i biografer, teatrar, nöjes-, samlings- och ungdomslokaler",084-089,3,2930,90026
+0850,stölder utan inbrott inom hamnområden,084-089,3,2931,90026
+0851,stölder utan inbrott inom campingplatser och strandbad,084-089,3,2932,90026
+0852,stölder utan inbrott i hotell och pensionat,084-089,3,2933,90026
+0853,"stölder utan inbrott i butiker, varuhus och kommersiella utställningslokaler",084-089,3,2934,90026
+0854,stölder utan inbrott i kontor,084-089,3,2935,90026
+0855,rån utan skjutvapen,084-089,3,2936,90026
+0856,rån med skjutvapen,084-089,3,2937,90026
+0857,försök till inbrott i villor och radhus,084-089,3,2938,90026
+0858,stölder utan inbrott i bostäder hos funktionsnedsatt,084-089,3,2939,90026
+0859,stölder hos icke-funktionsnedsatta,084-089,3,2940,90026
+0860,"stölder utan inbrott i källare, vind",084-089,3,2941,90026
+0861,"stölder utan inbrott inom militärförläggning, militärt förråd",084-089,3,2942,90026
+0862,bankrån med skjutvapen,084-089,3,2943,90026
+0864,butiksrån med skjutvapen,084-089,3,2945,90026
+0865,taxirån med skjutvapen,084-089,3,2946,90026
+0866,rån mot värdetransporter med skjutvapen,084-089,3,2947,90026
+0867,rån mot värdebefordran med skjutvapen,084-089,3,2948,90026
+0868,bankrån utan skjutvapen,084-089,3,2949,90026
+0870,butiksrån utan skjutvapen,084-089,3,2951,90026
+0871,taxirån utan skjutvapen,084-089,3,2952,90026
+0872,rån mot värdetransporter utan skjutvapen,084-089,3,2953,90026
+0873,rån mot värdebefordran utan skjutvapen,084-089,3,2954,90026
+0874,försök till inbrott i lägenheter,084-089,3,2955,90026
+0875,"övr brott kap. 8, egenmäktigt förfar/självtäkt/olovl kraftavledn",084-089,3,2956,90026
+0880,stölder utan inbrott och snatteri utan inbrott,084-089,3,2961,90026
+0883,"stölder utan inbrott i fabriker, lager och verkstäder",084-089,3,2964,90026
+0884,stölder utan inbrott ur bodar och baracker på byggplatser,084-089,3,2965,90026
+0886,"stölder av kulturföremål genom inbrott i kyrkor, museer och hembygdsgårdar",084-089,3,2967,90026
+0887,stölder kulturföremål ej inbr kyrkor/museer/hembygdsgårdar,084-089,3,2968,90026
+0888,"stölder utan inbrott i kafé, konditori, restaurang, näringsställe",084-089,3,2969,90026
+0892,rån mot funktionsnedsatt utomhus med skjutvapen,084-089,3,2973,90026
+0893,rån mot funktionsnedsatt inomhus med skjutvapen,084-089,3,2974,90026
+0896,rån mot funktionsnedsatt utomhus utan skjutvapen,084-089,3,2977,90026
+0897,rån mot funktionsnedsatt inomhus utan skjutvapen,084-089,3,2978,90026
+09,09 totalt,,1,2765,
+090-092,bedrägerier,09,2,90032,2765
+0901,datorbedrägerier,090-092,3,2981,90032
+0902,automatmissbruk,090-092,3,2982,90032
+0903,"bedrägerier mot hotell, restauranger, taxi, bussar, tåg och spårvagnar",090-092,3,2983,90032
+0904,bedrägerier med kontokort,090-092,3,2984,90032
+0905,bedrägerier mot funktionsnedsatta,090-092,3,2985,90032
+0906,övriga bedrägerier,090-092,3,2986,90032
+0912,fall av bedrägligt beteende avseende bluffakturor,090-092,3,4078,90032
+0913,bedrägerier med hjälp av internet,090-092,3,4111,90032
+0914,bedrägerier mot EU:s finansiella intressen,090-092,3,4716,90032
+0915,övriga brott mot kapitel 9,090-092,3,4717,90032
+0916,fall av subventionsmissbruk,090-092,3,4718,90032
+0922,checkbedrägerier,090-092,3,2992,90032
+0929,försäkringsbedrägerier,090-092,3,2999,90032
+0930,tillfälliga häleriförseelser,090-092,3,3000,90032
+0931,vanemässiga och storskaliga häleriförseelser,090-092,3,3001,90032
+0932,överskridningar av egna konton,090-092,3,3002,90032
+0935,investeringsbedrägerier,090-092,3,4627,90032
+094,fall av utpressning och ocker,09,2,90036,2765
+0940,fall av utpressning,094,3,4779,90036
+0941,fall av ockerfall,094,3,4780,90036
+10,10 - 19 totalt,,1,2766,
+100,fall av förskingring,10,2,90037,2766
+1001,fall av grov förskingring,100,3,3003,90037
+1002,fall av olovligt förfogande över avbetalningsgods,100,3,3004,90037
+1003,andra fall av olovligt förfogande,100,3,3005,90037
+1004,fyndförseelser,100,3,3006,90037
+1007,fall av trolöshet mot huvudman,100,3,3009,90037
+1009,fall av olovligt brukande,100,3,3011,90037
+101,behörighetsmissbruk,10,2,90038,2766
+1010,behörighetsmissbruk,101,3,3012,90038
+1011,fall av handel med inflytande och vårdslös finansiering av mutbrott,101,3,4745,90038
+111,fall av oredlighet och vårdslöshet mot borgenär,10,2,90039,2766
+1111,oredligheter mot borgenärer,111,3,3014,90039
+1112,fall av vårdslöshet mot borgenärer,111,3,3015,90039
+1113,fall mannamån mot borgenärer,111,3,3016,90039
+1115,fall av försvårande av konkurs eller exekutiv förrättning,111,3,4109,90039
+112,bokföringsbrott,10,2,90040,2766
+1120,ringa bokföringsbrott vid konkurser,112,3,4783,90040
+1121,bokföringsbrott av normalgraden vid konkurser,112,3,4784,90040
+1122,grova bokföringsbrott vid konkurser,112,3,4785,90040
+1123,ringa bokföringsbrott utanför konkurser,112,3,4786,90040
+1124,bokföringsbrott av normalgraden utanför konkurser,112,3,4787,90040
+1125,grova bokföringsbrott utanför konkurser,112,3,4788,90040
+120,skadegörelser och klotter,10,2,90041,2766
+1201,skadegörelser på motorfordon,120,3,3018,90041
+1203,andra skadegörelser,120,3,3020,90041
+1204,taganden av olovlig väg,120,3,3021,90041
+1205,"skadegörelser mot stat, kommuner och landsting",120,3,3022,90041
+1206,datasabotage,120,3,3023,90041
+1208,fall av klotter mot kollektivtrafik,120,3,4081,90041
+1209,övriga klotterfall,120,3,4082,90041
+130,"mordbränder, förgiftningar och fall av vårdslöshet",10,2,90042,2766
+1301,Mordbränder och grova mordbränder,130,3,3025,90042
+1302,vållanden av bränder,130,3,3026,90042
+1303,fall av allmänfarlig vårdslöshet,130,3,3027,90042
+1304,"övriga brott mot kapital 13 som allmänfarlig ödeläggelse, sabotage och kapning",130,3,3028,90042
+1307,"fall av gift- och smitspridning, förgöring, vårdslöshet med gift och smitta",130,3,4073,90042
+140,förfalskningsbrott,10,2,90043,2766
+1401,förfalskningsbrott av checker,140,3,3031,90043
+1402,förfalskningsbrott av svenska körkort,140,3,3032,90043
+1404,förfalskningsbrott av tjänste- eller identitetskort,140,3,3034,90043
+1405,förfalskningsbrott av andra legitimationshandlingar,140,3,3035,90043
+1406,övriga urkundsförfalskningar,140,3,3036,90043
+1407,signaturförfalskningar,140,3,3037,90043
+1408,penningförfalskningar,140,3,3038,90043
+1409,övriga brott mot kap. 14,140,3,3039,90043
+1410,förfalskningsbrott av handlingar för illegal invandring som pass och resedokument,140,3,3040,90043
+150,fall av mened och missbruk av urkund,10,2,90045,2766
+1501,fall av mened och osann partsutsaga,150,3,3041,90045
+1503,urkundsmissbruk av pass och resedokument,150,3,3043,90045
+1504,utfärdande av pass på falska grunder,150,3,4232,90045
+1505,fall av falska och vårdslösa tillvitelser,150,3,4538,90045
+1506,övriga brott mot kapitel 15,150,3,4539,90045
+160,160 totalt,10,2,90046,2766
+1602,falska larm,160,3,3045,90046
+1603,missbruk av larmordning,160,3,3046,90046
+1604,fall av hets mot folkgrupp,160,3,3047,90046
+1605,fall av olaga diskriminering,160,3,3048,90046
+1607,barnpornografibrott,160,3,3050,90046
+1608,internetrelaterade barnpornografibrott,160,3,4110,90046
+1609,fall av djurplågeri,160,3,4750,90046
+1610,övriga brott mot kapitel 16,160,3,4751,90046
+170,fall av våld mot tjänstemän och våldsamt motstånd,10,2,90048,2766
+1701,fall av våld mot tjänstemän och poliser som blivit arbetsoförmögen ett dygn eller mindre,170,3,3051,90048
+1702,fall av våld mot tjänstemän och poliser som blivit arbetsoförmögen minst ett dygn,170,3,3052,90048
+1703,fall av våld mot ordningsvakter,170,3,3053,90048
+1704,övriga fall av våld mot tjänstemän,170,3,3054,90048
+1705,hot eller förgripelser mot tjänstemän,170,3,3055,90048
+1706,fall av våldsamt motstånd,170,3,3056,90048
+1708,givanden av mutor,170,3,4540,90048
+1709,övergrepp i rättssak,170,3,4541,90048
+1710,"övriga brott mot 17 kap, otillbörligt verkande vid röstn mm",170,3,4542,90048
+20,20 - 50 totalt,,1,2767,
+200,"fall av tjänstefel, tagande av muta och brott mot tystnadsplikt",20,2,90050,2767
+2002,fall av tjänstefel,200,3,4543,90050
+2003,tagande av mutor,200,3,4544,90050
+2004,brott mot tystnadsplikt,200,3,4545,90050
+220,220 totalt,20,2,90051,2767
+2204,brott mot 22 kap. brb,220,3,4693,90051
+2205,brott mot mänskligheten och krigsförbrytelser,220,3,4836,90051
+300,fall av vårdslöshet i trafik och rattfyllerier,20,2,90052,2767
+3001,fall av grov vårdslöshet i trafik,300,3,3060,90052
+3002,olovliga körningar,300,3,3061,90052
+3003,brott mot föreskrifter,300,3,3062,90052
+3004,fall av att ha tillåtit olovlig körning,300,3,3063,90052
+3005,rattfyllerier,300,3,3064,90052
+3006,smitningar,300,3,3065,90052
+3070,rattfyllerier under påverkan av narkotika,300,3,3066,90052
+3161,övriga trafikbrott med fängelse i straffskalan,300,3,4084,90052
+320,sjöfyllerier,20,2,90055,2767
+3201,sjöfyllerier,320,3,4086,90055
+3203,övriga sjötrafikbrott med fängelse i straffskalan,320,3,4088,90055
+400,fall av olaga vapeninnehav,20,2,90056,2767
+4007,"olaga innehav av pistoler, revolvrar och kulsprutepistoler",400,3,3073,90056
+4008,olaga innehav av jaktvapen,400,3,3074,90056
+4009,olaga innehav av andra vapen,400,3,3075,90056
+401,"brott mot vapen-, jakt- och fiskelagen",20,2,90057,2767
+4010,andra brott mot vapenlagstiftningen,401,3,3076,90057
+4011,brott mot jaktlagen,401,3,3077,90057
+4012,brott mot fiskelagen,401,3,3078,90057
+4013,övriga brott enligt speciallagstiftningen då fängelse ingår i straffskal,401,3,3079,90057
+4016,brott mot arbetsmiljölagen,401,3,3081,90057
+402,brott mot besöksförbud och fall av illegal flyktinghjälp,20,2,90058,2767
+4021,brott mot lagen om besöksförbud,402,3,3086,90058
+4023,brott mot lagen om förbud beträffande knivar och andra farliga föremål,402,3,3088,90058
+4024,köp av sexuella tjänster,402,3,3089,90058
+4025,fall där personer hjälpt utlänningar att illegalt komma in i Sverige,402,3,3090,90058
+4026,fall där personer hjälpt utlänningar att illegalt komma in i Sverige med vinstsyfte eller i organiserad verksamhet,402,3,3091,90058
+4027,fall där personer gömmer flyktingar och hindrar av- eller utvisningar,402,3,3092,90058
+4028,överträdelser av tillträdesförbud vid idrottsarrangemang,402,3,4112,90058
+4029,hindrande av elektronisk övervakning,402,3,4712,90058
+403,403 totalt,20,2,90059,2767
+4030,brott mot personuppgiftslagen,403,3,3093,90059
+4031,"fall av illegal rovdjursjakt (varg, björn, järv, lodjur kungsörn)",403,3,4113,90059
+404,fall av smuggling och tullbrott,20,2,90060,2767
+4044,fall av smuggling och olovlig införsel och utförsel,404,3,4599,90060
+4045,fall av grov smuggling,404,3,4600,90060
+4046,fall av narkotikasmuggling,404,3,4601,90060
+4047,fall av grov narkotikasmuggling,404,3,4602,90060
+4048,tullbrott och fall av vårdslös tullredovisning,404,3,4603,90060
+4049,grova tullbrott,404,3,4604,90060
+4050,fall av olovlig befattning med smuggelgods,404,3,4605,90060
+4051,fall av grov olovlig befattning med smuggelgods,404,3,4606,90060
+4053,fall av olovlig förflyttning och befattning med punktskattepliktiga varor,404,3,4649,90060
+500,fall av innehav och framställning av narkotika,20,2,90062,2767
+5001,"brott ang. kontr av narkotika, bedriver verksamhet utan tillst etc.",500,3,3098,90062
+5004,fall av narkotikaframställning,500,3,3101,90062
+5005,fall av narkotikaöverlåtelse,500,3,3102,90062
+5010,fall av narkotikainnehav,500,3,3107,90062
+5011,fall av narkotikabruk,500,3,3108,90062
+501,brott mot dopingslagen,20,2,90063,2767
+5013,fall av dopningframställning,501,3,4746,90063
+5014,fall av dopningöverlåtelse,501,3,4747,90063
+5015,fall av dopninginnehav,501,3,4748,90063
+5016,fall av dopningbruk,501,3,4749,90063
+502,skattebrott,20,2,90064,2767
+5020,skattebrott avseende mervärdesskattelagen,502,3,3110,90064
+5021,skattebrott mot övrig skattelagstiftning,502,3,3111,90064
+5022,inlämningar av vårdslösa skatteuppgifter,502,3,3112,90064
+5023,vårdslösa skatteredovisningar,502,3,3113,90064
+5024,försvårande av skattekontroll,502,3,3114,90064
+5025,skatteavdragsbrott,502,3,3115,90064
+5026,grova skattebrott,502,3,4087,90064
+503,brott mot näringsförbud och insiderbrott,20,2,90065,2767
+5030,brott mot lagen om näringsförbud och överträdelser av näringsförbud,503,3,3116,90065
+5033,brott mot insiderstrafflagen och otillbörliga kurspåverkningar,503,3,3119,90065
+5034,åsidosättande av rapportering vid insiderbrott,503,3,4236,90065
+5035,fall av underlåtenhet att föra/hålla aktiebok tillgänglig,503,3,4684,90065
+5036,brott mot låneförbudet,503,3,4685,90065
+5037,brott mot målvaktsbestämmelser,503,3,4686,90065
+5038,övriga brott mot aktiebolagslagen,503,3,4687,90065
+504,brott mot alkohol- och tobakslagen,20,2,90066,2767
+5042,fall av olovlig vin- och öltillverkning,504,3,3122,90066
+5043,fall av olovligt anskaffande av alkoholdrycker och olovlig dryckeshantering,504,3,3123,90066
+5045,fall av olovlig befattning med olovligt tillverkad sprit,504,3,3125,90066
+5046,fall av olovlig befattning med sprit genom tillverkning,504,3,4719,90066
+5047,fall av olovlig försäljning av alkohol och olovligt innehav av alkoholdrycker,504,3,4720,90066
+5048,fall av olovlig försäljning av teknisk sprit,504,3,4721,90066
+5049,brott mot tobakslagen,504,3,4752,90066
+506,bidragsbrott,20,2,90067,2767
+5060,ringa bidragsbrott mot försäkringskassan,506,3,4237,90067
+5061,bidragsbrott mot försäkringskassan av normalgraden,506,3,4238,90067
+5062,grova bidragsbrott mot försäkringskassan,506,3,4239,90067
+5063,vårdslösa bidragsbrott mot försäkringskassan,506,3,4240,90067
+5064,ringa bidragsbrott mot kommunerna,506,3,4241,90067
+5065,bidragsbrott mot kommunerna av normalgraden,506,3,4242,90067
+5066,grova bidragsbrott mot kommunerna,506,3,4243,90067
+5067,vårdslösa bidragsbrott mot kommunerna,506,3,4244,90067
+5068,ringa bidragsbrott mot a-kassorna,506,3,4245,90067
+5069,bidragsbrott mot a-kassorna av normalgraden,506,3,4246,90067
+5070,grova bidragsbrott mot a-kassorna,506,3,4247,90067
+5071,vårdslösa bidragsbrott mot a-kassorna,506,3,4248,90067
+5072,ringa bidragsbrott mot övriga myndigheter,506,3,4249,90067
+5073,bidragsbrott mot övriga myndigheter av normalgraden,506,3,4250,90067
+5074,grova bidragsbrott mot övriga myndigheter,506,3,4251,90067
+5075,vårdslösa bidragsbrott mot övriga myndigheter,506,3,4252,90067
+5076,insiderbrott,506,3,4650,90067
+5077,obehörigt röjande av insiderinformation,506,3,4651,90067
+510,upphovsrättsbrott,20,2,90069,2767
+5101,fildelningsbrott,510,3,4652,90069
+5102,brott mot upphovsrätten som inte är fildelning,510,3,4653,90069
+5103,brott mot det industriella rättsskyddet med hjälp av internet,510,3,4654,90069
+5104,brott mot det industriella rättsskyddet ej med hjälp av internet,510,3,4655,90069
+512,penningtvättsbrott,20,2,90070,2767
+5121,penningtvättsbrott,512,3,4812,90070
+5122,grova penningtvättsbrott,512,3,4813,90070
+5123,penningtvättsförseelser,512,3,4814,90070
+5124,fall av näringspenningtvätt,512,3,4815,90070
+5125,fall av grov näringspenningtvätt,512,3,4816,90070
+5126,fall av ringa näringspenningtvätt,512,3,4817,90070
+80,80 - 98 totalt,,1,2768,
+800,brott mot miljöbalken,80,2,90071,2768
+8001,brott mot miljöbalken och grova miljöbrott,800,3,3127,90071
+8003,fall av miljöfarlig kemikaliehantering och olovlig kemikaliehantering,800,3,3129,90071
+8004,fall av otillåten miljöverksamhet genom avsaknad av tillstånd,800,3,3130,90071
+8005,fall av otillåten miljöverksamhet genom villkorsbrott,800,3,3131,90071
+8006,fall av försvårande av miljökontroll,800,3,3132,90071
+8007,fall av bristfällig miljöinformation,800,3,3133,90071
+8008,fall av nedskräpning,800,3,3134,90071
+801,föroreningsbrott,80,2,90072,2768
+8014,brott mot lagen om åtgärder mot föroreningar från fartyg,801,3,3140,90072
+8015,brott mot områdesskydd och förseelse mot områdesskydd,801,3,4233,90072
+8016,artskyddsbrott,801,3,4234,90072
+8017,övriga brott mot miljöbalken,801,3,4235,90072
+8018,fall av otillåten nationell avfallstransport,801,3,4682,90072
+8019,"fall av otillåten gränsöverskridande (inom, till och från EU) avfallstransport",801,3,4683,90072
+930,misshandelsfall mot personer under 18 år,80,2,90073,2768
+9301,misshandelsfall utomhus mot flickor 0-6 år där gärningspersonen varit obekant med offret,930,3,4144,90073
+9302,misshandelsfall utomhus mot flickor 0-6 år där gärningspersonen varit bekant med offret,930,3,4146,90073
+9303,misshandelsfall utomhus mot pojkar 0-6 år där gärningspersonen varit obekant med offret,930,3,4147,90073
+9304,misshandelsfall utomhus mot pojkar 0-6 år där gärningspersonen varit bekant med offret,930,3,4148,90073
+9305,misshandelsfall inomhus mot flickor 0-6 år där gärningspersonen varit obekant med offret,930,3,4149,90073
+9306,misshandelsfall inomhus mot flickor 0-6 år där gärningspersonen varit bekant med offret,930,3,4150,90073
+9307,misshandelsfall inomhus mot pojkar 0-6 år där gärningspersonen varit obekant med offret,930,3,4151,90073
+9308,misshandelsfall inomhus mot pojkar 0-6 år där gärningspersonen varit bekant med offret,930,3,4152,90073
+9309,misshandelsfall utomhus mot flickor 7-14 år där gärningspersonen varit obekant med offret,930,3,4153,90073
+9310,misshandelsfall utomhus mot flickor 7-14 år där gärningspersonen varit bekant med offret,930,3,4154,90073
+9311,misshandelsfall utomhus mot pojkar 7-14 år där gärningspersonen varit obekant med offret,930,3,4155,90073
+9312,misshandelsfall utomhus mot pojkar 7-14 år där gärningspersonen varit bekant med offret,930,3,4156,90073
+9313,misshandelsfall inomhus mot flickor 7-14 år där gärningspersonen varit obekant med offret,930,3,4157,90073
+9314,misshandelsfall inomhus mot flickor 7-14 år där gärningspersonen varit bekant med offret,930,3,4158,90073
+9315,misshandelsfall inomhus mot pojkar 7-14 år där gärningspersonen varit obekant med offret,930,3,4159,90073
+9316,misshandelsfall inomhus mot pojkar 7-14 år där gärningspersonen varit bekant med offret,930,3,4160,90073
+9317,misshandelsfall utomhus mot flickor 15-17 år där gärningspersonen varit obekant med offret,930,3,4161,90073
+9318,misshandelsfall utomhus mot flickor 15-17 år där gärningspersonen varit bekant med offret,930,3,4162,90073
+9319,misshandelsfall utomhus mot pojkar 15-17 år där gärningspersonen varit obekant med offret,930,3,4163,90073
+9320,misshandelsfall utomhus mot pojkar 15-17 år där gärningspersonen varit bekant med offret,930,3,4164,90073
+9321,misshandelsfall inomhus mot flickor 15-17 år där gärningspersonen varit obekant med offret,930,3,4165,90073
+9322,misshandelsfall inomhus mot flickor 15-17 år där gärningspersonen varit bekant med offret,930,3,4166,90073
+9323,misshandelsfall inomhus mot pojkar 15-17 år där gärningspersonen varit obekant med offret,930,3,4167,90073
+9324,misshandelsfall inomhus mot pojkar 15-17 år där gärningspersonen varit bekant med offret,930,3,4168,90073
+9325,grova misshandelsfall utomhus mot flickor 0-6 år där gärningspersonen varit obekant med offret,930,3,4169,90073
+9326,grova misshandelsfall utomhus mot flickor 0-6 år där gärningspersonen varit bekant med offret,930,3,4170,90073
+9327,grova misshandelsfall utomhus mot pojkar 0-6 år där gärningspersonen varit obekant med offret,930,3,4171,90073
+9328,grova misshandelsfall utomhus mot pojkar 0-6 år där gärningspersonen varit bekant med offret,930,3,4172,90073
+9329,grova misshandelsfall inomhus mot flickor 0-6 år där gärningspersonen varit obekant med offret,930,3,4173,90073
+9330,grova misshandelsfall inomhus mot flickor 0-6 år där gärningspersonen varit bekant med offret,930,3,4174,90073
+9331,grova misshandelsfall inomhus mot pojkar 0-6 år där gärningspersonen varit obekant med offret,930,3,4175,90073
+9332,grova misshandelsfall inomhus mot pojkar 0-6 år där gärningspersonen varit bekant med offret,930,3,4176,90073
+9333,grova misshandelsfall utomhus mot flickor 7-14 år där gärningspersonen varit obekant med offret,930,3,4177,90073
+9334,grova misshandelsfall utomhus mot flickor 7-14 år där gärningspersonen varit bekant med offret,930,3,4178,90073
+9335,grova misshandelsfall utomhus mot pojkar 7-14 år där gärningspersonen varit obekant med offret,930,3,4179,90073
+9336,grova misshandelsfall utomhus mot pojkar 7-14 år där gärningspersonen varit bekant med offret,930,3,4180,90073
+9337,grova misshandelsfall inomhus mot flickor 7-14 år där gärningspersonen varit obekant med offret,930,3,4181,90073
+9338,grova misshandelsfall inomhus mot flickor 7-14 år där gärningspersonen varit bekant med offret,930,3,4182,90073
+9339,grova misshandelsfall inomhus mot pojkar 7-14 år där gärningspersonen varit obekant med offret,930,3,4183,90073
+9340,grova misshandelsfall inomhus mot pojkar 7-14 år där gärningspersonen varit bekant med offret,930,3,4184,90073
+9341,grova misshandelsfall utomhus mot flickor 15-17 år där gärningspersonen varit obekant med offret,930,3,4185,90073
+9342,grova misshandelsfall utomhus mot flickor 15-17 år där gärningspersonen varit bekant med offret,930,3,4186,90073
+9343,grova misshandelsfall utomhus mot pojkar 15-17 år där gärningspersonen varit obekant med offret,930,3,4187,90073
+9344,grova misshandelsfall utomhus mot pojkar 15-17 år där gärningspersonen varit bekant med offret,930,3,4188,90073
+9345,grova misshandelsfall inomhus mot flickor 15-17 år där gärningspersonen varit obekant med offret,930,3,4189,90073
+9346,grova misshandelsfall inomhus mot flickor 15-17 år där gärningspersonen varit bekant med offret,930,3,4190,90073
+9347,grova misshandelsfall inomhus mot pojkar 15-17 år där gärningspersonen varit obekant med offret,930,3,4191,90073
+9348,grova misshandelsfall inomhus mot pojkar 15-17 år där gärningspersonen varit bekant med offret,930,3,4192,90073
+935,misshandelsfall mot personer över 18 år,80,2,90078,2768
+9349,misshandelsfall inomhus mot kvinnor 18 år eller äldre i nära relation med gärningspersonen,935,3,4525,90078
+9350,"misshandelsfall inomhus mot kvinnor 18 år eller äldre där gärningspersonen varit bekant, men ej i nära relation med gärningspersonen",935,3,4546,90078
+9351,misshandelsfall inomhus mot män 18 år eller äldre i nära relation med gärningspersonen,935,3,4547,90078
+9352,"misshandelsfall inomhus mot män 18 år eller äldre där gärningspersonen varit bekant, men ej i nära relation med gärningspersonen",935,3,4548,90078
+9353,grova misshandelsfall inomhus mot kvinnor 18 år eller äldre i nära relation med gärningspersonen,935,3,4549,90078
+9354,"grova misshandelsfall inomhus mot kvinnor 18 år eller äldre där gärningspersonen varit bekant, men ej i nära relation med gärningspersonen",935,3,4550,90078
+9355,grova misshandelsfall inomhus mot män 18 år eller äldre i nära relation med gärningspersonen,935,3,4551,90078
+9356,"grova misshandelsfall inomhus mot män 18 år eller äldre där gärningspersonen varit bekant, men ej i nära relation med gärningspersonen",935,3,4552,90078
+959,alt,80,2,90079,2768
+9599,brott mot lagen med förbud mot könsstympning av kvinnor,959,3,4822,90079
+960,fall av sexuellt ofredande,80,2,90080,2768
+9601,fall av sexuellt ofredande mot flickor under 15 år,960,3,4793,90080
+9602,fall av sexuellt ofredande mot pojkar under 15 år,960,3,4794,90080
+9603,fall av sexuellt ofredande mot flickor 15-17 år,960,3,4795,90080
+9604,fall av sexuellt ofredande mot pojkar 15-17 år,960,3,4796,90080
+9605,fall av sexuellt ofredande mot kvinnor 18 år eller äldre,960,3,4797,90080
+9606,fall av sexuellt ofredande mot män 18 år eller äldre,960,3,4798,90080
+980,"inbrott i villor, radhus och lägenheter, samt stölder utan inbrott och rån",80,2,90081,2768
+9801,fullbordade inbrott i villor och radhus,980,3,3141,90081
+9802,fullbordade inbrott i lägenheter,980,3,3142,90081
+9803,"tillgrepp av lastbilar, släp och järnvägsvagnar",980,3,4114,90081
+9804,"stölder ur lastbilar, släp och järnvägsvagnar",980,3,4116,90081
+9806,rån mot privatpersoner under 18 år utan skjutvapen utomhus,980,3,4222,90081
+9807,rån mot privatpersoner under 18 år utan skjutvapen inomhus,980,3,4223,90081
+9808,"rån mot privatpersoner under 18 år, med skjutvapen utomhus",980,3,4224,90081
+9809,"rån mot privatpersoner under 18 år, med skjutvapen inomhus",980,3,4225,90081
+9810,rån mot privatpersoner 18 år eller äldre utan skjutvapen utomhus,980,3,4226,90081
+9811,rån mot privatpersoner 18 år eller äldre utan skjutvapen inomhus,980,3,4227,90081
+9812,"rån mot privatpersoner 18 år eller äldre, med skjutvapen utomhus",980,3,4228,90081
+9813,"rån mot privatpersoner 18 år eller äldre, med skjutvapen inomhus",980,3,4229,90081
+9814,stölder under övriga yrkesmässiga transporter,980,3,4645,90081
+9815,stölder ur och från båtar,980,3,4646,90081
+9816,stölder av båtmotorer,980,3,4648,90081
+9817,fickstölder,980,3,4675,90081
+9818,fickstölder mot funktionsnedsatta,980,3,4676,90081
+9819,väskryckningar,980,3,4677,90081
+9820,väskryckningar mot funktionsnedsatta,980,3,4678,90081

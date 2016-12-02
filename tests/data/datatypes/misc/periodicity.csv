@@ -1,0 +1,5 @@
+"id","desc","months"
+"yearly","Reoccuring once a year. To refer to a specific year, use the `year` datatype","12"
+"quarterly","Reoccuring once a quarter. To refer to a specific quarter, use periods/quarters","3"
+"monthly","Reoccuring once a month. To refer to a specific month, use periods/months","1"
+"weekly","Reoccuring once a week To refer to a specific week, use the `week` datatype",

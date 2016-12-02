@@ -1,0 +1,13 @@
+id,label,description
+20-64,20-64,"20 – 64 years inclusive, as defined and used by SCB"
+15-24,15-24,"15 – 24 years inclusive, as defined and used by SCB"
+16-24,16-24,"16 – 24 years inclusive, as defined and used by SCB"
+25-54,25-54,"25 – 54 years inclusive, as defined and used by SCB"
+55-64,55-64,"55 – 64 years inclusive, as defined and used by SCB"
+55-74,55-74,"55 – 74 years inclusive, as defined and used by SCB"
+15-74,15-74,"15 – 74 years inclusive, as defined and used by SCB"
+16-64,16-64,"16 – 64 years inclusive, as defined and used by SCB"
+75-,75-,"75 years or older, as defined and used by SCB"
+-15,-15,"0 – 15 years inclusive, as defined and used by SCB"
+18-24,18-24,"18 – 24 years inclusive, as defined and used by AMS"
+all_age_groups,alla åldersgrupper,all age groups
