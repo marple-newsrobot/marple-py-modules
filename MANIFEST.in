@@ -1,1 +1,2 @@
+include CURRENT_VERSION.txt
 include marple/schemas/*
