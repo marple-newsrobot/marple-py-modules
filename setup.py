@@ -10,6 +10,7 @@ current_version = get_current_version()
 
 setup(name='marple',
       version=current_version,
+      version='0.0.2',
       description='Shared Marple python modules',
       url='http://github.com/marple-newsrobot/marple-py-modules',
       author='Journalism Robotics Stockholm',

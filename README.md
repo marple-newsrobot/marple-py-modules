@@ -15,7 +15,7 @@ A python package for modules shared across the Marple project.
 
 `make tests` (run all tests)
 
-`make test path/to/test` (run specific test)
+`make test file=path/to/test` (run specific test)
 
 ### Deploy
 
