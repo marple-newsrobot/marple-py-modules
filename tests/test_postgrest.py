@@ -33,3 +33,18 @@ def test_in_query(get_api):
 
     assert r.status_code == 200
     assert len(r.json()) == 2
+
+def test_match_list(get_api):
+    """ Use lists in a match query
+    """
+    api = get_api
+    r = api.get("dataset")\
+        .select("id")\
+        .match({"id": [
+            u"brå-reported_crime_by_crime_type-monthly-count-bilstölder (stöldbrott)",
+            u"brå-reported_crime_by_crime_type-monthly-count-alkohol och narkotikabrott"
+            ]})\
+        .request()
+
+    assert r.status_code == 200
+    assert len(r.json()) == 2

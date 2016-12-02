@@ -81,6 +81,15 @@ class LocalConnection(Connection):
         if "id" in kwargs:
             yield self.get_by_id(kwargs["id"])
         else:
+            """ TODO: Make it possible to query with lists.
+                e.g. { "source": ["AMS", "SMS"] }
+            """
+            for key, value in kwargs.iteritems():
+                if isinstance(value, list):
+                    msg = ("Making queries with lists is only possible on database " +
+                        "connection at the moment.")
+                    raise NotImplementedError(msg)
+
             file_expr = self._get_path_expr_from_query(kwargs)
             for file_path in glob(os.path.join(self.path, file_expr)):
                 filename = os.path.basename(file_path)

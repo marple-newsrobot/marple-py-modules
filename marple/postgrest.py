@@ -183,14 +183,18 @@ class ApiRequest(object):
     def match(self, query):
         """ 
         Takes a query object and translates it to a PostgREST filter query string.
-        All values are prefixed with `eq.`.
+        All string values are used to get exact match (using `eq.` prefix).
+        Lists (e.g { "source": ["AMS", "SMS"] }) are matched with `in.`
 
         :param query (dict): Column names as keys, value to be selected as value.
         :returns: The API request object.
         :rtype: ApiRequest        
         """
         for key, value in query.iteritems():
-            query[key] = "eq." + value
+            if isinstance(value, list):
+                query[key] = u"in." + u",".join(value)
+            else:
+                query[key] = u"eq." + value
         
         self._query.update(query)
 

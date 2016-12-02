@@ -64,7 +64,7 @@ def database_dataset_connection():
     return connection, existing_ds
 
 
-def _test_append_dataset_on_database_connection(database_dataset_connection):
+def test_append_dataset_on_database_connection(database_dataset_connection):
     """ Append a dataset to an existing one
     """
     connection, existing_ds = database_dataset_connection
@@ -81,7 +81,7 @@ def _test_append_dataset_on_database_connection(database_dataset_connection):
     assert ds_from_db.dimension("timepoint").length == 2
     assert ds_from_db.dimension("region").length == original_ds.dimension("region").length
 
-def _test_override_existing_dataset_on_database_connection(database_dataset_connection):
+def test_override_existing_dataset_on_database_connection(database_dataset_connection):
     """ Override an existing dataset with override=True param
     """
     connection, existing_ds = database_dataset_connection
@@ -127,6 +127,15 @@ def test_alarm_connection_on_database_without_auth():
     # Sample query
     assert connection.exists(id="foo") == False
 
+def test_query_alarms_with_list_on_database_connection():
+    """ Make a query with a list of regions
+        This test depends on the old db entries not changing
+    """
+    connection = DatabaseConnection(POSTGREST_URL, "alarm")
+    alarms = connection.get(source="AMS", trigger_date="2016-10-01",
+        region=[u"Älmhults kommun", u"Åmåls kommun"])
+    assert len(alarms) == 7
+
 # ==========================
 #    NEWSLEAD TESTS
 # ==========================
@@ -143,3 +152,4 @@ def test_add_newslead_on_database_connection(database_newslead_connection):
         newslead = json.load(f)
     r = connection.store(newslead["id"], newslead)
     assert r.status_code in [201, 204]
+
