@@ -17,9 +17,9 @@ A python package for modules shared across the Marple project.
 
 `make test path/to/test` (run specific test)
 
-### Add new version tag
+### Deploy
 
-`make new_version v=0.0.4 msg="Made some changes"`
+`make deploy_new_version v=0.0.4 msg="Made some changes"`
 
 The current version is defined in `CURRENT_VERSION.txt`. This file is updated with this make command.
 

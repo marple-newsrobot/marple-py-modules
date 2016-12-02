@@ -17,13 +17,17 @@ tests: clean-pyc
 test: clean-pyc
 	PYTHONPATH=. py.test $(file) --verbose
 
+# Deploy without new version
+deploy:
+	git push origin master
 
 # Deploy new version tag
-# Usage: make new_version v=0.0.4 msg="Made some changes"
-new_version:
+# Usage: make deploy_new_version v=0.0.4 msg="Made some changes"
+deploy_new_version:
 	python new_version.py ${v} "${msg}"
 	git add CURRENT_VERSION.txt CHANGES.txt
 	git commit -m "New version, ${v}: ${msg}"
 	git tag -a v${v} -m '${msg}'
 	git push --tags
+	git push origin master
 
