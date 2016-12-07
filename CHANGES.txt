@@ -2,3 +2,4 @@ v0.0.1, 2016-11-21 -- First version
 v0.0.2, 2016-11-27 -- Robot reporter compatible version
 v0.0.3, 2016-12-02 -- Added deploy scripts
 v0.0.4, 2016-12-02 -- Enable querying with lists
+v0.0.5, 2016-12-07 -- Added method .children() to Domain
