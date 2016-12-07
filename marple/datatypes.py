@@ -60,5 +60,8 @@ class Domain(object):
         """ Get id's of rows with this id as parent, if any
             TODO (?): specify depth (child of child)
         """
-        return self.data.loc[self.data.parent == id_.encode("utf-8")]\
-            .id.tolist()
+        if "parent" in self.data.columns:
+            return self.data.loc[self.data.parent == id_.encode("utf-8")]\
+                .id.tolist()
+        else:
+            return []
