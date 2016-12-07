@@ -1,5 +1,5 @@
 from setuptools import setup
-from version import get_current_version
+from new_version import get_current_version
 
 # Get list of requirements
 with open('requirements.txt') as f:
