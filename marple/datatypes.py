@@ -55,3 +55,10 @@ class Domain(object):
             return row["parent"].decode("utf-8")
         except KeyError:
             return None
+
+    def children(self, id_):
+        """ Get id's of rows with this id as parent, if any
+            TODO (?): specify depth (child of child)
+        """
+        return self.data.loc[self.data.parent == id_.encode("utf-8")]\
+            .id.tolist()
