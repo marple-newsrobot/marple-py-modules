@@ -61,7 +61,9 @@ class Domain(object):
             TODO (?): specify depth (child of child)
         """
         if "parent" in self.data.columns:
-            return self.data.loc[self.data.parent == id_.encode("utf-8")]\
+            children =  self.data.loc[self.data.parent == id_.encode("utf-8")]\
                 .id.tolist()
+            # Unicode
+            return [x.decode("utf-8") for x in children]
         else:
             return []
