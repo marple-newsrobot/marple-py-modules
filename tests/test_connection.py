@@ -3,9 +3,11 @@ import pytest
 import json
 from copy import deepcopy
 from marple.connection import (LocalConnection, DatabaseSchemaConnection,
-    DatabaseDatasetConnection, DatabaseConnection)    
+    DatabaseDatasetConnection, DatabaseConnection, AWSConnection)    
 from marple.dataset import Dataset
-from data.config import POSTGREST_URL, POSTGREST_JWT_TOKEN, POSTGREST_ROLE
+from data.config import (POSTGREST_URL, POSTGREST_JWT_TOKEN, POSTGREST_ROLE,
+    AWS_ACCESS_ID, AWS_ACCESS_KEY)
+
 
 def test_get_with_local_connection():
     """ Should open all files in data/connection and verify count
@@ -153,3 +155,27 @@ def test_add_newslead_on_database_connection(database_newslead_connection):
     r = connection.store(newslead["id"], newslead)
     assert r.status_code in [201, 204]
 
+
+# ============================
+#   AMAZON TESTS
+# ============================
+@pytest.fixture(scope="session")
+def get_aws_connection():
+    """ Connects to the test bucket
+    """ 
+    return AWSConnection("marple", AWS_ACCESS_ID, AWS_ACCESS_KEY)
+
+
+def test_store_text_file_to_s3(get_aws_connection):
+    """ Store a simple text file 
+    """
+    connection = get_aws_connection
+    resp = connection.store(u"test/test_text_file_åäö.txt", u"Hej världen")
+    assert resp["ResponseMetadata"]["HTTPStatusCode"] == 200
+
+def test_store_image_file_to_s3(get_aws_connection):
+    """ Store a simple text file 
+    """
+    connection = get_aws_connection
+    with open("tests/data/connection/sample_chart.png") as f:
+        connection.store(u"test/sample_chart.png", f)

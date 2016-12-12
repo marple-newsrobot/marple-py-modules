@@ -6,12 +6,16 @@ Pygments==2.1.3
 SQLAlchemy==1.1.4
 Sphinx==1.4.8
 alabaster==0.7.9
+boto3==1.4.2
+botocore==1.4.85
 csvkit==0.9.1
 dbf==0.94.003
 docutils==0.12
 functools32==3.2.3-2
+futures==3.0.5
 imagesize==0.7.1
 jdcal==1.3
+jmespath==0.9.0
 jsonschema==2.5.1
 numpy==1.11.2
 openpyxl==2.2.0-b1
@@ -23,6 +27,7 @@ python-dateutil==2.2
 pytz==2016.7
 requests==2.12.1
 requests-jwt==0.4
+s3transfer==0.1.9
 simplejson==3.10.0
 six==1.10.0
 snowballstemmer==1.2.1

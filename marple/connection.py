@@ -12,7 +12,8 @@ from marple.postgrest import Api
 from marple.dataset import Dataset
 from glob import glob
 from os.path import basename
-
+import boto3 # S3 Client
+from botocore.client import Config
 
 class Connection(object):
     """ Base class for connections. These are the methods that connections
@@ -372,3 +373,21 @@ class RequestException(Exception):
         self.resp = resp
 
 
+class AWSConnection(Connection):
+    """ For storing files at Amazon
+    """
+    def __init__(self, bucket_name, aws_access_key_id, aws_secret_access_key):
+        self.s3_client = boto3.client('s3',
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+            config=Config(signature_version='s3v4'))
+        self.bucket = bucket_name
+
+    def store(self, filename, file_data):
+        if isinstance(file_data, str) or isinstance(file_data, unicode):
+            return self.s3_client.put_object(Bucket=self.bucket,
+                Key=filename, Body=file_data)
+
+        if isinstance(file_data, file):
+            return self.s3_client.upload_fileobj(file_data, self.bucket, filename)
+        
