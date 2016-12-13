@@ -14,7 +14,8 @@ def test_get_with_local_connection():
     """
     connection = LocalConnection("tests/data/connection")
     files = [x for x in connection.get()]
-    assert len(files) == 5
+    expected_number_of_files_in_folder = 2
+    assert len(files) == expected_number_of_files_in_folder
 
 def test_get_by_id_with_local_connection():
     """ Open file1.json and verify that content is correct
@@ -170,7 +171,7 @@ def test_store_text_file_to_s3(get_aws_connection):
     """ Store a simple text file 
     """
     connection = get_aws_connection
-    resp = connection.store(u"test/test_text_file_åäö.txt", u"Hej världen")
+    resp = connection.store(u"test_text_file_åäö.txt", u"Hej världen", folder="test")
     assert resp["ResponseMetadata"]["HTTPStatusCode"] == 200
 
 def test_store_image_file_to_s3(get_aws_connection):
@@ -178,4 +179,4 @@ def test_store_image_file_to_s3(get_aws_connection):
     """
     connection = get_aws_connection
     with open("tests/data/connection/sample_chart.png") as f:
-        connection.store(u"test/sample_chart.png", f)
+        connection.store(u"sample_chart.png", f, folder="test")

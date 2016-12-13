@@ -79,6 +79,8 @@ class LocalConnection(Connection):
         return self.get_by_filename(id_ + ".json")
 
     def get(self, **kwargs):
+        """ Get all json files in folder based on query
+        """
         if "id" in kwargs:
             yield self.get_by_id(kwargs["id"])
         else:
@@ -94,7 +96,8 @@ class LocalConnection(Connection):
             file_expr = self._get_path_expr_from_query(kwargs)
             for file_path in glob(os.path.join(self.path, file_expr)):
                 filename = os.path.basename(file_path)
-                yield self.get_by_filename(filename)
+                if filename[-5:] == ".json":
+                    yield self.get_by_filename(filename)
 
     def store(self, filename, json_data, folder=None, override=True):
         """ Store the file 
@@ -383,7 +386,18 @@ class AWSConnection(Connection):
             config=Config(signature_version='s3v4'))
         self.bucket = bucket_name
 
-    def store(self, filename, file_data):
+    def store(self, filename, file_data, folder=None):
+        """
+        :param filename: Name of file
+        :type filename: str
+        :param file_data: File content
+        :type file_data: str|file
+        :param folder: subfolder to store to (optional)
+        :type folder: str
+        """
+        if folder:
+            filename = os.path.join(folder, filename)
+
         if isinstance(file_data, str) or isinstance(file_data, unicode):
             return self.s3_client.put_object(Bucket=self.bucket,
                 Key=filename, Body=file_data)
