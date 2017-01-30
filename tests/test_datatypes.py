@@ -18,3 +18,7 @@ def test_children_method_when_parent_column_is_missing():
 def test_that_parent_returns_parent():
     x = Domain("regions/*", datatypes_dir="tests/data/datatypes")
     assert x.parent(u"Stockholms län") == "Sweden"
+
+def test_multiple_matches_should_err():
+    x = Domain("regions/*", datatypes_dir="tests/data/datatypes")
+    assert x.row(u"u'Hässelby-Vällingby stadsdelsområde'")
