@@ -10,6 +10,7 @@ complete_dataset = {
     "updated": "2016-10-10",
     "label": "Test dataset",
     "source": "My source",
+    "note": [ "My dataset note" ],
     "dimension": {
         "region": {
             "category": {
@@ -20,8 +21,12 @@ complete_dataset = {
                 "label": {
                     "Solna": "Solna kommun",
                     "Stockholm": "Stockholm kommun",
+                },
+                "note": {
+                    "Solna": [ "My Solna note" ]
                 }
             },
+            "note": [ "My region note" ],
             "label": "Region",
         },
         "gender": {

@@ -177,3 +177,40 @@ def test_categories():
     ds.dimension("gender").categories
 
 
+def test_read_notes():
+    ds = Dataset(deepcopy(complete_dataset))
+    assert ds.note == ["My dataset note"]
+    assert ds.dimension("region").note == ["My region note"]
+    assert ds.dimension("region").category("Solna kommun").note == ["My Solna note"]
+
+def test_write_notes():
+    # Write dataset note
+    ds = Dataset(deepcopy(complete_dataset))
+    ds.add_note("My second dataset note")
+    assert ds.note[1] == "My second dataset note"
+    assert len(ds.note) == 2
+
+    # Write dimension note
+    dim = ds.dimension("region")
+    dim.add_note("My second region note")
+    assert dim.note[1] == "My second region note"
+    assert len(dim.note) == 2
+
+    # Write category note
+    cat = dim.category("Solna kommun")
+    cat.add_note("My second Solna note")
+    assert cat.note[1] == "My second Solna note"
+    assert len(cat.note) == 2
+
+    # Write dim note to dim without previous notes
+    dim2 = ds.dimension("gender")
+    dim2.add_note("My note")
+    assert dim2.note[0] == "My note"
+    assert len(dim2.note) == 1
+
+    # Write cat note to cat without previous notes
+    cat2 = dim2.category("M")
+    cat2.add_note("My first cat note")
+    assert cat2.note[0] == "My first cat note"
+    assert len(cat2.note) == 1
+    

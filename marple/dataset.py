@@ -20,6 +20,44 @@ class JSONStatObject(object):
     """ Represents a JSON Stat object
     """
 
+    @meta_property
+    def note(self):
+        """ Datasets, dimensions and categories can have notes.
+            https://json-stat.org/format/#note
+            
+            :returns: The note property of the json stat object as list (if any).        
+        """
+        try:
+            return self.json["note"]
+        except KeyError:
+            return None
+
+    @note.setter
+    def note(self, value):
+        self.json["note"] = value
+
+
+    def add_note(self, note):
+        """ Adds a note to the object. The note can be either a string or a list of strings.
+            If note already exist nothing will be added
+
+            :param note: 
+            :type note: str|list
+        """
+        if self.note == None:
+            self.note = []
+
+        if note not in self.note:
+            if isinstance(note, str) or isinstance(note, unicode):
+                self.note.append(note)
+            elif isinstance(note, list):
+                self.note += note
+            else:
+                raise Exception(u"'note' must be str or list. Got {}.")\
+                    .format(type(note))
+
+        return self
+
     def _schema_validation(self, schema_path, json_data):
         """
         Validates some json data against a json schema. Raises exception 
@@ -312,6 +350,7 @@ class Dataset(JSONStatObject):
         """ Set value of extension
         """
         self.json["extension"] = value
+
 
     @meta_property
     def updated(self):
@@ -868,11 +907,24 @@ class Category(JSONStatObject):
         self.json["label"][self.id] = value
 
 
-    
-    
+    @property
+    def note(self):
+        """ :returns: Get category note (if any)
+            :rtype: list
+        """
+        try:
+            return self.json["note"][self.id]
+        except KeyError:
+            return None
 
+    @note.setter
+    def note(self, value):
+        if "note" not in self.json:
+            self.json["note"] = {}
 
-  
+        self.json["note"][self.id] = value
+
+    
 
 class MalformedJSONStat(Exception):
     pass    
