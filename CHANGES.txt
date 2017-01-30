@@ -4,3 +4,4 @@ v0.0.3, 2016-12-02 -- Added deploy scripts
 v0.0.4, 2016-12-02 -- Enable querying with lists
 v0.0.5, 2016-12-07 -- Added method .children() to Domain
 v0.0.6, 2016-12-12 -- Added AWS connection
+v0.0.7, 2017-01-30 -- Added notes to dataset
