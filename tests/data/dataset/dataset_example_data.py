@@ -68,6 +68,34 @@ dataset_to_append = {
     }
 }
 
+dataset_to_append_with_overlap = {
+    "version": "2.0",
+    "class": "dataset",
+    "id": ["region", u"gender"],
+    "value": [50,60],
+    "size": [1,2],
+    "label": "Test dataset",
+    "source": "My source",
+    "dimension": {
+        "region": {
+            "category": {
+                "index": {
+                    u"Solna": 0,
+                },
+                "label": {
+                    u"Solna": u"Solna kommun",
+                }
+            },
+            "note": [ "This is conflicting note" ]
+        },
+        "gender": {
+            "category": {
+                "index": [ "M", "F" ]
+            },
+        }
+    }
+}
+
 # EXAMPLES OF INCOMPLETE DATA
 
 missing_dimension_dataset = {

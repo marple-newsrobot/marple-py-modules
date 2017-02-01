@@ -660,12 +660,18 @@ class Dataset(JSONStatObject):
 
         return self.filter(filter_fn, content=content, include_status=include_status)
 
-    def append(self, dataset_to_append, include_status=True):
+    def append(self, dataset_to_append, include_status=True, on_duplicates="break"):
         """ Append another dataset. Metadata from original dataset
-        will override metadata from appended dataset (e.g. labels).
+            will override metadata from appended dataset (e.g. labels).
 
-        :dataset_to_append: A dataset to append (Dataset)
-        :returns: self
+            TODO: Handle metadata conflicts
+
+            :param dataset_to_append: A dataset to append (Dataset)
+            :param on_duplicates: What to do if data contains duplicates.
+                "break": throw error
+                "update": override existing
+                "preserve": keep existing
+            :returns: self
         """
         ds1 = self
         ds2 = dataset_to_append
@@ -683,18 +689,20 @@ class Dataset(JSONStatObject):
         df1 = ds1.to_dataframe(content="index",include_status=include_status).reset_index()
         df2 = ds2.to_dataframe(content="index",include_status=include_status).reset_index()
 
-        df = pd.concat([df1, df2]).drop_duplicates()
+        df = pd.concat([df1, df2])
+        has_duplicate = df.duplicated(subset=dims)
 
-        df = df.drop('index', 1)
+        if len(df[has_duplicate]) > 0:
+            if on_duplicates == "break":
+                raise MergeFailure("Failed to merge datasets. Duplicates rows found.")
+            elif on_duplicates == "update":
+                df = df.drop_duplicates(subset=dims, keep="last")
+            elif on_duplicates == "preserve":
+                df = df.drop_duplicates(subset=dims, keep="first")
+            else:
+                raise Exception("'{}' is note a valid argument for 'on_duplicates'")
 
-        # Make sure that there are still no duplicates.
-        # .drop_duplicates() should remove those, but if
-        # value differs on otherwise identical dims
-        # this error should be helpful
-        duplicates = df.reset_index().set_index(dims).index.get_duplicates()
-        if len(duplicates) > 0:
-            raise MergeFailure("Failed to merge datasets. Duplicates rows found.")
-        
+        df = df.drop('index', 1)        
         
         self._rebuild(df)
 

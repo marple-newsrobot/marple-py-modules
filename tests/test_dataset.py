@@ -6,7 +6,7 @@ from copy import deepcopy
 import json
 import pandas as pd
 
-from marple.dataset import Dataset, MalformedJSONStat
+from marple.dataset import Dataset, MalformedJSONStat, MergeFailure
 from data.dataset.dataset_example_data import *
 from jsonschema.exceptions import ValidationError
 
@@ -161,6 +161,7 @@ def test_that_metadata_is_preserved_after_append():
                 appended_label = dim2.category(cat.id).label
                 assert appended_label == new_label
 
+
 def test_that_length_is_correct_after_append():
     """ Merge two datasets and assert that it has grown as expected
     """
@@ -170,6 +171,22 @@ def test_that_length_is_correct_after_append():
     ds1.append(ds2)
     assert ds1.length == 6
     assert ds1.dimension("region").length == 3
+
+
+def test_append_with_update():
+    """ Merge two datasets with overlapping data
+    """
+    ds1 = Dataset().from_json(deepcopy(complete_dataset))
+    ds2 = Dataset().from_json(deepcopy(dataset_to_append_with_overlap))
+
+    with pytest.raises(MergeFailure):
+        ds1.append(ds2)
+
+    ds1.append(ds2, on_duplicates="preserve").to_dataframe()
+    assert ds1.json["value"] == [1,2,3,4]
+
+    ds1.append(ds2, on_duplicates="update").to_dataframe()
+    assert ds1.json["value"] == [1,2,50,60]
 
                 
 def test_categories():
