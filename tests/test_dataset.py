@@ -213,4 +213,13 @@ def test_write_notes():
     cat2.add_note("My first cat note")
     assert cat2.note[0] == "My first cat note"
     assert len(cat2.note) == 1
-    
+
+def test_notes_from_csv_method():
+    # Test the .notes_from_csv() method
+    ds = Dataset(deepcopy(complete_dataset))
+    ds.notes_from_csv("tests/data/dataset/notes.csv")
+
+    assert ds.note[-1] == "A dataset note from csv"
+    assert ds.dimension("gender").note[-1] == "A dimension note from csv"
+    assert ds.dimension("gender").category("M").note[-1] == "A category note from csv"
+
