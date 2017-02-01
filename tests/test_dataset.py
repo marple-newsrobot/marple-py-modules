@@ -223,3 +223,10 @@ def test_notes_from_csv_method():
     assert ds.dimension("gender").note[-1] == "A dimension note from csv"
     assert ds.dimension("gender").category("M").note[-1] == "A category note from csv"
 
+def test_notes_from_csv_method_with_break_on_faulty_data():
+    # A notes csv file with reference to a non existing data point should throw error if on_missing="break"
+    ds = Dataset(deepcopy(complete_dataset))
+    with pytest.raises(KeyError):
+        ds.notes_from_csv("tests/data/dataset/notes.csv", on_missing="break")
+
+

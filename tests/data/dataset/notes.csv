@@ -2,3 +2,4 @@ dimension,category,note
 ,,"A dataset note from csv"
 gender,,"A dimension note from csv"
 gender,M,"A category note from csv"
+foo,bar,"This note does not match dataset"

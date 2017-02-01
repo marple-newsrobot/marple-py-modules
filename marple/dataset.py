@@ -447,7 +447,7 @@ class Dataset(JSONStatObject):
             raise KeyError(msg)
 
 
-    def notes_from_dictlist(self, dictlist):
+    def notes_from_dictlist(self, dictlist, on_missing="pass"):
         """ Add notes from a list of dicts. Each dict should contain these keys:
             
             - `dimension`: id of dimension to which the note applies 
@@ -458,27 +458,38 @@ class Dataset(JSONStatObject):
             
             :param dictlist: List of notes
             :type dictlist: list
+            :param on_missing: "pass"|"error" – action if notes list contain dimension or category that does note exist.
             :returns: self
         """
         for row in dictlist:
-            # 1. Is category note?
-            if row["category"]:
-                self.dimension(row["dimension"])\
-                    .category(row["category"])\
-                    .add_note(row["note"])
-            # 2. Is dimension note?
-            elif row["dimension"]:
-                self.dimension(row["dimension"])\
-                    .add_note(row["note"])
+            try:
+                # 1. Is category note?
+                if row["category"]:
+                    self.dimension(row["dimension"])\
+                        .category(row["category"])\
+                        .add_note(row["note"])
 
-            # 3. Is dataset note
-            else:
-                self.add_note(row["note"])
+                # 2. Is dimension note?
+                elif row["dimension"]:
+                    self.dimension(row["dimension"])\
+                        .add_note(row["note"])
+
+                # 3. Is dataset note
+                else:
+                    self.add_note(row["note"])
+
+            except KeyError, msg:
+                if on_missing == "pass":
+                    pass
+                elif on_missing == "break":
+                    raise KeyError(msg)
+                else:
+                    raise Exception("'{}' is an invalid value for 'on_missing' argument")
 
         return self
 
 
-    def notes_from_csv(self, csv_path):
+    def notes_from_csv(self, csv_path, on_missing="pass"):
         """ Add notes from a csv file. The csv file should contain these columns:
             
             - `dimension`: id of dimension to which the note applies 
@@ -496,6 +507,7 @@ class Dataset(JSONStatObject):
 
             :param csv_path: Path to csv file
             :type csv_path: str
+            :param on_missing: "pass"|"break" – action if notes list contain dimension or category that does note exist.
             :returns: self
 
         """
@@ -508,7 +520,7 @@ class Dataset(JSONStatObject):
         # To dict list
         notes = notes.to_dict('records')
 
-        self.notes_from_dictlist(notes)
+        self.notes_from_dictlist(notes, on_missing=on_missing)
 
         return self
 
