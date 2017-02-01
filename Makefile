@@ -26,8 +26,8 @@ deploy:
 deploy_new_version:
 	python new_version.py ${v} "${msg}"
 	git add CURRENT_VERSION.txt CHANGES.txt
-	git push origin master
 	git commit -m "New version, ${v}: ${msg}"
+	git push origin master
 	git tag -a v${v} -m '${msg}'
 	git push --tags
 
