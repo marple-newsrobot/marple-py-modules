@@ -446,6 +446,38 @@ class Dataset(JSONStatObject):
             msg = u"No dimension with id '{}'.".format(dim_id)
             raise KeyError(msg)
 
+
+    def notes_from_dictlist(self, dictlist):
+        """ Add notes from a list of dicts. Each dict should contain these keys:
+            
+            - `dimension`: id of dimension to which the note applies 
+            - `category`: id of category to which the note applies 
+            - `note`: the actual note
+
+            If dimension and category is empty the note will be treated as a dataset note.
+            
+            :param dictlist: List of notes
+            :type dictlist: list
+            :returns: self
+        """
+        for row in dictlist:
+            # 1. Is category note?
+            if row["category"]:
+                self.dimension(row["dimension"])\
+                    .category(row["category"])\
+                    .add_note(row["note"])
+            # 2. Is dimension note?
+            elif row["dimension"]:
+                self.dimension(row["dimension"])\
+                    .add_note(row["note"])
+
+            # 3. Is dataset note
+            else:
+                self.add_note(row["note"])
+
+        return self
+
+
     def notes_from_csv(self, csv_path):
         """ Add notes from a csv file. The csv file should contain these columns:
             
@@ -476,20 +508,7 @@ class Dataset(JSONStatObject):
         # To dict list
         notes = notes.to_dict('records')
 
-        for row in notes:
-            # 1. Is category note?
-            if row["category"]:
-                self.dimension(row["dimension"])\
-                    .category(row["category"])\
-                    .add_note(row["note"])
-            # 2. Is dimension note?
-            elif row["dimension"]:
-                self.dimension(row["dimension"])\
-                    .add_note(row["note"])
-
-            # 3. Is dataset note
-            else:
-                self.add_note(row["note"])
+        self.notes_from_dictlist(notes)
 
         return self
 
