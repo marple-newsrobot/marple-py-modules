@@ -93,7 +93,7 @@ def test_override_existing_dataset_on_database_connection(database_dataset_conne
     new_ds = ds = Dataset(u"tests/data/connection/dataset/ams-unemployment-monthly-count-total-2016-10.json")
     original_ds = deepcopy(existing_ds)
     dataset_id = existing_ds.extension["id"]
-    connection.store(dataset_id, new_ds.json, override=True)
+    connection.store(dataset_id, new_ds.json, on_existing="override")
 
     # Get and validate the new dataset from db
     json_data_from_db = connection.get_by_id(dataset_id)
@@ -103,6 +103,8 @@ def test_override_existing_dataset_on_database_connection(database_dataset_conne
     timepoint_original = original_ds.dimension("timepoint").labels.keys()[0]
     
     assert timepoint_new != timepoint_original
+
+
 
 
 # ==========================
