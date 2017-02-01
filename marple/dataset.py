@@ -84,16 +84,22 @@ class JSONStatObject(object):
         :returns: A list of attribute names.
         """
         _class = type(self)
-        return [name for name, value in vars(_class).items()
+        _parent_class = _class.__bases__[0]
+        attrs = vars(_class).items() + vars(_parent_class).items()
+
+        return [attr for attr, value in attrs
                 if isinstance(value, decorator_class)]
 
-    def _apply_meta_data(self, obj):
+    def _apply_meta_data(self, obj, on_existing="preserve"):
         """
         Take metadata from another jsonstat object (or dict) and
         apply it to self.
         Metadata is defined as properties decorated with `@meta_property`. 
         
         :param obj: Another jsonstat object (or dict)
+        :param on_existing: We to do if attribute already exist?
+            - "preserve": keep existing
+            - "update": override
         :returns: self
         """
         if isinstance(obj, JSONStatObject):
@@ -107,7 +113,13 @@ class JSONStatObject(object):
             raise ValueError("'obj' must be dict or JSONStatObject instance")
 
         for attr, value in meta_data.iteritems():
-            setattr(self, attr, value)
+            has_attr = hasattr(self, attr)
+            has_value = getattr(self, attr)
+
+            if  has_attr and has_value and on_existing == "preserve":
+                continue
+            else:
+                setattr(self, attr, value)
 
         return self
 
@@ -664,7 +676,8 @@ class Dataset(JSONStatObject):
         """ Append another dataset. Metadata from original dataset
             will override metadata from appended dataset (e.g. labels).
 
-            TODO: Handle metadata conflicts
+            TODO: Handle metadata conflicts better. For example by getting
+            metadata from the appended dataset instead of the existing one.
 
             :param dataset_to_append: A dataset to append (Dataset)
             :param on_duplicates: What to do if data contains duplicates.
@@ -675,6 +688,7 @@ class Dataset(JSONStatObject):
         """
         ds1 = self
         ds2 = dataset_to_append
+        ds_orig = deepcopy(self)
 
         # Make sure that dimensions are the same in both datasets
         dims1 = [x.id for x in ds1.dimensions]
@@ -690,8 +704,9 @@ class Dataset(JSONStatObject):
         df2 = ds2.to_dataframe(content="index",include_status=include_status).reset_index()
 
         df = pd.concat([df1, df2])
-        has_duplicate = df.duplicated(subset=dims)
 
+        # Handle duplicates
+        has_duplicate = df.duplicated(subset=dims)
         if len(df[has_duplicate]) > 0:
             if on_duplicates == "break":
                 raise MergeFailure("Failed to merge datasets. Duplicates rows found.")
@@ -704,11 +719,24 @@ class Dataset(JSONStatObject):
 
         df = df.drop('index', 1)        
         
+        # Restore original metadata
         self._rebuild(df)
 
-        for dim in self.dimensions:
-            dim2 = ds2.dimension(dim.id)
-            dim._apply_meta_data(dim2)
+        # Get metadata for new categories
+        for dim_id in dims:
+            dim = self.dimension(dim_id)
+            dim_orig = ds_orig.dimension(dim_id)
+            cats_after_append = [ x.id for x in dim.categories ]
+            cats_before_append = [ x.id for x in dim_orig.categories ]
+
+            # Get a list of categories that didn't exist before
+            new_cats = list(set(cats_after_append) - set(cats_before_append))
+            
+            for cat_id in new_cats:
+                # Apply metadata from these new categories
+                new_cat = ds2.dimension(dim_id).category(cat_id)
+                dim.category(cat_id)._apply_meta_data(new_cat, on_existing="update")
+
 
         return self
 
@@ -794,13 +822,19 @@ class Dataset(JSONStatObject):
             # TODO: Rebuild from other datatyps
             raise NotImplementedError()
         
-        self._apply_meta_data(original_dataset)
+        self._apply_meta_data(original_dataset, on_existing="update")
 
         for dim in self.dimensions:
             original_dimension = original_dataset.dimension(dim.id)
-            dim._apply_meta_data(original_dimension)
+            dim._apply_meta_data(original_dimension, on_existing="update")
 
-        
+            for cat in dim.categories:
+                try:
+                    original_cat = original_dimension.category(cat.id)
+                    cat._apply_meta_data(original_cat, on_existing="update")
+                except KeyError:
+                    pass
+
         return self
 
     def _complete_missing(self, df, dims=[]):
@@ -937,7 +971,7 @@ class Dimension(JSONStatObject):
         raise KeyError(msg)
 
     
-    @meta_property
+    @property
     def labels(self):
         """ 
         :returns: the category labels of this dataset (if any)  
@@ -963,6 +997,32 @@ class Dimension(JSONStatObject):
             if cat.id in labels:
                 self.json["category"]["label"][cat.id] = labels[cat.id]
 
+    @property
+    def notes(self):
+        """ 
+        :returns: the category notes of this dataset (if any)  
+        """
+        try:
+            return self.json["category"]["note"]
+        except KeyError:
+            return {}
+
+    @notes.setter
+    def notes(self, notes):
+        """
+        Add category notes.
+
+        :param notes: A dictionary with category ids as keys and notes as values.
+            E.g. { "M": "A note about men", "F": "A note about women"}
+        :type notes: dict
+        """
+        if "note" not in self.json["category"]:
+            self.json["category"]["note"] = {}
+        
+        for cat in self.categories:
+            if cat.id in notes:
+                self.json["category"]["note"][cat.id] = notes[cat.id]
+
 
 
 class Category(JSONStatObject):
@@ -975,7 +1035,7 @@ class Category(JSONStatObject):
     def json(self):
         return self._json
 
-    @property
+    @meta_property
     def label(self):
         """
         :returns: category label, if any. Otherwise id.
@@ -993,7 +1053,7 @@ class Category(JSONStatObject):
         self.json["label"][self.id] = value
 
 
-    @property
+    @meta_property
     def note(self):
         """ :returns: Get category note (if any)
             :rtype: list

@@ -188,6 +188,10 @@ def test_append_with_update():
     ds1.append(ds2, on_duplicates="update").to_dataframe()
     assert ds1.json["value"] == [1,2,50,60]
 
+    assert ds1.note == ["My dataset note"]
+    assert ds1.dimension("region").note == ["My region note"]
+    assert ds1.dimension("region").category("Solna kommun").note == ["My Solna note"]
+
                 
 def test_categories():
     ds = Dataset(deepcopy(complete_dataset))
