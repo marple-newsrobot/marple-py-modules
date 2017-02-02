@@ -119,12 +119,28 @@ def _assert_metadata_equality(ds1, ds2):
     assert ds1.source == ds2.source
     assert ds1.label == ds2.label
     assert ds1.extension == ds2.extension
+    assert ds1.note == ds2.note
 
 def _assert_metadata_equality_in_dimensions(ds1, ds2):
     """ Assert that meta data is equal in two datasets
     """
     for dim in ds1.dimensions:
-        assert dim.label == ds2.dimension(dim.id).label
+        dim2 = ds2.dimension(dim.id)
+        assert dim.label == dim2.label
+        assert dim.note == dim2.note
+
+def _assert_metadata_equality_in_categories(ds1, ds2):
+    """ Assert that meta data is equal in two datasets
+    """
+    for dim1 in ds1.dimensions:
+        dim2 = ds2.dimension(dim1.id)
+        for cat1 in dim1.categories:
+            try:
+                cat2 = dim2.category(cat1.id)
+                assert cat1.label == cat2.label
+                assert cat1.note == cat2.note
+            except:
+                pass
 
 def test_that_metadata_is_preserved_after_filter():
     ds = Dataset().from_json(deepcopy(complete_dataset))
@@ -140,7 +156,7 @@ def test_that_metadata_is_preserved_after_append():
     ds1 = Dataset().from_json(deepcopy(complete_dataset))
     ds2 = Dataset().from_json(deepcopy(dataset_to_append))
     original_ds = deepcopy(ds1)
-    ds1.append(ds2)
+    ds1.append(ds2, )
 
     _assert_metadata_equality(original_ds, ds1)
 
@@ -192,7 +208,19 @@ def test_append_with_update():
     assert ds1.dimension("region").note == ["My region note"]
     assert ds1.dimension("region").category("Solna kommun").note == ["My Solna note"]
 
-                
+def test_bra_merge_example():
+    """ Test case for bug
+    """
+    ds1 = Dataset().from_file("tests/data/dataset/dataset_bra_merge_existing.json")
+    ds2 = Dataset().from_file("tests/data/dataset/dataset_bra_merge_to_append.json")
+    ds1.append(ds2, on_duplicates="update")
+
+    #assert len(ds1.dimension("region").categories[-1].note) == 1
+    #_assert_metadata_equality(ds1, ds2)
+    _assert_metadata_equality_in_dimensions(ds1, ds2)
+    _assert_metadata_equality_in_categories(ds1, ds2)
+
+
 def test_categories():
     ds = Dataset(deepcopy(complete_dataset))
     ds.dimension("gender").categories
