@@ -60,8 +60,9 @@ def database_dataset_connection():
     # Add an pre-existing dataset to the database
     existing_ds = Dataset(u"tests/data/connection/dataset/ams-unemployment-monthly-count-total-2016-09.json")
     dataset_id = existing_ds.extension["id"]
-    r = connection.store(dataset_id, existing_ds.json, override=True)
+    r = connection.store(dataset_id, existing_ds.json, on_existing="override")
     if r.status_code not in [201,204]:
+        import pdb;pdb.set_trace()
         raise ValueError("Error setting up database connection")     
     
     return connection, existing_ds
@@ -85,7 +86,7 @@ def test_append_dataset_on_database_connection(database_dataset_connection):
     assert ds_from_db.dimension("region").length == original_ds.dimension("region").length
 
 def test_override_existing_dataset_on_database_connection(database_dataset_connection):
-    """ Override an existing dataset with override=True param
+    """ Override an existing dataset with on_existing="override" param
     """
     connection, existing_ds = database_dataset_connection
     
