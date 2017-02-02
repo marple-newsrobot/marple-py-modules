@@ -117,8 +117,14 @@ class JSONStatObject(object):
             has_value = getattr(self, attr)
 
             if  has_attr and has_value and on_existing == "preserve":
+                # 1. Don't assign any value if attribute already has value
+                # and on_exsting="preserve"
+                continue
+            elif value == None:
+                # 2. Don't assign value if value does not exist
                 continue
             else:
+                # 3. ...but otherwise do.
                 setattr(self, attr, value)
 
         return self
@@ -725,15 +731,24 @@ class Dataset(JSONStatObject):
         # Get metadata for new categories
         for dim_id in dims:
             dim = self.dimension(dim_id)
+            dim2 = ds2.dimension(dim_id)
             dim_orig = ds_orig.dimension(dim_id)
             cats_after_append = [ x.id for x in dim.categories ]
             cats_before_append = [ x.id for x in dim_orig.categories ]
 
-            # Get a list of categories that didn't exist before
+            # 1. Apply metadata from appended dataset 
+            # But ignore data that would override existing
+            for cat in dim.categories:
+                try:
+                    cat2 = dim2.category(cat.id)
+                    cat._apply_meta_data(cat2, on_existing="preserve")
+                except KeyError:
+                    pass
+
+            # 2. Apply metadata from categories that didn't exist before
             new_cats = list(set(cats_after_append) - set(cats_before_append))
             
             for cat_id in new_cats:
-                # Apply metadata from these new categories
                 new_cat = ds2.dimension(dim_id).category(cat_id)
                 dim.category(cat_id)._apply_meta_data(new_cat, on_existing="update")
 
