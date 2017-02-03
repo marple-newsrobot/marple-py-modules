@@ -76,6 +76,7 @@ dataset_to_append_with_overlap = {
     "size": [1,2],
     "label": "Test dataset",
     "source": "My source",
+    "note": [ "This is a conflicting dataset note" ],
     "dimension": {
         "region": {
             "category": {

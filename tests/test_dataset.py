@@ -139,7 +139,7 @@ def _assert_metadata_equality_in_categories(ds1, ds2):
                 cat2 = dim2.category(cat1.id)
                 assert cat1.label == cat2.label
                 assert cat1.note == cat2.note
-            except:
+            except KeyError:
                 pass
 
 def test_that_metadata_is_preserved_after_filter():
@@ -156,7 +156,7 @@ def test_that_metadata_is_preserved_after_append():
     ds1 = Dataset().from_json(deepcopy(complete_dataset))
     ds2 = Dataset().from_json(deepcopy(dataset_to_append))
     original_ds = deepcopy(ds1)
-    ds1.append(ds2, )
+    ds1.append(ds2, on_metadata_conflict="preserve")
 
     _assert_metadata_equality(original_ds, ds1)
 
@@ -177,6 +177,17 @@ def test_that_metadata_is_preserved_after_append():
                 appended_label = dim2.category(cat.id).label
                 assert appended_label == new_label
 
+def test_that_metadata_is_updated_after_append():
+    """ Merge two datasets and test that metadata (labels etc)
+        are updated if on_metadata_conflict is set to that.
+    """
+    ds1 = Dataset().from_json(deepcopy(complete_dataset))
+    ds2 = Dataset().from_json(deepcopy(dataset_to_append_with_overlap))
+    original_ds = deepcopy(ds2)
+    ds1.append(ds2, on_metadata_conflict="update", on_duplicates="update")
+
+    assert ds1.note[0] == "This is a conflicting dataset note"
+    assert ds1.dimension("region").note[0] == "This is conflicting note"
 
 def test_that_length_is_correct_after_append():
     """ Merge two datasets and assert that it has grown as expected

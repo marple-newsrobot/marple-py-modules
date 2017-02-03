@@ -678,7 +678,8 @@ class Dataset(JSONStatObject):
 
         return self.filter(filter_fn, content=content, include_status=include_status)
 
-    def append(self, dataset_to_append, include_status=True, on_duplicates="break"):
+    def append(self, dataset_to_append, include_status=True, on_duplicates="break",
+        on_metadata_conflict="preserve"):
         """ Append another dataset. Metadata from original dataset
             will override metadata from appended dataset (e.g. labels).
 
@@ -687,9 +688,13 @@ class Dataset(JSONStatObject):
 
             :param dataset_to_append: A dataset to append (Dataset)
             :param on_duplicates: What to do if data contains duplicates.
-                "break": throw error
-                "update": override existing
-                "preserve": keep existing
+                - "break": throw error
+                - "update": override existing
+                - "preserve": keep existing
+            :param on_metadata_conflict: What to do if same metadata property
+                is defined in both datasets?
+                - "update": override existing
+                - "preserve": keep existing
             :returns: self
         """
         ds1 = self
@@ -729,19 +734,22 @@ class Dataset(JSONStatObject):
         self._rebuild(df)
 
         # Get metadata for new categories
+        self._apply_meta_data(ds2, on_existing=on_metadata_conflict)
         for dim_id in dims:
             dim = self.dimension(dim_id)
             dim2 = ds2.dimension(dim_id)
+
+            dim._apply_meta_data(dim2, on_existing=on_metadata_conflict)
+
             dim_orig = ds_orig.dimension(dim_id)
             cats_after_append = [ x.id for x in dim.categories ]
             cats_before_append = [ x.id for x in dim_orig.categories ]
 
             # 1. Apply metadata from appended dataset 
-            # But ignore data that would override existing
             for cat in dim.categories:
                 try:
                     cat2 = dim2.category(cat.id)
-                    cat._apply_meta_data(cat2, on_existing="preserve")
+                    cat._apply_meta_data(cat2, on_existing=on_metadata_conflict)
                 except KeyError:
                     pass
 
