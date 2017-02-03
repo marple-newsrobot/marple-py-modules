@@ -296,7 +296,7 @@ class DatabaseDatasetConnection(DatabaseConnection):
         :param json_data (dict): The json data to be stored.
         :param on_existing (str):
             - "override": replaces existing
-            - "update": updates existing data if duplicates found
+            - "update": updates existing data and metadata if duplicates found
             - "preserve": preserves existing on duplicates
             - "break": throw error 
         :returns (Requests.Response): A response instance from the Request module. 
@@ -323,7 +323,10 @@ class DatabaseDatasetConnection(DatabaseConnection):
                 
                 # Merge with new
                 new_ds = Dataset(json_data)
-                existing_ds.append(new_ds, include_status=False, on_duplicates=on_existing)
+
+                # Use the same action (preserve/update) for both data and metadata
+                existing_ds.append(new_ds, include_status=False, 
+                    on_duplicates=on_existing, on_metadata_conflict=on_existing)
                 json_data = existing_ds.json
 
             # Upload final data
