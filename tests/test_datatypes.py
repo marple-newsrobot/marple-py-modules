@@ -19,6 +19,11 @@ def test_that_parent_returns_parent():
     x = Domain("regions/*", datatypes_dir="tests/data/datatypes")
     assert x.parent(u"Stockholms län") == "Sweden"
 
-def test_multiple_matches_should_err():
+def test_that_parentless_region_returns_none():
     x = Domain("regions/*", datatypes_dir="tests/data/datatypes")
-    assert x.row(u"u'Hässelby-Vällingby stadsdelsområde'")
+    assert x.parent(u"Sweden") == None
+
+def test_that_missing_row_returns_none():
+    x = Domain("regions/*", datatypes_dir="tests/data/datatypes")
+    assert x.row("i_do_not_exist") == None
+

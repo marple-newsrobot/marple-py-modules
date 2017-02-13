@@ -42,11 +42,20 @@ class Domain(object):
     def row(self, id_):
         """ Get a row by id """
         row = self.data\
-            .loc[self.data[u'id'] == id_.encode("utf-8")]\
-            .squeeze()\
-            .dropna()\
-            .to_dict()
-        return row
+            .loc[self.data[u'id'] == id_.encode("utf-8")]
+
+        if len(row) == 0:
+            # No row with this id
+            return None
+        elif len(row) > 1:
+            import pdb;pdb.set_trace()
+            raise Exception(u"Multiple rows with id '{}' in this domain."\
+                .format(id_))
+        else:
+            return row\
+                .squeeze()\
+                .dropna()\
+                .to_dict()
 
     def parent(self, id_):
         """ Get the id of the parent, if there is one """
