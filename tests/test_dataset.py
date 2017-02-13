@@ -185,9 +185,11 @@ def test_that_metadata_is_updated_after_append():
     ds2 = Dataset().from_json(deepcopy(dataset_to_append_with_overlap))
     original_ds = deepcopy(ds2)
     ds1.append(ds2, on_metadata_conflict="update", on_duplicates="update")
+    region = ds1.dimension("region")
 
     assert ds1.note[0] == "This is a conflicting dataset note"
-    assert ds1.dimension("region").note[0] == "This is conflicting note"
+    assert region.note[0] == "This is conflicting note"
+    assert region.category("Solna").note[0] == "Conflicting Solna note"
 
 def test_that_length_is_correct_after_append():
     """ Merge two datasets and assert that it has grown as expected

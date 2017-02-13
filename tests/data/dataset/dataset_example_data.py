@@ -85,6 +85,9 @@ dataset_to_append_with_overlap = {
                 },
                 "label": {
                     u"Solna": u"Solna kommun",
+                },
+                "note": {
+                    u"Solna": [ "Conflicting Solna note" ],
                 }
             },
             "note": [ "This is conflicting note" ]
