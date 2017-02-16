@@ -375,8 +375,8 @@ class DatasetCsv(CsvFile):
 
 
 class DimensionsCsv(CsvFile):
-    index_col = "dimension"
-    required_cols = ["dimension","datatype","label"]
+    index_col = "id"
+    required_cols = ["id","datatype","label"]
 
     def __init__(self, file_path, index_col=index_col, 
         required_cols=required_cols):
