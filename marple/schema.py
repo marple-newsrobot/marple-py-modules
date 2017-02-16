@@ -82,8 +82,20 @@ class Schema(object):
         """ Metadata to be used and stored in jsonstat["extension"]
         """
         return self._metadata
-    
 
+    @property
+    def periodicity(self):
+        """ The periodicity is derived from the id
+        """
+        return self._id.split("-")[2]
+
+    @property
+    def measure(self):
+        """ The measure is derived from the id
+        """
+        return self._id.split("-")[3]
+    
+    
     @property
     def as_json_schema(self):
         return self._to_json_schema()

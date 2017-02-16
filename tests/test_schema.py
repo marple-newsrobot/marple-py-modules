@@ -24,6 +24,8 @@ def test_sample_schema(get_schema):
     assert x.id == 'ams-unemployment-monthly-rate-foreignborn'
     assert x.source == "AMS"
     assert x.topic == "unemployment"
+    assert x.measure == "rate"
+    assert x.periodicity == "monthly"
 
 def test_dimension_metods(get_schema):
     """ Test that dimension metods and props have as they should
