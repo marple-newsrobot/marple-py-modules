@@ -45,6 +45,9 @@ def test_json_schema_output(get_schema):
         assert validator.is_valid(x.as_json_schema)
 
 def test_validate_dataset_with_generated_json_schema():
+    """ Apply the json schema generated from the Schema class on an actual
+        dataset.
+    """
     dataset_id = "ams-unemployment-monthly-count-total"
     dataset = Dataset("tests/data/schema/dataset/{}.json".format(dataset_id))
     connection = DatabaseSchemaConnection(POSTGREST_URL)
