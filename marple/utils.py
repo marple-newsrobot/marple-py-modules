@@ -43,7 +43,7 @@ def get_timepoint_label(datestring, periodicity):
             timepoint.strftime("%b %Y"),
         )
 
-def list_files(dir, extension=None):                                                                                                  
+def list_files(dir, extension=None, file_name=None):                                                                                                  
     """ Get a list of all files in directory and subdirectories
         :param dir: path to direcotyr to parse
         :param extension: Only include files with given extension.
@@ -55,13 +55,17 @@ def list_files(dir, extension=None):
         files = os.walk(subdir).next()[2]
         if (len(files) > 0):
             for file in files:
-                filename, file_extension = os.path.splitext(file)
+                _file_name, _file_extension = os.path.splitext(file)
 
                 if extension != None:
-                    file_extension = file_extension.replace(".","")
+                    _file_extension = _file_extension.replace(".","")
                     extension = extension.replace(".","")
 
-                    if extension != file_extension:
+                    if extension != _file_extension:
+                        continue
+
+                if file_name != None:
+                    if file_name != file:
                         continue
 
                 r.append(subdir + "/" + file)

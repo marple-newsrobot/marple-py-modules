@@ -3,9 +3,14 @@
 from marple.utils import list_files
 
 def test_list_files():
-    all_files = list_files("tests/data/utils/list_files")
-    txt_files1 = list_files("tests/data/utils/list_files","txt")
-    txt_files2 = list_files("tests/data/utils/list_files",".txt")
+    directory = "tests/data/utils/list_files"
+
+    all_files = list_files(directory)
+    txt_files1 = list_files(directory,extension="txt")
+    txt_files2 = list_files(directory,extension=".txt")
+    by_file_name = list_files(directory,file_name="bar.txt")
+    
     assert len(all_files) == 3
     assert len(txt_files1) == 2
     assert len(txt_files2) == 2
+    assert len(by_file_name) == 1
