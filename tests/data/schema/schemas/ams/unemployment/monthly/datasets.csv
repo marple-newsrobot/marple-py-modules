@@ -1,0 +1,7 @@
+id,label,measure
+total,Antal öppet arbetslösa,count
+youth,Antal öppet arbetslösa ungodmar (16-24 år),count
+foreignborn,Antal öppet arbetslösa utlandsfödda,count
+total,Andel öppet arbetslösa,rate
+youth,Andel öppet arbetslösa ungodmar (16-24 år),rate
+foreignborn,Andel öppet arbetslösa utlandsfödda,rate

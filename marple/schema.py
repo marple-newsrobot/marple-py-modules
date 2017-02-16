@@ -33,6 +33,7 @@ class Schema(object):
         self._dimensions = self._get_dimensions(dataset_id)
         self._metadata = self._get_metadata(dataset_id)
 
+
     def __repr__(self):
         return u"<Schema: {}>".format(self._id)        
 
@@ -102,9 +103,11 @@ class Schema(object):
     def _parse_dataset_csv(self, dataset_id):
         """ Get label and description from dataset.csv
         """
+
         id_parts = dataset_id.split("-")
-        dir_path = os.path.join(self._base_dir, "/".join(id_parts[:-1]))
-        dataset_name = id_parts[-1]
+        table_id = id_parts[-1]
+        measure = id_parts[-2]
+        dir_path = os.path.join(self._base_dir, "/".join(id_parts[:-2]))
         # Make sure that the folder exists
         if not os.path.exists(dir_path):
             msg = u"{} does not exist in schema directory"
@@ -116,51 +119,23 @@ class Schema(object):
             msg = u"datasets.csv is missing in {}"
             raise ValueError(msg.format(dir_path).encode("utf-8"))
 
+
         # Make sure that the last part of the id is listed in the dataset
-        return DatasetCsv(datasets_csv_path).row(dataset_name)
+        return DatasetCsv(datasets_csv_path).row([table_id, measure])
         
 
-    def _parse_schema_csv(self, path):
-        """ Reads a schema.csv file and return a dict with "dimension"
+    def _parse_dimensions_csv(self, path):
+        """ Reads a dimensions.csv file and return a dict with "dimension"
         """
-        schema_csv = SchemaCsv(path)
+        dims_csv = DimensionsCsv(path)
         data = {}
-        for dim_id, row in schema_csv.data.iterrows():
+        for dim_id, row in dims_csv.data.iterrows():
             datatypes = row["datatype"].split(",")
             dim_label = row["label"]
             data[dim_id] = Dimension(dim_id,
                                        dim_label,
                                        datatypes,
                                        datatypes_dir=self.datatypes_dir)
-        return data
-
-    def _parse_metadata_csv(self, path):
-        """ :path (str): path to csv file
-            :returns (dict): A dict with the value of the property column as key and 
-                MetadataProperty instances as values. 
-        """
-        metadata_csv = MetadataCsv(path)
-        data = {}
-        for prop, row in metadata_csv.data.iterrows():
-            try:
-                datatypes = row["datatype"].split(",")
-            except AttributeError:
-                datatypes = None
-
-            if prop == "id":
-                raise ValueError("'id' is not allowed as a metadata property.")
-
-            value = metadata_csv.row(prop)["value"]
-
-            if "__" in prop:
-                x = prop.split("__")
-                if x[0] not in data:
-                    data[x[0]] = {}
-                data[x[0]][x[1]] = value
-            else:
-                data[prop] = value
-
-
         return data
 
 
@@ -180,20 +155,20 @@ class Schema(object):
 
 
     def _get_dimensions(self, dataset_id):
-        """ Parse schema.csv files to get all dimensions of dataset
+        """ Parse dimensions.csv files to get all dimensions of dataset
             :param dataset_id: id of dataset, for example
                 ams/unemployment/montly/count
             :returns (dict): dimensions as dict with dimensions
                 as Dimension instances
         """
         folders = dataset_id.split("-")
-        base_schema_csv = self._parse_schema_csv(self._base_dir +
-                                                 "/schema.csv")
+        base_schema_csv = self._parse_dimensions_csv(self._base_dir +
+                                                 "/dimensions.csv")
         for i, folder in enumerate(folders):
             dir_path = os.path.join(self._base_dir, "/".join(folders[:(i + 1)]))
-            csv_path = dir_path + "/schema.csv"
+            csv_path = dir_path + "/dimensions.csv"
             if os.path.exists(csv_path):
-                schema_csv = self._parse_schema_csv(csv_path)
+                schema_csv = self._parse_dimensions_csv(csv_path)
                 base_schema_csv.update(schema_csv)
 
         # "value" is not treated as dimension
@@ -203,27 +178,27 @@ class Schema(object):
 
 
     def _get_metadata(self, dataset_id):
-        """ Parse metadata.csv files to get all dimensions of dataset
+        """ Parse metadata.json files to get metadata
             :param dataset_id: id of dataset, for example
                 ams/unemployment/montly/count
-            :returns (dict): dimensions as dict with dimensions
-                as Dimension instances
+            :returns (dict): meta as json
         """
         folders = dataset_id.split("-")
         try:
-            base_metadata_csv = self._parse_metadata_csv(self._base_dir +
-                                                 "/metadata.csv")
+            with open(os.path.join(self._base_dir, "metadata.json")) as f:
+                base_metadata = json.load(f,encoding="utf-8")
         except IOError:
-            base_metadata_csv = {}
+            base_metadata = {}
 
         for i, folder in enumerate(folders):
             dir_path = os.path.join(self._base_dir, "/".join(folders[:(i + 1)]))
-            csv_path = dir_path + "/metadata.csv"
+            csv_path = dir_path + "/metadata.json"
             if os.path.exists(csv_path):
-                metadata_csv = self._parse_metadata_csv(csv_path)
-                base_metadata_csv.update(metadata_csv)
+                with open(csv_path) as f:
+                    metadata = json.load(f,encoding="utf-8")
+                    base_metadata.update(metadata)
 
-        return base_metadata_csv
+        return base_metadata
 
 
     def _to_json_schema(self):
@@ -295,9 +270,26 @@ class CsvFile(object):
     
 
     def row(self, row_index):
-        """ Returns the values of a row as dict.
+        """ Select a row in the csv file.
+            If multi index `row_index` should be a list
         """
-        row = self.data.loc[self.data.index==row_index,:]
+        if isinstance(self._index_col, list):
+            if not isinstance(row_index, list):
+                msg = (u"This is a multiindex csv file. Must be queried"
+                        u"with list. Got '{}'.").format(row_index)
+                raise ValueError(msg.encode("utf-8"))
+
+            if len(row_index) != len(self._index_col):
+                msg = (
+                    u"Length of multiindex ({}) and query ({})"
+                    u" don't match.")\
+                    .format(len(self._index_col), len(row_index))
+                raise ValueError(msg.encode("utf-8"))
+            row = self.data.loc[tuple(row_index),:]
+            index_as_dict = dict(zip(self._index_col, row.name))
+        else:
+            row = self.data.loc[row_index,:]
+            index_as_dict = { self._index_col: row.name }
         if len(row) == 0:
             msg = u"'{}' missing in index column ('{}') in {}"
             msg = msg.format(row_index, self._index_col, self.file_path)
@@ -307,7 +299,11 @@ class CsvFile(object):
             msg = msg.format(row_index, self._index_col, self.file_path)
             raise ValueError(msg.encode("utf-8"))
 
-        return row.iloc[0].to_dict()
+
+        row_as_dict = row.to_dict()
+        row_as_dict.update(index_as_dict)
+
+        return row_as_dict
 
     def column(self, col_name):
         """ Returns the values of a column as dict with index value as key
@@ -335,30 +331,22 @@ class CsvFile(object):
         return True
 
 class DatasetCsv(CsvFile):
-    index_col = "id"
-    required_cols = ["id", "label"]
+    index_col = ["id", "measure"]
+    required_cols = ["id", "label", "measure"]
 
     def __init__(self, file_path, index_col=index_col, 
         required_cols=required_cols):
         super(DatasetCsv, self).__init__(file_path, index_col=index_col,
             required_cols=required_cols)
 
-class MetadataCsv(CsvFile):
-    index_col = "property"
-    required_cols = ["property","value","datatype"]
 
-    def __init__(self, file_path, index_col=index_col, 
-        required_cols=required_cols):
-        super(MetadataCsv, self).__init__(file_path, index_col=index_col,
-            required_cols=required_cols)
-
-class SchemaCsv(CsvFile):
+class DimensionsCsv(CsvFile):
     index_col = "dimension"
     required_cols = ["dimension","datatype","label"]
 
     def __init__(self, file_path, index_col=index_col, 
         required_cols=required_cols):
-        super(SchemaCsv, self).__init__(file_path, index_col=index_col,
+        super(DimensionsCsv, self).__init__(file_path, index_col=index_col,
             required_cols=required_cols)
 
 
