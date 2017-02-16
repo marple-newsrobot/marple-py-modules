@@ -3,7 +3,7 @@
 import json
 import pytest
 from jsonschema import Draft4Validator, FormatChecker
-from marple.schema import Schema
+from marple.schema import Schema, CsvFile
 from marple.dataset import Dataset
 from marple.connection import DatabaseSchemaConnection
 from data.config import POSTGREST_URL
@@ -56,3 +56,34 @@ def test_validate_dataset_with_generated_json_schema():
 
     validator = Draft4Validator(schema.as_json_schema, format_checker=FormatChecker())
     assert validator.is_valid(dataset.json)
+
+
+""" TESTS FOR CsvFile class
+"""
+def test_basic_csv_file():
+    csv_file = CsvFile("tests/data/schema/sample_csv_file.csv")
+
+
+    with pytest.raises(KeyError):
+        csv_file.row("this_id_dont_exist")
+
+    with pytest.raises(KeyError):
+        csv_file.row("duplicated_id")
+
+    assert csv_file.row("ok_id")["label"] == "This is a valid row"
+
+
+def test_multiindex_csv_file():
+    csv_file = CsvFile("tests/data/schema/sample_csv_file.csv", index_col=["id","multi_id"])
+
+    assert csv_file.row(["duplicated_id","a"])["label"] == "This is not okay on multiindex"
+
+    # Shouldn't be able to query multi index with string
+    with pytest.raises(KeyError):
+        csv_file.row("duplicated_id")
+
+    # ..or to long list
+    with pytest.raises(KeyError):
+        csv_file.row(["duplicated_id", "foo", "bar"])
+
+
