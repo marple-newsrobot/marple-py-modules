@@ -9,3 +9,4 @@ v0.0.8, 2017-02-01 -- Added notes_from_csv method to dataset
 v0.0.9, 2017-02-01 -- Added update option to append method
 v0.0.10, 2017-02-13 -- Bug fixes
 v0.0.11, 2017-02-16 -- Simplify schema structure (forces restructuring of marple-datasets/schema)
+v0.0.11, 2017-02-16 -- Simplify schema structure (forces restructuring of marple-datasets/schema)
