@@ -272,32 +272,39 @@ class CsvFile(object):
     def row(self, row_index):
         """ Select a row in the csv file.
             If multi index `row_index` should be a list
-        """
-        if isinstance(self._index_col, list):
-            if not isinstance(row_index, list):
-                msg = (u"This is a multiindex csv file. Must be queried"
-                        u"with list. Got '{}'.").format(row_index)
-                raise ValueError(msg.encode("utf-8"))
 
-            if len(row_index) != len(self._index_col):
-                msg = (
-                    u"Length of multiindex ({}) and query ({})"
-                    u" don't match.")\
-                    .format(len(self._index_col), len(row_index))
-                raise ValueError(msg.encode("utf-8"))
-            row = self.data.loc[tuple(row_index),:]
-            index_as_dict = dict(zip(self._index_col, row.name))
-        else:
-            row = self.data.loc[row_index,:]
-            index_as_dict = { self._index_col: row.name }
-        if len(row) == 0:
+        """
+        try:
+            if isinstance(self._index_col, list):
+                if not isinstance(row_index, list):
+                    msg = (u"This is a multiindex csv file. Must be queried"
+                            u"with list. Got '{}'.").format(row_index)
+                    raise KeyError(msg.encode("utf-8"))
+
+                if len(row_index) != len(self._index_col):
+                    msg = (
+                        u"Length of multiindex ({}) and query ({})"
+                        u" don't match.")\
+                        .format(len(self._index_col), len(row_index))
+                    raise KeyError(msg.encode("utf-8"))
+                row = self.data.loc[tuple(row_index),:]
+                index_as_dict = dict(zip(self._index_col, row.name))
+            else:
+                row = self.data.loc[row_index,:]
+                
+                if not isinstance(row, pd.DataFrame):
+                    index_as_dict = { self._index_col: row.name }
+
+        except KeyError:
             msg = u"'{}' missing in index column ('{}') in {}"
             msg = msg.format(row_index, self._index_col, self.file_path)
-            raise ValueError(msg.encode("utf-8"))
-        elif len(row) > 1:
+            raise KeyError(msg.encode("utf-8"))            
+        
+
+        if isinstance(row, pd.DataFrame):
             msg = u"There are multiple rows with index '{}' in {}. Index column is '{}'."
             msg = msg.format(row_index, self._index_col, self.file_path)
-            raise ValueError(msg.encode("utf-8"))
+            raise KeyError(msg.encode("utf-8"))
 
 
         row_as_dict = row.to_dict()
