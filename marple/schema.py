@@ -264,9 +264,10 @@ class CsvFile(object):
         self._index_col = index_col
 
         # Init
-        self.data = pd.read_csv(file_path, encoding="utf-8", dtype=object)
+        self.data = pd.read_csv(file_path, encoding="utf-8", dtype=object)\
+            .set_index(index_col)
+        
         self.validate()
-        self.data = self.data.set_index(index_col)
     
 
     def row(self, row_index):
