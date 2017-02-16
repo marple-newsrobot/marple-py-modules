@@ -321,7 +321,10 @@ class CsvFile(object):
     def validate(self):
         """ Perform validations
         """
-        return self._validate_cols()
+        valid_cols = self._validate_cols()
+        unique_index = self._validate_index_uniqueness()
+
+        return valid_cols and unique_index 
 
     def _validate_cols(self):
         """ Make sure that all required cols exist in csv file.
@@ -336,6 +339,17 @@ class CsvFile(object):
                 msg = msg.format(col, self.file_path)
                 raise ValueError(msg.encode("utf-8"))
 
+        return True
+
+    def _validate_index_uniqueness(self):
+        """ Make sure there are no duplicate indecies
+        """
+        index_dups = self.data[self.data.index.duplicated()]
+        if len(index_dups) > 0:
+            msg = u"{} contains duplicate indecies: '{}'"\
+                .format(self.file_path, index_dups.index.tolist())
+
+            raise Exception(msg.encode("utf-8"))
         return True
 
 class DatasetCsv(CsvFile):
