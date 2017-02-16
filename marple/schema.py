@@ -330,7 +330,7 @@ class CsvFile(object):
             return True
 
         for col in self.required_cols:
-            if col not in self.data.columns:
+            if col not in self.data.reset_index().columns or col:
                 msg = u"Required column '{}' is missing in {}."
                 msg = msg.format(col, self.file_path)
                 raise ValueError(msg.encode("utf-8"))
