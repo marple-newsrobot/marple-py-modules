@@ -2,11 +2,11 @@
 import csvkit as csv
 import os
 import json
-import pandas as pd
 from copy import deepcopy
 import re
 
 from marple.datatypes import Domain
+from marple.utils import CsvFile
 
 class Schema(object):
     def __init__(self,
@@ -261,108 +261,6 @@ class Schema(object):
         return json_schema
 
 
-class CsvFile(object):
-    """ Base class for parsing metadata.csv, schema.csv and datasets.csv
-    """
-
-    # Name of index column in the csv file
-    index_col = "id" 
-
-    # List of required columns, used for validation
-    required_cols = None 
-
-    def __init__(self, file_path, index_col=index_col, required_cols=required_cols):
-        self.file_path = file_path
-        self._index_col = index_col
-
-        # Init
-        self.data = pd.read_csv(file_path, encoding="utf-8", dtype=object)\
-            .set_index(index_col)
-        
-        self.validate()
-    
-
-    def row(self, row_index):
-        """ Select a row in the csv file.
-            If multi index `row_index` should be a list
-
-        """
-        try:
-            if isinstance(self._index_col, list):
-                if not isinstance(row_index, list):
-                    msg = (u"This is a multiindex csv file. Must be queried"
-                            u"with list. Got '{}'.").format(row_index)
-                    raise KeyError(msg.encode("utf-8"))
-
-                if len(row_index) != len(self._index_col):
-                    msg = (
-                        u"Length of multiindex ({}) and query ({})"
-                        u" don't match.")\
-                        .format(len(self._index_col), len(row_index))
-                    raise KeyError(msg.encode("utf-8"))
-                row = self.data.loc[tuple(row_index),:]
-                index_as_dict = dict(zip(self._index_col, row.name))
-            else:
-                row = self.data.loc[row_index,:]
-                
-                if not isinstance(row, pd.DataFrame):
-                    index_as_dict = { self._index_col: row.name }
-
-        except KeyError:
-            msg = u"'{}' missing in index column ('{}') in {}"
-            msg = msg.format(row_index, self._index_col, self.file_path)
-            raise KeyError(msg.encode("utf-8"))            
-        
-
-        if isinstance(row, pd.DataFrame):
-            msg = u"There are multiple rows with index '{}' in {}. Index column is '{}'."
-            msg = msg.format(row_index, self._index_col, self.file_path)
-            raise KeyError(msg.encode("utf-8"))
-
-
-        row_as_dict = row.to_dict()
-        row_as_dict.update(index_as_dict)
-
-        return row_as_dict
-
-    def column(self, col_name):
-        """ Returns the values of a column as dict with index value as key
-        """
-        return self.data.loc[:,col_name].to_dict()
-
-    def validate(self):
-        """ Perform validations
-        """
-        valid_cols = self._validate_cols()
-        unique_index = self._validate_index_uniqueness()
-
-        return valid_cols and unique_index 
-
-    def _validate_cols(self):
-        """ Make sure that all required cols exist in csv file.
-            Raise error if not.
-        """
-        if not self.required_cols:
-            return True
-
-        for col in self.required_cols:
-            if col not in self.data.reset_index().columns:
-                msg = u"Required column '{}' is missing in {}."
-                msg = msg.format(col, self.file_path)
-                raise ValueError(msg.encode("utf-8"))
-
-        return True
-
-    def _validate_index_uniqueness(self):
-        """ Make sure there are no duplicate indecies
-        """
-        index_dups = self.data[self.data.index.duplicated()]
-        if len(index_dups) > 0:
-            msg = u"{} contains duplicate indecies: '{}'"\
-                .format(self.file_path, index_dups.index.tolist())
-
-            raise Exception(msg.encode("utf-8"))
-        return True
 
 class DatasetCsv(CsvFile):
     index_col = ["id", "measure"]

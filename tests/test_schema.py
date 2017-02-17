@@ -60,29 +60,3 @@ def test_validate_dataset_with_generated_json_schema():
     assert validator.is_valid(dataset.json)
 
 
-""" TESTS FOR CsvFile class
-"""
-def test_basic_csv_file():
-    csv_file = CsvFile("tests/data/schema/simple_csv_file.csv", required_cols=["id","label"])
-
-    with pytest.raises(KeyError):
-        csv_file.row("this_id_dont_exist")
-
-
-    assert csv_file.row("ok_id")["label"] == "This is a valid row"
-
-
-def test_multiindex_csv_file():
-    csv_file = CsvFile("tests/data/schema/multiindex_csv_file.csv", index_col=["id","multi_id"])
-
-    assert csv_file.row(["duplicated_id","a"])["label"] == "This is not okay on multiindex"
-
-    # Shouldn't be able to query multi index with string
-    with pytest.raises(KeyError):
-        csv_file.row("duplicated_id")
-
-    # ..or to long list
-    with pytest.raises(KeyError):
-        csv_file.row(["duplicated_id", "foo", "bar"])
-
-
