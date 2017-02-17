@@ -62,10 +62,16 @@ def test_new_csv_file():
     """ Init CsvFile with file that doesn't exist and add row
     """
     path_to_new_file = "tests/data/utils/new_csv_file.csv"
-    try:
-        os.remove(path_to_new_file)
-    except OSError:
-        pass
+
+    def setup():
+        """ Remove existing
+        """
+        try:
+            os.remove(path_to_new_file)
+        except OSError:
+            pass
+
+    setup()
     csv_file = CsvFile(path_to_new_file, required_cols=["id", "label"])
     assert len(csv_file.data) == 0
 
@@ -79,3 +85,15 @@ def test_new_csv_file():
         assert lines[0].strip() == "id,label"
         assert lines[1].strip() == "foo,bar"
 
+    # Setup without required cols
+    setup()
+    csv_file = CsvFile(path_to_new_file)
+    csv_file.append([{"id": "foo2", "label": "bar2"}])
+    csv_file.save()
+    with open(path_to_new_file) as f:
+        lines = f.readlines()
+        assert lines[0].strip() == "id,label"
+        assert lines[1].strip() == "foo2,bar2"
+
+    # Clean up
+    setup()

@@ -99,10 +99,16 @@ class CsvFile(object):
         # Create file if it doesn't exist, create if
         if not os.path.isfile(file_path):
             open(file_path, 'w').close()
+
+            # Add columns
             if isinstance(index_col, list):
                 cols = list(set(required_cols) - set(index_col))
             else:
-                cols = list(set(required_cols) - set([index_col]))
+                try:
+                    cols = list(set(required_cols) - set([index_col]))
+                except TypeError:
+                    # When there are no requied cols
+                    cols = None
 
             self.data = pd.DataFrame(columns=cols)
             self.data.index.name = self._index_col
