@@ -82,6 +82,11 @@ def test_new_csv_file():
     csv_file = CsvFile(path_to_new_file, required_cols=["id", "label"])
     assert len(csv_file.data) == 0
 
+    with open(path_to_new_file) as f:
+        lines = f.readlines()
+        assert len(lines) == 1
+        assert lines[0].strip() == "id,label"
+
     csv_file.append([{ "id": "foo", "label": "bar"}])
     assert len(csv_file.data) == 1
 

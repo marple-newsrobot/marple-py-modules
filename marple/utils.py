@@ -112,6 +112,9 @@ class CsvFile(object):
 
             self.data = pd.DataFrame(columns=cols)
             self.data.index.name = self._index_col
+
+            # Write the column names to file
+            self.save()
         else:
             self.data = self._parse_input(file_path)
         
