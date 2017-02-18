@@ -187,6 +187,11 @@ class CsvFile(object):
 
         return self.data
 
+    def to_dictlist(self):
+        """ Returns a dict list representation of table 
+        """
+        return self.data.reset_index().T.to_dict().values()
+
     def _parse_input(self, file_or_data):
         """ Parse data from file path or dictlist
 

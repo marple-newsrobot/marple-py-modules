@@ -25,6 +25,13 @@ def test_basic_csv_file():
 
     assert csv_file.row("ok_id")["label"] == "This is a valid row"
 
+    assert csv_file.to_dictlist() == [
+        {
+            "id": "ok_id",
+            "label": "This is a valid row",
+        }
+    ]
+
 
 def test_multiindex_csv_file():
     csv_file = CsvFile("tests/data/utils/multiindex_csv_file.csv", index_col=["id","multi_id"])
