@@ -34,7 +34,8 @@ def test_basic_csv_file():
 
 
 def test_multiindex_csv_file():
-    csv_file = CsvFile("tests/data/utils/multiindex_csv_file.csv", index_col=["id","multi_id"])
+    file_path = "tests/data/utils/multiindex_csv_file.csv"
+    csv_file = CsvFile(file_path, index_col=["id","multi_id"])
 
     assert csv_file.row(["duplicated_id","a"])["label"] == "This is not okay on multiindex"
 
@@ -45,6 +46,11 @@ def test_multiindex_csv_file():
     # ..or to long list
     with pytest.raises(KeyError):
         csv_file.row(["duplicated_id", "foo", "bar"])
+
+    csv_file.save()
+    with open(file_path) as f:
+        lines = f.readlines()
+        assert lines[0].strip() == "id,multi_id,label"
 
 def test_append_to_csv_file():
     csv_file = CsvFile("tests/data/utils/simple_csv_file.csv", required_cols=["id","label"])
@@ -106,6 +112,17 @@ def test_new_csv_file():
         lines = f.readlines()
         assert lines[0].strip() == "id,label"
         assert lines[1].strip() == "foo2,bar2"
+
+    # Empty multiindex file
+    setup()
+    csv_file = CsvFile(path_to_new_file, index_col=["id1","id2"],
+        required_cols=["label"])
+    csv_file.save()
+    with open(path_to_new_file) as f:
+        lines = f.readlines()
+        assert lines[0].strip() == "id1,id2,label"
+
+
 
     # Clean up
     setup()

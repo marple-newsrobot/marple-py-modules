@@ -110,9 +110,19 @@ class CsvFile(object):
                     # When there are no requied cols
                     cols = None
 
-            self.data = pd.DataFrame(columns=cols)
-            self.data.index.name = self._index_col
-
+            if isinstance(index_col, list):
+                # Empty multi index
+                index = pd.MultiIndex(
+                    levels=[[] for x in index_col],
+                    labels=[[] for x in index_col],
+                    names=index_col)
+                self.data = pd.DataFrame(columns=cols, index=index)
+            else:
+                # Empyt single index
+                self.data = pd.DataFrame(columns=cols)
+                self.data.index.name = index_col
+                
+        
             # Write the column names to file
             self.save()
         else:
