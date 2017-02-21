@@ -6,7 +6,7 @@ from copy import deepcopy
 import re
 
 from marple.datatypes import Domain
-from marple.utils import CsvFile
+from marple.csv import DatasetCsv, DimensionsCsv
 
 class Schema(object):
     def __init__(self,
@@ -260,26 +260,6 @@ class Schema(object):
 
         return json_schema
 
-
-
-class DatasetCsv(CsvFile):
-    index_col = ["id", "measure"]
-    required_cols = ["id", "label", "measure"]
-
-    def __init__(self, file_path, index_col=index_col, 
-        required_cols=required_cols):
-        super(DatasetCsv, self).__init__(file_path, index_col=index_col,
-            required_cols=required_cols)
-
-
-class DimensionsCsv(CsvFile):
-    index_col = "id"
-    required_cols = ["id","datatype","label"]
-
-    def __init__(self, file_path, index_col=index_col, 
-        required_cols=required_cols):
-        super(DimensionsCsv, self).__init__(file_path, index_col=index_col,
-            required_cols=required_cols)
 
 
 """ TODO: Refactor the code below. Not very intuitive..

@@ -3,7 +3,8 @@
 import json
 import pytest
 from jsonschema import Draft4Validator, FormatChecker
-from marple.schema import Schema, CsvFile
+from marple.schema import Schema
+from marple.csv import CsvFile
 from marple.dataset import Dataset
 from marple.connection import DatabaseSchemaConnection
 from data.config import POSTGREST_URL
