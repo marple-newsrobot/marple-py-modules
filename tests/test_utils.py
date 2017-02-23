@@ -1,5 +1,5 @@
 # encoding: utf-8
-from marple.utils import list_files
+from marple.utils import list_files, guess_periodicity, to_timepoint
 
 def test_list_files():
     directory = "tests/data/utils/list_files"
@@ -14,3 +14,12 @@ def test_list_files():
     assert len(txt_files2) == 2
     assert len(by_file_name) == 1
 
+def test_guess_periodicity():
+    assert guess_periodicity("2015") == "yearly"
+    assert guess_periodicity(2015) == "yearly"
+    assert guess_periodicity("2015-01") == "monthly"
+
+def test_to_timepoint():
+    assert to_timepoint("2015") == "2015-01-01"
+    assert to_timepoint(2015) == "2015-01-01"
+    assert to_timepoint("2015-03") == "2015-03-01"

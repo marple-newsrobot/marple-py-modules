@@ -3,6 +3,7 @@
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import os
+import re
 
 
 def get_timepoint_label(datestring, periodicity):
@@ -43,6 +44,35 @@ def get_timepoint_label(datestring, periodicity):
             timepoint_start.strftime("%b %Y"),
             timepoint.strftime("%b %Y"),
         )
+
+
+def guess_periodicity(time_str):
+    """ Guess periodicity from a date string
+        "2015" => "yearly"
+        "2015-01" => "monthly"
+    """
+    time_str = unicode(time_str)
+    if re.match("^\d\d\d\d$", time_str):
+        return "yearly"
+    elif re.match("^\d\d\d\d-\d\d$", time_str):
+        return "monthly"
+    else:
+        raise ValueError(u"Unknown time string: '{}'".format(time_str))
+
+
+def to_timepoint(time_str):
+    """ Get the starting timepoint of period
+        "2015" => "2015-01-01"
+        "2015-03" => "2015-03-01"
+    """
+    time_str = unicode(time_str)
+    if re.match("^\d\d\d\d$", time_str):
+        return time_str + "-01-01"
+    elif re.match("^\d\d\d\d-\d\d$", time_str):
+        return time_str + "-01"
+    else:
+        raise ValueError(u"Unknown time string: '{}'".format(time_str))
+
 
 def list_files(dir, extension=None, file_name=None):                                                                                                  
     """ Get a list of all files in directory and subdirectories
