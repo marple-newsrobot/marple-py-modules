@@ -142,7 +142,10 @@ class Schema(object):
         dims_csv = DimensionsCsv(path)
         data = {}
         for dim_id, row in dims_csv.data.iterrows():
-            datatypes = row["datatype"].split(",")
+            if row["datatype"] is None:
+                datatypes = []
+            else:
+                datatypes = row["datatype"].split(",")
             dim_label = row["label"]
             data[dim_id] = Dimension(dim_id,
                                        dim_label,
