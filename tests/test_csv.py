@@ -1,10 +1,12 @@
 # encoding: utf-8
 import pytest
 import os
-from marple.csv import CsvFile
+from marple.csv import CsvFile, DimensionsCsv
+
+DATA_DIR_PATH = "tests/data/csv/"
 
 def test_basic_csv_file():
-    csv_file = CsvFile("tests/data/utils/simple_csv_file.csv", required_cols=["id","label"])
+    csv_file = CsvFile(os.path.join(DATA_DIR_PATH, "simple_csv_file.csv"), required_cols=["id","label"])
 
     with pytest.raises(KeyError):
         csv_file.row("this_id_dont_exist")
@@ -12,16 +14,19 @@ def test_basic_csv_file():
 
     assert csv_file.row("ok_id")["label"] == "This is a valid row"
 
+    assert csv_file.row("ok_id")["empty"] is None
+
     assert csv_file.to_dictlist() == [
         {
             "id": "ok_id",
             "label": "This is a valid row",
+            "empty": None
         }
     ]
 
 
 def test_multiindex_csv_file():
-    file_path = "tests/data/utils/multiindex_csv_file.csv"
+    file_path = os.path.join(DATA_DIR_PATH,"multiindex_csv_file.csv")
     csv_file = CsvFile(file_path, index_col=["id","multi_id"])
 
     assert csv_file.row(["duplicated_id","a"])["label"] == "This is not okay on multiindex"
@@ -40,7 +45,7 @@ def test_multiindex_csv_file():
         assert lines[0].strip() == "id,multi_id,label"
 
 def test_append_to_csv_file():
-    csv_file = CsvFile("tests/data/utils/simple_csv_file.csv", required_cols=["id","label"])
+    csv_file = CsvFile(os.path.join(DATA_DIR_PATH,"simple_csv_file.csv"), required_cols=["id","label"])
 
     # Original length
     assert len(csv_file.data) == 1
@@ -61,7 +66,7 @@ def test_append_to_csv_file():
 def test_new_csv_file():
     """ Init CsvFile with file that doesn't exist and add row
     """
-    path_to_new_file = "tests/data/utils/new_csv_file.csv"
+    path_to_new_file = os.path.join(DATA_DIR_PATH,"new_csv_file.csv")
 
     def setup():
         """ Remove existing
@@ -109,7 +114,7 @@ def test_new_csv_file():
         lines = f.readlines()
         assert lines[0].strip() == "id1,id2,label"
 
-
-
     # Clean up
     setup()
+
+

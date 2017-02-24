@@ -147,11 +147,15 @@ class CsvFile(object):
 
         elif isinstance(file_or_data, list) and isinstance(file_or_data[0], dict):
             # Is dictlist
-            df = pd.DataFrame(file_or_data)
+            df = pd.DataFrame(file_or_data, dtype=object)
         else:
             raise ValueError(u"Unrecoginzed input data: {}".format(file_or_data))
 
         df = df.set_index(self._index_col)
+        
+        # Replace nan => None
+        df = df.where((pd.notnull(df)), None)
+
         return df
 
     def save(self, file_path=None):
