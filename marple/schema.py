@@ -117,19 +117,18 @@ class Schema(object):
         """
 
         id_parts = dataset_id.split("-")
-        table_id = id_parts[-1]
-        measure = id_parts[-2]
-        dir_path = os.path.join(self._base_dir, "/".join(id_parts[:-2]))
-        # Make sure that the folder exists
-        if not os.path.exists(dir_path):
-            msg = u"{} does not exist in schema directory"
-            raise ValueError(msg.format(dir_path).encode('utf-8'))
+        source = id_parts[0]
+        topic_id = id_parts[1]
+        periodicity = id_parts[2]
+        measure = id_parts[3]
+        datasets_dir = os.path.join(self._base_dir, source, topic_id, periodicity)
+        table_id = "-".join(id_parts[4:])
 
         # Make sure there is a datasets.csv file in the dir
-        datasets_csv_path = os.path.join(dir_path, "datasets.csv")
+        datasets_csv_path = os.path.join(datasets_dir, "datasets.csv")
         if not os.path.exists(datasets_csv_path):
             msg = u"datasets.csv is missing in {}"
-            raise ValueError(msg.format(dir_path).encode("utf-8"))
+            raise ValueError(msg.format(datasets_dir).encode("utf-8"))
 
 
         # Make sure that the last part of the id is listed in the dataset
