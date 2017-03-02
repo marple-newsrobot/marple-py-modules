@@ -822,7 +822,7 @@ class Dataset(JSONStatObject):
         # 5. Make sure that the size factors and value length are identical
         if len(self.value_list) != self.length:
             msg = "size factors don't match length of values. Got {}, expected {}."\
-                .format(size_total, len(self.json["value"]))
+                .format(self.length, len(self.value_list))
             raise MalformedJSONStat(msg)
 
         # 6. Make sure that status and value 
