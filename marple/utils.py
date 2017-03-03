@@ -104,4 +104,8 @@ def list_files(dir, extension=None, file_name=None):
     return r 
 
 
-
+def isNaN(num):
+    """ Check if a value is nan
+        http://stackoverflow.com/questions/944700/how-to-check-for-nan-in-python
+    """
+    return num != num

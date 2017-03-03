@@ -9,12 +9,15 @@ from marple.dataset import Dataset
 from marple.connection import DatabaseSchemaConnection
 from data.config import POSTGREST_URL
 
+BASE_DIR = "tests/data/schema/schemas"
+DATATYPES_DIR = "tests/data/datatypes"
+connection = DatabaseSchemaConnection(POSTGREST_URL)
+TEST_SCHEMA_ID = 'ams-unemployment-monthly-rate-foreignborn'
+
 @pytest.fixture(scope="session")
 def get_schema():
-    connection = DatabaseSchemaConnection(POSTGREST_URL)
-    test_schema_id = 'ams-unemployment-monthly-rate-foreignborn'
-    return Schema(test_schema_id, connection, base_dir="tests/data/schema/schemas",
-        datatypes_dir="tests/data/datatypes")
+    return Schema(TEST_SCHEMA_ID, connection, base_dir=BASE_DIR,
+        datatypes_dir=DATATYPES_DIR)
 
 def test_sample_schema(get_schema):
     """ Open a sample schema and do some chekcs
@@ -34,8 +37,11 @@ def test_dimension_metods(get_schema):
     x = get_schema
     dim = x.dimension("gender")
     assert dim.label == u"Kön"
-    assert isinstance(dim.labels, dict)
-    assert dim.labels.keys().sort() == dim.allowed_values.sort() 
+    try:
+        assert isinstance(dim.labels(), dict)
+    except:
+        import pdb;pdb.set_trace()
+    assert dim.labels().keys().sort() == dim.allowed_values.sort() 
 
 def test_json_schema_output(get_schema):
     """ Make sure that the json schema output is a valid json schema
@@ -60,4 +66,19 @@ def test_validate_dataset_with_generated_json_schema():
     validator = Draft4Validator(schema.as_json_schema, format_checker=FormatChecker())
     assert validator.is_valid(dataset.json)
 
+def test_language_methods():
+    """ Get schema with a an alternative language
+    """
+    schema_en = Schema(TEST_SCHEMA_ID, connection, base_dir=BASE_DIR,
+        datatypes_dir=DATATYPES_DIR, lang="en")
+
+    # This one should be translated
+    assert schema_en.dimension("timepoint").label == "Timepoint"
+
+    # This one should not be
+    assert schema_en.dimension("gender").label == u"Kön"
+
+    labels_en = schema_en.dimension("gender").labels()
+
+    assert labels_en["male"] == "Men"
 

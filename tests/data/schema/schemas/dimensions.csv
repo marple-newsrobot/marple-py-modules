@@ -1,5 +1,5 @@
-id,datatype,label
-region,"region",Region
-measure,measure,"Mått"
-timepoint,date,"Tidpunkt"
-value,value,"Värde"
+id,datatype,label,label__en
+region,"region",Region,Region
+measure,measure,Mått,Measure
+timepoint,date,Tidpunkt,Timepoint
+value,value,Värde,Value

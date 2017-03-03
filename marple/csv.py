@@ -4,6 +4,7 @@ import pandas as pd
 import os
 
 
+
 class CsvFile(object):
     """ Base class for parsing csv files such as dimensions.csv and datasets.csv
         Key feature is that it will treat one or many given column(s) as an index
@@ -135,6 +136,7 @@ class CsvFile(object):
         """
         return self.data.reset_index().T.to_dict().values()
 
+
     def _parse_input(self, file_or_data):
         """ Parse data from file path or dictlist
 
@@ -142,7 +144,7 @@ class CsvFile(object):
         """
         if isinstance(file_or_data, str) or isinstance(file_or_data, unicode):
             # Is filepath
-            df = pd.read_csv(file_or_data, encoding="utf-8", dtype=object)\
+            df = pd.read_csv(file_or_data, encoding="utf-8", dtype=object)
                     
 
         elif isinstance(file_or_data, list) and isinstance(file_or_data[0], dict):
@@ -192,7 +194,45 @@ class CsvFile(object):
             raise Exception(msg.encode("utf-8"))
         return True
 
-class DatasetCsv(CsvFile):
+
+
+class CsvFileWithLabel(object):
+    """ Use this class as a mixin for csv files that contain 
+        multilanguage labels
+    """
+    def label(self, row_index, lang=None):
+        """ A csv file may contain a default label column ('label') and
+            language specific labels ('lang__sv', 'lang__en').
+            The `.label()` method tries to get get a language label
+            for a given row and falls back to the default label if it 
+            doesn't exist.
+
+            :param row_index: index of row from which to get label 
+            :param lang: Typically "sv" or "en" 
+            :returns: Label as string
+        """
+        if "label" not in self.data.columns:
+            msg = u"Label column missing in {}".format(self.file_path)
+            raise CsvFileError(msg)
+
+        row = self.row(row_index)
+
+
+        # 1. Try to get lang specific label (eg 'label__sv')
+        try:
+
+            label = row["label__" + unicode(lang)]
+            if label is not None:
+                return label
+        except:
+            pass
+        
+        # 2. Resort to default label if lang label doesn't exist
+        return row["label"]
+
+
+
+class DatasetCsv(CsvFile, CsvFileWithLabel):
     """ For datasets.csv files used in /schemas
     """
     index_col = ["id", "measure"]
@@ -204,7 +244,7 @@ class DatasetCsv(CsvFile):
             required_cols=required_cols)
 
 
-class DimensionsCsv(CsvFile):
+class DimensionsCsv(CsvFile, CsvFileWithLabel):
     """ For dimensions.csv files used in /schemas
     """
     index_col = "id"
@@ -215,5 +255,7 @@ class DimensionsCsv(CsvFile):
         super(DimensionsCsv, self).__init__(file_path, index_col=index_col,
             required_cols=required_cols)
 
-
-
+class CsvFileError(Exception):
+    """ Custom excpetion for the CsvFile class
+    """
+    pass 

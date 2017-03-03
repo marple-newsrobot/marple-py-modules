@@ -12,12 +12,14 @@ class Schema(object):
     def __init__(self,
                  dataset_id,
                  json_schema_connection,
+                 lang="sv",
                  base_dir="../marple-datasets/schemas",
                  datatypes_dir="../marple-datatypes"):
         """
             :param dataset_id (str): id of dataset
             :param json_schema_connection: a connection instance for
             :type json_schema_connection: DatabaseSchemaConnection
+            :param lang: language of labels etc ("sv"|"en" for now)
             :param base_dir: path to directory with schemas
             :param datatypes_dir (str): path to datatype definitions repo
             getting json schemas for validation
@@ -26,6 +28,7 @@ class Schema(object):
         # Also validates the correctness of id
         self._id = dataset_id
         self._base_dir = base_dir
+        self.lang = lang
         self.datatypes_dir = datatypes_dir
         self.json_schema_connection = json_schema_connection
 
@@ -145,27 +148,15 @@ class Schema(object):
                 datatypes = []
             else:
                 datatypes = row["datatype"].split(",")
-            dim_label = row["label"]
+            
+            # Get label by lang
+            dim_label = dims_csv.label(dim_id, lang=self.lang)
             data[dim_id] = Dimension(dim_id,
                                        dim_label,
                                        datatypes,
+                                       lang=self.lang,
                                        datatypes_dir=self.datatypes_dir)
         return data
-
-
-    def _validate_schema_csv(self, path):
-        """ Validations for a schema.csv file
-        """
-        with open(path) as f:
-            reader = csv.DictReader(f)
-            cols = reader.next().keys()
-            if "dimension" not in cols:
-                msg = u"'dimension'' column is missing in {}".format(col, path)
-                raise ValueError(msg.encode("utf-8"))
-
-            elif "datatype" not in cols:
-                msg = u"'datatype' column is missing in {}".format(path)
-                raise ValueError(msg.encode("utf-8"))
 
 
     def _get_dimensions(self, dataset_id):
@@ -241,9 +232,11 @@ class Schema(object):
             }
             if len(dim.allowed_values) > 0:
                 # Format allowed values as regex
-                allowed_values_re = "^(%s)$" % "|".join(
+                try:
+                    allowed_values_re = "^(%s)$" % "|".join(
                     [ re.escape(x) for x in dim.allowed_values])
-                
+                except:
+                    import pdb;pdb.set_trace()            
                 allowed_obj = {
                     "type": "object",
                     "additionalProperties": False,
@@ -267,11 +260,13 @@ class Schema(object):
 """ TODO: Refactor the code below. Not very intuitive..
 """
 class Dimension(object):
-    def __init__(self, dim_id, dim_label, datatypes, datatypes_dir="marple-datatypes"):
+    def __init__(self, dim_id, dim_label, datatypes,
+        lang=None, datatypes_dir="marple-datatypes"):
         """ Represents a dimension in the schema.
 
         :param dim_id (str): Id of dimension
         :param dim_label (str): Label
+        :param lang (str): Typically "sv" or "en"
         :param datatypes (str|list):
             Name of permitted datatypes, for example "source".
             The datatype(s) must be defined in datatypes.csv.
@@ -280,6 +275,7 @@ class Dimension(object):
         self._id = dim_id
         self._label = dim_label
         self._datatypes_dir = datatypes_dir
+        self.lang = lang
 
         if isinstance(datatypes, str):
             datatypes = datatypes.split(",")
@@ -314,20 +310,17 @@ class Dimension(object):
 
         return _allowed_values
 
-    @property
     def labels(self):
         """ Return a dict with labels.
         """
 
-        if self._labels is None:
-            labels = {}
-            for datatype_name in self._datatypes:
-                datatype = Datatype(datatype_name, datatypes_dir=self._datatypes_dir)
-                labels.update(datatype.labels)
+        labels = {}
+        for datatype_name in self._datatypes:
+            datatype = Datatype(datatype_name, datatypes_dir=self._datatypes_dir)
+            datatype_labels = datatype.labels(lang=self.lang)
+            labels.update(datatype_labels)
 
-            self._labels = labels
-
-        return self._labels
+        return labels
     
 
 
@@ -370,20 +363,19 @@ class Datatype(object):
         if not self.domain:
             return []
         else:
-            return [x.decode("utf-8") for x in self.domain.data["id"].astype('str').tolist()]
+            return self.domain.data.index.tolist()
             
 
-    @property
-    def labels(self):
+    def labels(self, lang=None):
+        """ Get labels for the dimension (via datatype)
+        
+            :param lang: language of labels, typically "sv" or "en"
+            :returns: a dict with index as key and label as value
+        """
         if not self.domain:
             return {}
         else:
-            try:
-                label_df = self.domain.data.astype('str').set_index("id")["label"]
-                label_df.index = label_df.index.map(lambda x: unicode(x, 'utf-8'))
-                return label_df.to_dict()
-            except KeyError:
-                return {}
+            return self.domain.labels(lang=lang)
 
     
     def _parse_datatypes_csv(self, name, csv_path):

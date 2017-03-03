@@ -1,7 +1,7 @@
 # encoding: utf-8
 import pytest
 import os
-from marple.csv import CsvFile, DimensionsCsv
+from marple.csv import CsvFile, CsvFileWithLabel, DimensionsCsv
 
 DATA_DIR_PATH = "tests/data/csv/"
 
@@ -117,4 +117,19 @@ def test_new_csv_file():
     # Clean up
     setup()
 
+def test_get_labels_from_csv_file():
+    """ Test .label() method
+    """
+    class LabeledCsv(CsvFile, CsvFileWithLabel):
+        pass
+
+    csv_file = LabeledCsv(os.path.join(DATA_DIR_PATH,"csv_file_with_labels.csv"))
+
+    assert csv_file.label("my_row") == "My row"
+    assert csv_file.label("my_row", lang="sv") == "Min rad"
+    assert csv_file.label("my_row", lang="en") == "My row in English"
+
+    assert csv_file.label("my_untranslated_row") == "My untranslated row"
+    assert csv_file.label("my_untranslated_row", lang="sv") == "My untranslated row"
+    assert csv_file.label("my_untranslated_row", lang="en") == "My untranslated row"
 

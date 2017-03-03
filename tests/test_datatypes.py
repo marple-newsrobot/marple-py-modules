@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+import pytest
 from marple.datatypes import Domain
 
 def test_that_domain_returns_correct_number_of_files():
@@ -23,7 +24,17 @@ def test_that_parentless_region_returns_none():
     x = Domain("regions/*", datatypes_dir="tests/data/datatypes")
     assert x.parent(u"Sweden") == None
 
-def test_that_missing_row_returns_none():
+def test_that_missing_row_returns_throws_error():
     x = Domain("regions/*", datatypes_dir="tests/data/datatypes")
-    assert x.row("i_do_not_exist") == None
+    with pytest.raises(KeyError):
+        assert x.row("i_do_not_exist")
 
+def test_labels():
+    domain = Domain("misc/test", datatypes_dir="tests/data/datatypes")
+
+
+    assert domain.labels() == { "row_id": "Test datatyp" }
+    assert domain.labels(lang="en") == { "row_id": "Test datatype in English" }
+
+    assert domain.label("row_id") == "Test datatyp"
+    assert domain.label("row_id", lang="en") == "Test datatype in English"
