@@ -1,0 +1,4 @@
+id,multi_id,label
+ok_id,,This is a valid row
+duplicated_id,a,This is not okay on multiindex
+duplicated_id,b,This is also not okay

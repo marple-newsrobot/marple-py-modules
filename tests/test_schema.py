@@ -4,6 +4,7 @@ import json
 import pytest
 from jsonschema import Draft4Validator, FormatChecker
 from marple.schema import Schema
+from marple.csv import CsvFile
 from marple.dataset import Dataset
 from marple.connection import DatabaseSchemaConnection
 from data.config import POSTGREST_URL
@@ -24,6 +25,8 @@ def test_sample_schema(get_schema):
     assert x.id == 'ams-unemployment-monthly-rate-foreignborn'
     assert x.source == "AMS"
     assert x.topic == "unemployment"
+    assert x.measure == "rate"
+    assert x.periodicity == "monthly"
 
 def test_dimension_metods(get_schema):
     """ Test that dimension metods and props have as they should
@@ -45,6 +48,9 @@ def test_json_schema_output(get_schema):
         assert validator.is_valid(x.as_json_schema)
 
 def test_validate_dataset_with_generated_json_schema():
+    """ Apply the json schema generated from the Schema class on an actual
+        dataset.
+    """
     dataset_id = "ams-unemployment-monthly-count-total"
     dataset = Dataset("tests/data/schema/dataset/{}.json".format(dataset_id))
     connection = DatabaseSchemaConnection(POSTGREST_URL)
@@ -53,3 +59,5 @@ def test_validate_dataset_with_generated_json_schema():
 
     validator = Draft4Validator(schema.as_json_schema, format_checker=FormatChecker())
     assert validator.is_valid(dataset.json)
+
+

@@ -2,11 +2,11 @@
 import csvkit as csv
 import os
 import json
-import pandas as pd
 from copy import deepcopy
 import re
 
 from marple.datatypes import Domain
+from marple.csv import DatasetCsv, DimensionsCsv
 
 class Schema(object):
     def __init__(self,
@@ -82,8 +82,20 @@ class Schema(object):
         """ Metadata to be used and stored in jsonstat["extension"]
         """
         return self._metadata
-    
 
+    @property
+    def periodicity(self):
+        """ The periodicity is derived from the id
+        """
+        return self._id.split("-")[2]
+
+    @property
+    def measure(self):
+        """ The measure is derived from the id
+        """
+        return self._id.split("-")[3]
+    
+    
     @property
     def as_json_schema(self):
         return self._to_json_schema()
@@ -105,19 +117,18 @@ class Schema(object):
         """
 
         id_parts = dataset_id.split("-")
-        table_id = id_parts[-1]
-        measure = id_parts[-2]
-        dir_path = os.path.join(self._base_dir, "/".join(id_parts[:-2]))
-        # Make sure that the folder exists
-        if not os.path.exists(dir_path):
-            msg = u"{} does not exist in schema directory"
-            raise ValueError(msg.format(dir_path).encode('utf-8'))
+        source = id_parts[0]
+        topic_id = id_parts[1]
+        periodicity = id_parts[2]
+        measure = id_parts[3]
+        datasets_dir = os.path.join(self._base_dir, source, topic_id, periodicity)
+        table_id = "-".join(id_parts[4:])
 
         # Make sure there is a datasets.csv file in the dir
-        datasets_csv_path = os.path.join(dir_path, "datasets.csv")
+        datasets_csv_path = os.path.join(datasets_dir, "datasets.csv")
         if not os.path.exists(datasets_csv_path):
             msg = u"datasets.csv is missing in {}"
-            raise ValueError(msg.format(dir_path).encode("utf-8"))
+            raise ValueError(msg.format(datasets_dir).encode("utf-8"))
 
 
         # Make sure that the last part of the id is listed in the dataset
@@ -130,7 +141,10 @@ class Schema(object):
         dims_csv = DimensionsCsv(path)
         data = {}
         for dim_id, row in dims_csv.data.iterrows():
-            datatypes = row["datatype"].split(",")
+            if row["datatype"] is None:
+                datatypes = []
+            else:
+                datatypes = row["datatype"].split(",")
             dim_label = row["label"]
             data[dim_id] = Dimension(dim_id,
                                        dim_label,
@@ -248,106 +262,6 @@ class Schema(object):
 
         return json_schema
 
-
-class CsvFile(object):
-    """ Base class for parsing metadata.csv, schema.csv and datasets.csv
-    """
-
-    # Name of index column in the csv file
-    index_col = "id" 
-
-    # List of required columns, used for validation
-    required_cols = None 
-
-    def __init__(self, file_path, index_col=index_col, required_cols=required_cols):
-        self.file_path = file_path
-        self._index_col = index_col
-
-        # Init
-        self.data = pd.read_csv(file_path, encoding="utf-8", dtype=object)
-        self.validate()
-        self.data = self.data.set_index(index_col)
-    
-
-    def row(self, row_index):
-        """ Select a row in the csv file.
-            If multi index `row_index` should be a list
-        """
-        if isinstance(self._index_col, list):
-            if not isinstance(row_index, list):
-                msg = (u"This is a multiindex csv file. Must be queried"
-                        u"with list. Got '{}'.").format(row_index)
-                raise ValueError(msg.encode("utf-8"))
-
-            if len(row_index) != len(self._index_col):
-                msg = (
-                    u"Length of multiindex ({}) and query ({})"
-                    u" don't match.")\
-                    .format(len(self._index_col), len(row_index))
-                raise ValueError(msg.encode("utf-8"))
-            row = self.data.loc[tuple(row_index),:]
-            index_as_dict = dict(zip(self._index_col, row.name))
-        else:
-            row = self.data.loc[row_index,:]
-            index_as_dict = { self._index_col: row.name }
-        if len(row) == 0:
-            msg = u"'{}' missing in index column ('{}') in {}"
-            msg = msg.format(row_index, self._index_col, self.file_path)
-            raise ValueError(msg.encode("utf-8"))
-        elif len(row) > 1:
-            msg = u"There are multiple rows with index '{}' in {}. Index column is '{}'."
-            msg = msg.format(row_index, self._index_col, self.file_path)
-            raise ValueError(msg.encode("utf-8"))
-
-
-        row_as_dict = row.to_dict()
-        row_as_dict.update(index_as_dict)
-
-        return row_as_dict
-
-    def column(self, col_name):
-        """ Returns the values of a column as dict with index value as key
-        """
-        return self.data.loc[:,col_name].to_dict()
-
-    def validate(self):
-        """ Perform validations
-        """
-        return self._validate_cols()
-
-    def _validate_cols(self):
-        """ Make sure that all required cols exist in csv file.
-            Raise error if not.
-        """
-        if not self.required_cols:
-            return True
-
-        for col in self.required_cols:
-            if col not in self.data.columns:
-                msg = u"Required column '{}' is missing in {}."
-                msg = msg.format(col, self.file_path)
-                raise ValueError(msg.encode("utf-8"))
-
-        return True
-
-class DatasetCsv(CsvFile):
-    index_col = ["id", "measure"]
-    required_cols = ["id", "label", "measure"]
-
-    def __init__(self, file_path, index_col=index_col, 
-        required_cols=required_cols):
-        super(DatasetCsv, self).__init__(file_path, index_col=index_col,
-            required_cols=required_cols)
-
-
-class DimensionsCsv(CsvFile):
-    index_col = "dimension"
-    required_cols = ["dimension","datatype","label"]
-
-    def __init__(self, file_path, index_col=index_col, 
-        required_cols=required_cols):
-        super(DimensionsCsv, self).__init__(file_path, index_col=index_col,
-            required_cols=required_cols)
 
 
 """ TODO: Refactor the code below. Not very intuitive..

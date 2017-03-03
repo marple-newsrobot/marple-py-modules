@@ -48,7 +48,6 @@ class Domain(object):
             # No row with this id
             return None
         elif len(row) > 1:
-            import pdb;pdb.set_trace()
             raise Exception(u"Multiple rows with id '{}' in this domain."\
                 .format(id_))
         else:

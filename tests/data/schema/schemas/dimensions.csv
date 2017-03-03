@@ -1,4 +1,4 @@
-dimension,datatype,label
+id,datatype,label
 region,"region",Region
 measure,measure,"Mått"
 timepoint,date,"Tidpunkt"
