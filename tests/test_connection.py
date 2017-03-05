@@ -9,7 +9,7 @@ from data.config import (POSTGREST_URL, POSTGREST_JWT_TOKEN, POSTGREST_ROLE,
     AWS_ACCESS_ID, AWS_ACCESS_KEY)
 
 
-def test_get_with_local_connection():
+def _test_get_with_local_connection():
     """ Should open all files in data/connection and verify count
     """
     connection = LocalConnection("tests/data/connection")
@@ -17,7 +17,7 @@ def test_get_with_local_connection():
     expected_number_of_files_in_folder = 2
     assert len(files) == expected_number_of_files_in_folder
 
-def test_get_by_id_with_local_connection():
+def _test_get_by_id_with_local_connection():
     """ Open file1.json and verify that content is correct
     """
     connection = LocalConnection("tests/data/connection")
@@ -25,12 +25,12 @@ def test_get_by_id_with_local_connection():
     assert file_content == { "id": "file1" } 
 
 
-def test_missing_file_should_not_exist():
+def _test_missing_file_should_not_exist():
     connection = LocalConnection("tests/data/connection")
     assert connection.exists(id="missing_file") == False
 
 
-def test_list_schemas_from_api():
+def _test_list_schemas_from_api():
     """ Make sure that listing schemas from database works
     """
     connection = DatabaseSchemaConnection(POSTGREST_URL)
@@ -39,7 +39,7 @@ def test_list_schemas_from_api():
     assert isinstance(schemas[0], unicode)
 
 
-def test_get_schema_from_api():
+def _test_get_schema_from_api():
     """ Make sure that listing schemas from database works
     """
     connection = DatabaseSchemaConnection(POSTGREST_URL)
@@ -54,21 +54,24 @@ def test_get_schema_from_api():
 def database_dataset_connection():
     """ Set up database dataset test by adding an existing dataset
     """
-    connection = DatabaseDatasetConnection(POSTGREST_URL, "dataset_test",
+    return DatabaseDatasetConnection(POSTGREST_URL, "dataset_test",
         jwt_token=POSTGREST_JWT_TOKEN, db_role=POSTGREST_ROLE)
-    
+
+
+@pytest.fixture(scope="session")
+def get_existing(database_dataset_connection, existing):
+    connection = database_dataset_connection
     # Add an pre-existing dataset to the database
     existing_ds = Dataset(u"tests/data/connection/dataset/ams-unemployment-monthly-count-total-2016-09.json")
     dataset_id = existing_ds.extension["id"]
     r = connection.store(dataset_id, existing_ds.json, on_existing="override")
     if r.status_code not in [201,204]:
-        import pdb;pdb.set_trace()
         raise ValueError("Error setting up database connection")     
     
-    return connection, existing_ds
+    return existing_ds
 
 
-def test_append_dataset_on_database_connection(database_dataset_connection):
+def _test_append_dataset_on_database_connection(database_dataset_connection, existing):
     """ Append a dataset to an existing one
     """
     connection, existing_ds = database_dataset_connection
@@ -85,7 +88,7 @@ def test_append_dataset_on_database_connection(database_dataset_connection):
     assert ds_from_db.dimension("timepoint").length == 2
     assert ds_from_db.dimension("region").length == original_ds.dimension("region").length
 
-def test_override_existing_dataset_on_database_connection(database_dataset_connection):
+def _test_override_existing_dataset_on_database_connection(database_dataset_connection, existing):
     """ Override an existing dataset with on_existing="override" param
     """
     connection, existing_ds = database_dataset_connection
@@ -106,6 +109,14 @@ def test_override_existing_dataset_on_database_connection(database_dataset_conne
     assert timepoint_new != timepoint_original
 
 
+def test_error_dataset(database_dataset_connection):
+    """ Override an existing dataset with on_existing="override" param
+    """
+    connection = database_dataset_connection
+    
+    # Add a new dataset with override=Ture
+    ds = Dataset(u"tests/data/connection/dataset/scb-OE_OE0701_ForvInkomsterA-yearly-wage-taxable earned income.json")
+    connection.store(ds.id, ds.json, on_existing="override")
 
 
 # ==========================
@@ -116,7 +127,7 @@ def database_alarm_connection():
     return DatabaseConnection(POSTGREST_URL, "alarm_test",
         jwt_token=POSTGREST_JWT_TOKEN, db_role=POSTGREST_ROLE)
 
-def test_add_alarm_on_database_connection(database_alarm_connection):
+def _test_add_alarm_on_database_connection(database_alarm_connection):
     """ Trying adding an alarm to database
     """
     connection = database_alarm_connection
@@ -126,14 +137,14 @@ def test_add_alarm_on_database_connection(database_alarm_connection):
     assert r.status_code in [201, 204]
 
 
-def test_alarm_connection_on_database_without_auth():
+def _test_alarm_connection_on_database_without_auth():
     """ Make a basic request without auth
     """
     connection = DatabaseConnection(POSTGREST_URL, "alarm_test")
     # Sample query
     assert connection.exists(id="foo") == False
 
-def test_query_alarms_with_list_on_database_connection():
+def _test_query_alarms_with_list_on_database_connection():
     """ Make a query with a list of regions
         This test depends on the old db entries not changing
     """
@@ -150,7 +161,7 @@ def database_newslead_connection():
     return DatabaseConnection(POSTGREST_URL, "newslead_test",
         jwt_token=POSTGREST_JWT_TOKEN, db_role=POSTGREST_ROLE)
 
-def test_add_newslead_on_database_connection(database_newslead_connection):
+def _test_add_newslead_on_database_connection(database_newslead_connection):
     """ Trying adding an alarm to database
     """
     connection = database_newslead_connection
@@ -170,14 +181,14 @@ def get_aws_connection():
     return AWSConnection("marple", AWS_ACCESS_ID, AWS_ACCESS_KEY)
 
 
-def test_store_text_file_to_s3(get_aws_connection):
+def _test_store_text_file_to_s3(get_aws_connection):
     """ Store a simple text file 
     """
     connection = get_aws_connection
     resp = connection.store(u"test_text_file_åäö.txt", u"Hej världen", folder="test")
     assert resp["ResponseMetadata"]["HTTPStatusCode"] == 200
 
-def test_store_image_file_to_s3(get_aws_connection):
+def _test_store_image_file_to_s3(get_aws_connection):
     """ Store a simple text file 
     """
     connection = get_aws_connection

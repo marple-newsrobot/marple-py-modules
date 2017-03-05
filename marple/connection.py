@@ -99,13 +99,17 @@ class LocalConnection(Connection):
                 if filename[-5:] == ".json":
                     yield self.get_by_filename(filename)
 
-    def store(self, filename, json_data, folder=None, override=True):
+    def store(self, filename, json_data, folder=None, on_existing="override"):
         """ Store the file 
         :param filename: name of file or id. ".json" added if missing  
         :param json_data: json data to be stored
         :param folder: Path to output folder. Defaults to connection folder.
-        :param override: Override existing file (not implemented yet)
+        :param on_existing: Currently only supporting "override"
         """
+        if on_existing not in ["override"]:
+            msg = u"{} not implemented yet for LocalConnection".format(on_existing)
+            raise NotImplementedError(msg)
+            
         if folder == None:
             folder = self.path
 
@@ -318,6 +322,7 @@ class DatabaseDatasetConnection(DatabaseConnection):
                     .single()\
                     .request()
 
+
                 # Get existing data
                 existing_ds = Dataset(_r.json()["json_data"])
                 
@@ -334,7 +339,11 @@ class DatabaseDatasetConnection(DatabaseConnection):
                 .jwt_auth(self._jwt_token, { "role": self._db_role })\
                 .json(json_data)\
                 .eq("id", id)\
-                .request()  
+                .request()
+
+        if r.status_code == 400:
+            msg = r.json()["message"]
+            raise ConnectionError(msg)  
 
         return r
 
@@ -372,22 +381,7 @@ class DatabaseSchemaConnection(Connection):
 
         return r.json()["json_data"]
 
-class RequestException(Exception):
-    """ Custom exception for request errors. Makes the
-        resonse instance availble in the raised exception 
-        for debugging.
-
-        :param message (str): A regular error message.
-        :param resp (Requests.Response): The response instance where the error
-            occured.
-    """
-    def __init__(self, message, resp):
-        super(RequestException, self).__init__(message)
-
-        # Store 
-        self.resp = resp
-
-
+ 
 class AWSConnection(Connection):
     """ For storing files at Amazon
     """
@@ -417,3 +411,22 @@ class AWSConnection(Connection):
         if isinstance(file_data, file):
             return self.s3_client.upload_fileobj(file_data, self.bucket, filename)
         
+class RequestException(Exception):
+    """ Custom exception for request errors. Makes the
+        resonse instance availble in the raised exception 
+        for debugging.
+
+        :param message (str): A regular error message.
+        :param resp (Requests.Response): The response instance where the error
+            occured.
+    """
+    def __init__(self, message, resp):
+        super(RequestException, self).__init__(message)
+
+        # Store 
+        self.resp = resp
+
+class ConnectionError(Exception):
+    """ Custom excpetion for the Connection class
+    """
+    pass
