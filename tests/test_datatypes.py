@@ -2,6 +2,7 @@
 
 import pytest
 from marple.datatypes import Domain
+from marple.utils import isNaN
 
 def test_that_domain_returns_correct_number_of_files():
     x = Domain("regions/*", datatypes_dir="tests/data/datatypes")
@@ -32,9 +33,19 @@ def test_that_missing_row_returns_throws_error():
 def test_labels():
     domain = Domain("misc/test", datatypes_dir="tests/data/datatypes")
 
-
     assert domain.labels() == { "row_id": "Test datatyp" }
     assert domain.labels(lang="en") == { "row_id": "Test datatype in English" }
 
     assert domain.label("row_id") == "Test datatyp"
     assert domain.label("row_id", lang="en") == "Test datatype in English"
+    assert domain.label("row_id", lang="non_existing") == "Test datatyp"
+
+    regions_domain = Domain("regions/*", datatypes_dir="../marple-datatypes")
+
+    for index, label in regions_domain.labels().iteritems():
+        msg = u"No label for '{}'".format(index)
+        assert not isNaN(label) and label is not None, msg 
+
+    for index, label in regions_domain.labels(lang="en").iteritems():
+        msg = u"No label for '{}'".format(index)
+        assert not isNaN(label) and label is not None, msg 

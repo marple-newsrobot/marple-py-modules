@@ -72,6 +72,10 @@ def test_language_methods():
     schema_en = Schema(TEST_SCHEMA_ID, connection, base_dir=BASE_DIR,
         datatypes_dir=DATATYPES_DIR, lang="en")
 
+    schema_no_lang = Schema(TEST_SCHEMA_ID, connection, base_dir=BASE_DIR,
+        datatypes_dir=DATATYPES_DIR)
+
+
     # This one should be translated
     assert schema_en.dimension("timepoint").label == "Timepoint"
 
@@ -82,3 +86,6 @@ def test_language_methods():
 
     assert labels_en["male"] == "Men"
 
+    defalt_labels = schema_no_lang.dimension("gender").labels()
+
+    assert defalt_labels["male"] == u"Män"

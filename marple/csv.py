@@ -2,7 +2,7 @@
 
 import pandas as pd 
 import os
-
+from marple.utils import isNaN
 
 
 class CsvFile(object):
@@ -222,7 +222,7 @@ class CsvFileWithLabel(object):
         try:
 
             label = row["label__" + unicode(lang)]
-            if label is not None:
+            if label is not None and not isNaN(label):
                 return label
         except:
             pass
