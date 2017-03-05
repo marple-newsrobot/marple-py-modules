@@ -40,7 +40,7 @@ def test_labels():
     assert domain.label("row_id", lang="en") == "Test datatype in English"
     assert domain.label("row_id", lang="non_existing") == "Test datatyp"
 
-    regions_domain = Domain("regions/*", datatypes_dir="../marple-datatypes")
+    regions_domain = Domain("regions/*", datatypes_dir="tests/data/datatypes")
 
     for index, label in regions_domain.labels().iteritems():
         msg = u"No label for '{}'".format(index)
