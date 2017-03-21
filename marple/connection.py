@@ -359,14 +359,22 @@ class DatabaseDatasetConnection(DatabaseConnection):
             .request()
         
 
-class DatabaseSchemaConnection(Connection):
-    def __init__(self, api_url):
+class DatabaseFileConnection(Connection):
+    """ 'schema' and 'recipe' are not stored in the actual 
+        postgres database. Hence the API to get these are slightly different. 
+    """
+
+    def __init__(self, api_url, endpoint=None):
+        """ :param base_url: Url to api
+            :param endpoint: eg. 'recipe', 'schema'
+        """
         self.base_url = api_url
+        self.endpoint = endpoint
 
     def get(self):
         """ List all schemas
         """
-        r = requests.get(self.base_url + "/schemas")
+        r = requests.get(self.base_url + "/" + self.endpoint)
         if r.status_code != 200:
             raise RequestException("{}: {}".format(r.status_code, r.reason), r)        
 
@@ -375,11 +383,24 @@ class DatabaseSchemaConnection(Connection):
     def get_by_id(self, id_):
         """ Get a schema by id
         """
-        r = requests.get(self.base_url + "/schema/" + id_)
+        r = requests.get(self.base_url + "/" + self.endpoint + "/" + id_)
         if r.status_code != 200:
             raise RequestException("{}: {}".format(r.status_code, r.reason), r)        
 
         return r.json()["json_data"]
+
+
+class DatabaseSchemaConnection(DatabaseFileConnection):
+    def __init__(self, api_url):
+        super(DatabaseSchemaConnection, self).__init__(api_url)
+        self.endpoint = "schema"
+
+class DatabaseRecipeConnection(DatabaseFileConnection):
+    def __init__(self, api_url):
+        super(DatabaseRecipeConnection, self).__init__(api_url)
+        self.endpoint = "recipe"
+
+
 
  
 class AWSConnection(Connection):
