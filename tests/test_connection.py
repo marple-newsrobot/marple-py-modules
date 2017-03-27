@@ -67,6 +67,11 @@ def test_get_recipes_from_api():
         # TODO: Assert that the recipe actully matches json schema
         assert len(recipe.keys()) > 0
 
+def test_get_recipe_with_unicode_id_and_no_json():
+    connection = DatabaseRecipeConnection(POSTGREST_URL)
+    recipe = connection.get_by_id(u"brå-reported_crime_by_crime_type-monthly")
+    assert len(recipe.keys()) > 0
+
 # ===================
 #    DATASET TESTS
 # ===================

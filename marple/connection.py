@@ -386,8 +386,11 @@ class DatabaseFileConnection(Connection):
         return r.json()
 
     def get_by_id(self, id_):
-        """ Get a schema by id
+        """ Get a schema by id. Id may or may not include .json at the end
         """
+        if id_[-5:] is not ".json":
+            id_ += ".json"
+
         r = requests.get(self.base_url + "/" + self.endpoint + "/" + id_)
         if r.status_code != 200:
             raise RequestException("{}: {}".format(r.status_code, r.reason), r)        
