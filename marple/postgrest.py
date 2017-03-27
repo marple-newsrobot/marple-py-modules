@@ -76,6 +76,15 @@ class Api(object):
         """
         return self.request("patch", path)
 
+    def delete(self, path):
+        """Perform a DELETE request to the Postgrest API.
+
+        :param path (str): Route path (for example `/dataset`)
+        :returns: The API request object.
+        :rtype: ApiRequest
+        """
+        return self.request("delete", path)
+
 
     """
     TODO: Add methods for all HTTP verbs

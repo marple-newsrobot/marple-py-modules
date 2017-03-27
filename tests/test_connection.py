@@ -164,6 +164,19 @@ def test_query_alarms_with_list_on_database_connection():
         region=[u"Älmhults kommun", u"Åmåls kommun"])
     assert len(alarms) == 7
 
+def test_delete_alarm():
+    connection = DatabaseConnection(POSTGREST_URL, "alarm_test",
+        jwt_token=POSTGREST_JWT_TOKEN, db_role=POSTGREST_ROLE)
+    with open("tests/data/connection/alarm/example_alarm.json") as f:
+        alarm = json.load(f)
+    r = connection.store(alarm["id"], alarm)
+    if r.status_code in [201, 204]:
+        r = connection.delete(alarm["id"])
+        assert r.status_code == 204
+    else:
+
+        assert False, "Error setting up test"
+
 # ==========================
 #    NEWSLEAD TESTS
 # ==========================

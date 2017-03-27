@@ -289,6 +289,19 @@ class DatabaseConnection(Connection):
 
         return r
 
+
+    def delete(self, id_):
+        """ Remove an object from database by id
+        """
+        # Handle both "my_id" and "my_id.json"
+        id_ = id_.replace(".json","")
+
+        return self.api.delete(self.model)\
+            .jwt_auth(self._jwt_token, { "role": self._db_role })\
+            .eq("id",id_)\
+            .request()
+
+
 class DatabaseDatasetConnection(DatabaseConnection):
     """ Datasets behave differently than other objects (alarms and newsleads).
         On `.store()` we need to be able to append to existing dataset.
@@ -346,17 +359,6 @@ class DatabaseDatasetConnection(DatabaseConnection):
             raise ConnectionError(msg)  
 
         return r
-
-    def delete(self, id_):
-        """ Remove an object from database by id
-        """
-        # Handle both "my_id" and "my_id.json"
-        id_ = filename.replace(".json","")
-
-        return self.api.delete(self.model)\
-            .jwt_auth(self._jwt_token, { "role": self._db_role })\
-            .eq(id_)\
-            .request()
         
 
 class DatabaseFileConnection(Connection):
