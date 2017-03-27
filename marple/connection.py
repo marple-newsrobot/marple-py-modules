@@ -82,11 +82,12 @@ class LocalConnection(Connection):
         """ Get all json files in folder based on query
         """
         if "id" in kwargs:
-            yield self.get_by_id(kwargs["id"])
+            return self.get_by_id(kwargs["id"])
         else:
             """ TODO: Make it possible to query with lists.
                 e.g. { "source": ["AMS", "SMS"] }
             """
+            data = []
             for key, value in kwargs.iteritems():
                 if isinstance(value, list):
                     msg = ("Making queries with lists is only possible on database " +
@@ -97,7 +98,9 @@ class LocalConnection(Connection):
             for file_path in glob(os.path.join(self.path, file_expr)):
                 filename = os.path.basename(file_path)
                 if filename[-5:] == ".json":
-                    yield self.get_by_filename(filename)
+                    data.append(self.get_by_filename(filename))
+
+            return data
 
     def store(self, filename, json_data, folder=None, on_existing="override"):
         """ Store the file 
