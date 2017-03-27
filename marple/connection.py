@@ -59,6 +59,8 @@ class LocalConnection(Connection):
     def exists(self, **kwargs):
         """Check if any objects like this exists """
         objects = self.get(**kwargs)
+        if objects is None:
+            return False
         # Check if more than 0
         if sum(1 for e in objects if e != None):
             return True
@@ -388,7 +390,7 @@ class DatabaseFileConnection(Connection):
     def get_by_id(self, id_):
         """ Get a schema by id. Id may or may not include .json at the end
         """
-        if id_[-5:] is not ".json":
+        if not id_[-5:] == ".json":
             id_ += ".json"
 
         r = requests.get(self.base_url + "/" + self.endpoint + "/" + id_)
