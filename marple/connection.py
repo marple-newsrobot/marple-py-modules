@@ -422,6 +422,7 @@ class AWSConnection(Connection):
             aws_secret_access_key=aws_secret_access_key,
             config=Config(signature_version='s3v4'))
         self.bucket = bucket_name
+        self.type = "aws"
 
     def store(self, filename, file_data, folder=None):
         """
