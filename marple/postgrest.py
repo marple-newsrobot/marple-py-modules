@@ -250,9 +250,54 @@ class ApiRequest(object):
             value = ",".join(value)
         return self.filter(column, "in", value)
 
-    """ TODO:
-        Add methods for all filter operators dynamically
-    """
+    def gt(self, column, value):
+        """A convenience method for filtering on the "greater than" opertor
+
+        :param column (str): Column name.
+        :param value (str): Value to filter by.
+        :returns: The API request object.
+        :rtype: ApiRequest        
+
+        """
+        return self.filter(column, "gt", value)
+
+
+    def gte(self, column, value):
+        """A convenience method for filtering on the "greater than or equal to"
+        opertor
+
+        :param column (str): Column name.
+        :param value (str): Value to filter by.
+        :returns: The API request object.
+        :rtype: ApiRequest        
+
+        """
+        return self.filter(column, "gte", value)
+
+
+    def lt(self, column, value):
+        """A convenience method for filtering on the "less than" opertor
+
+        :param column (str): Column name.
+        :param value (str): Value to filter by.
+        :returns: The API request object.
+        :rtype: ApiRequest        
+
+        """
+        return self.filter(column, "lt", value)
+
+
+    def lte(self, column, value):
+        """A convenience method for filtering on the "less than or equal to"
+        opertor
+
+        :param column (str): Column name.
+        :param value (str): Value to filter by.
+        :returns: The API request object.
+        :rtype: ApiRequest        
+
+        """
+        return self.filter(column, "lte", value)
 
     def order(self):
         raise NotImplementedError()
