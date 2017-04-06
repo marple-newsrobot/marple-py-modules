@@ -137,8 +137,11 @@ class LocalConnection(Connection):
         :returns: A path expression to be passed to `glob()` 
         :rtype: str:
         """
-        if not query:
-            return "*"
+        # Return all files by default
+        if isinstance(query, dict):
+            if len(query.keys()) > 0:
+                raise ValueError("This local connection does not accept queries.")
+        return "*"
 
 
 class LocalDatasetConnection(LocalConnection):
@@ -160,6 +163,10 @@ class LocalDatasetConnection(LocalConnection):
         for key, value in query.iteritems():
             if key in fragments:
                 fragments[key] = query[key].lower()
+            else:
+                msg = u"{} is not a valid key to get local files by."\
+                    .format(key)
+                raise ValueError(msg)
 
         return u"-".join(fragments.values()) + ".json"
 
@@ -182,6 +189,10 @@ class LocalAlarmConnection(LocalConnection):
         for key, value in query.iteritems():
             if key in fragments:
                 fragments[key] = query[key].replace(" ", "-")
+            else:
+                msg = u"{} is not a valid key to get local files by."\
+                    .format(key)
+                raise ValueError(msg)
 
         return u"|".join(fragments.values()) + ".json"
 

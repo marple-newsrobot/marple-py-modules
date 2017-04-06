@@ -30,6 +30,12 @@ def test_missing_file_should_not_exist():
     connection = LocalConnection("tests/data/connection")
     assert connection.exists(id="missing_file") == False
 
+def test_get_files_with_invalid_query():
+    connection = LocalConnection("tests/data/connection")
+
+    with pytest.raises(ValueError):
+        connection.get(missing_key="foo")
+
 
 def test_list_schemas_from_api():
     """ Make sure that listing schemas from database works
