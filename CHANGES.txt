@@ -15,3 +15,4 @@ v0.0.13, 2017-03-03 -- Added multilanguage support to schema
 v0.0.14, 2017-03-21 -- Added recipe connection
 v0.0.15, 2017-03-27 -- Add delete method to db connection + base class for worker
 v0.0.16, 2017-04-05 -- Added gt, gte, lt and lte methods to postgrest
+v0.0.17, 2017-04-06 -- Handle invalid query on local connection
