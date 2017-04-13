@@ -54,6 +54,16 @@ def test_list_recipes_from_api():
     assert len(recipes) > 0
     assert isinstance(recipes[0], unicode)
 
+def test_get_recipe_from_api():
+    """ 
+    """
+    connection = DatabaseRecipeConnection(POSTGREST_URL)
+    # This test depends on the name of the production recipe
+    # not changing, not optimal.
+    recipe = connection.get(id="ams-unemployment-monthly.json")
+
+    # Should work without .json also
+    recipe = connection.get(id="ams-unemployment-monthly")
 
 def test_get_schema_from_api():
     """ Make sure that listing schemas from database works

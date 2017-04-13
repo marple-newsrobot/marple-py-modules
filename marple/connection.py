@@ -389,9 +389,15 @@ class DatabaseFileConnection(Connection):
         self.base_url = api_url
         self.endpoint = endpoint
 
-    def get(self):
+    def get(self, **kwargs):
         """ List all schemas
         """
+        if "id" in kwargs:
+            return self.get_by_id(kwargs["id"])
+        elif len(kwargs.keys()) > 0:
+            msg = "Query not supported for DatabaseFileConnection."
+            raise ValueError(msg)
+
         r = requests.get(self.base_url + "/" + self.endpoint)
         if r.status_code != 200:
             raise RequestException("{}: {}".format(r.status_code, r.reason), r)        
@@ -401,12 +407,13 @@ class DatabaseFileConnection(Connection):
     def get_by_id(self, id_):
         """ Get a schema by id. Id may or may not include .json at the end
         """
-        if not id_[-5:] == ".json":
+        if id_[-5:] != ".json":
             id_ += ".json"
 
         r = requests.get(self.base_url + "/" + self.endpoint + "/" + id_)
         if r.status_code != 200:
-            raise RequestException("{}: {}".format(r.status_code, r.reason), r)        
+            raise RequestException("{}: {}, trying to get {}."\
+                .format(r.status_code, r.reason, id_), r)        
 
         return r.json()["json_data"]
 
