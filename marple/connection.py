@@ -439,10 +439,12 @@ class DatabasePipelineConnection(DatabaseFileConnection):
 class AWSConnection(Connection):
     """ For storing files at Amazon
     """
-    def __init__(self, bucket_name, aws_access_key_id, aws_secret_access_key):
+    def __init__(self, bucket_name, aws_access_key_id, aws_secret_access_key,
+        region_name="eu-central-1"):
         self.s3_client = boto3.client('s3',
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
+            region_name=region_name,
             config=Config(signature_version='s3v4'))
         self.bucket = bucket_name
         self.type = "aws"
