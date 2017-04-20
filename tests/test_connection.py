@@ -4,7 +4,7 @@ import json
 from copy import deepcopy
 from marple.connection import (LocalConnection, DatabaseSchemaConnection,
     DatabaseDatasetConnection, DatabaseConnection, DatabaseRecipeConnection,
-    AWSConnection)    
+    DatabasePipelineConnection, AWSConnection)    
 from marple.dataset import Dataset
 from data.config import (POSTGREST_URL, POSTGREST_JWT_TOKEN, POSTGREST_ROLE,
     AWS_ACCESS_ID, AWS_ACCESS_KEY)
@@ -87,6 +87,16 @@ def test_get_recipe_with_unicode_id_and_no_json():
     connection = DatabaseRecipeConnection(POSTGREST_URL)
     recipe = connection.get_by_id(u"brå-reported_crime_by_crime_type-monthly")
     assert len(recipe.keys()) > 0
+
+
+def test_get_pipeline_by_id_from_api():
+    connection = DatabasePipelineConnection(POSTGREST_URL)
+    pipelines = connection.get()
+    for pipeline_id in pipelines:
+        pipeline = connection.get_by_id(pipeline_id)
+        assert pipeline["id"] == pipeline_id.replace(".json","")
+
+
 
 # ===================
 #    DATASET TESTS

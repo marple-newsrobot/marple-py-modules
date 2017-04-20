@@ -429,6 +429,11 @@ class DatabaseRecipeConnection(DatabaseFileConnection):
         self.endpoint = "recipe"
 
 
+class DatabasePipelineConnection(DatabaseFileConnection):
+    def __init__(self, api_url):
+        super(DatabasePipelineConnection, self).__init__(api_url)
+        self.endpoint = "pipeline"
+
 
  
 class AWSConnection(Connection):
