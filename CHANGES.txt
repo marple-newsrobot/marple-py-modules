@@ -19,3 +19,4 @@ v0.0.17, 2017-04-06 -- Handle invalid query on local connection
 v0.0.18, 2017-04-13 -- Get recipe by id from db properly
 v0.0.19, 2017-04-20 -- Add pipeline connection
 v0.0.20, 2017-04-20 -- Add region to as connection
+v0.0.21, 2017-05-09 -- Add function for subtracting periods from timepoint to utils
