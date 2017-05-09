@@ -1,5 +1,5 @@
 # encoding: utf-8
-from marple.utils import list_files, guess_periodicity, to_timepoint
+from marple.utils import list_files, guess_periodicity, to_timepoint, subtract_periods
 
 def test_list_files():
     directory = "tests/data/utils/list_files"
@@ -23,3 +23,9 @@ def test_to_timepoint():
     assert to_timepoint("2015") == "2015-01-01"
     assert to_timepoint(2015) == "2015-01-01"
     assert to_timepoint("2015-03") == "2015-03-01"
+
+def test_subtract_periods():
+    assert subtract_periods(2015, 2, "yearly") == "2013-01-01"
+    assert subtract_periods("2015-03", 2, "monthly") == "2015-01-01"
+    assert subtract_periods("2015-07-01", 6, "monthly") == "2015-01-01"
+

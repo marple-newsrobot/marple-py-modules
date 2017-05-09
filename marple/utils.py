@@ -67,11 +67,47 @@ def to_timepoint(time_str):
     """
     time_str = unicode(time_str)
     if re.match("^\d\d\d\d$", time_str):
+        # "2015"
         return time_str + "-01-01"
     elif re.match("^\d\d\d\d-\d\d$", time_str):
+        # "2015-01"
         return time_str + "-01"
+    elif re.match("^\d\d\d\d-\d\d-\d\d$", time_str):
+        # 2015-01-01
+        return time_str
     else:
         raise ValueError(u"Unknown time string: '{}'".format(time_str))
+
+
+
+def subtract_periods(timepoint, n_periods, periodicity=None):
+    """ Subtract n number of periods from a timepoint
+    Example usage:
+    
+        subtract_periods(2015, 2, "yearly") => "2013-01-01"
+        subtract_periods("2015-03", 2, "monthly") => "2015-01-01"
+        subtract_periods("2015-07-01", 6, "monthly") => "2015-01-01"
+
+    :param timepoint (str|int): a timepoint
+    :param n_periods (str): number of periods 
+    :param periodicity (str): "monthly"|"yearly"|"rolling_quarter"|"rolling_year"
+    :returns: computed timepoint as string
+    """
+    if periodicity is None:
+        periodicity = guess_periodicity(timepoint)
+
+    timepoint = to_timepoint(timepoint)
+    dt = datetime.strptime(timepoint, "%Y-%m-%d")
+
+    if periodicity in ["monthly", "rolling_quarter", "rolling_year"]:
+        dt -= relativedelta(months=n_periods)
+    elif periodicity == "yearly":
+        dt -= relativedelta(years=n_periods)
+    else:
+        msg = u"Unable to subtract periods for periodicity '{}'".format(periodicity)
+        NotImplementedError(msg)
+
+    return datetime.strftime(dt, "%Y-%m-%d")
 
 
 def list_files(dir, extension=None, file_name=None):                                                                                                  
@@ -102,6 +138,7 @@ def list_files(dir, extension=None, file_name=None):
                 r.append(subdir + "/" + file)
 
     return r 
+
 
 
 def isNaN(num):
