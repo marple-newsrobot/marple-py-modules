@@ -1,4 +1,4 @@
-id,datatype,label
+id,allowed_values,label
 region,"country,county,municipality",Region
 age_group,age_group,"Åldersgrupp"
 foreignborn,foreignborn,"Utlandsfödd"

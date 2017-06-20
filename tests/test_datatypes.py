@@ -44,8 +44,13 @@ def test_labels():
 
     for index, label in regions_domain.labels().iteritems():
         msg = u"No label for '{}'".format(index)
-        assert not isNaN(label) and label is not None, msg 
+        assert not isNaN(label) and label is not None, msg
 
     for index, label in regions_domain.labels(lang="en").iteritems():
         msg = u"No label for '{}'".format(index)
-        assert not isNaN(label) and label is not None, msg 
+        assert not isNaN(label) and label is not None, msg
+
+def test_missing_label():
+    # This file does not have a label column, and should instead return id
+    periodicity_domain = Domain("misc/periodicity", datatypes_dir="tests/data/datatypes")
+    assert periodicity_domain.label("yearly") == "yearly"
