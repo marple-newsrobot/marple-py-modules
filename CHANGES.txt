@@ -20,3 +20,4 @@ v0.0.18, 2017-04-13 -- Get recipe by id from db properly
 v0.0.19, 2017-04-20 -- Add pipeline connection
 v0.0.20, 2017-04-20 -- Add region to as connection
 v0.0.21, 2017-05-09 -- Add function for subtracting periods from timepoint to utils
+v0.0.22, 2017-06-20 -- Use glob2 and fix label method
