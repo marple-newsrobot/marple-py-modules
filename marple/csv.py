@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-import pandas as pd 
+import pandas as pd
 import os
 from marple.utils import isNaN
 
@@ -11,17 +11,17 @@ class CsvFile(object):
     """
 
     # Name of index column in the csv file
-    index_col = "id" 
+    index_col = "id"
 
     # List of required columns, used for validation
-    required_cols = None 
+    required_cols = None
 
     def __init__(self, file_path, index_col=index_col,
         required_cols=required_cols):
-        """ 
+        """
             :param file_path: path to file
             :param index_col (str|list): name of index column(s)
-            :param required_cols (list): validate that these cols are in csv 
+            :param required_cols (list): validate that these cols are in csv
         """
         self.file_path = file_path
         self._index_col = index_col
@@ -52,15 +52,15 @@ class CsvFile(object):
                 # Empyt single index
                 self.data = pd.DataFrame(columns=cols)
                 self.data.index.name = index_col
-                
-        
+
+
             # Write the column names to file
             self.save()
         else:
             self.data = self._parse_input(file_path)
-        
+
         self.validate()
-    
+
 
     def row(self, row_index):
         """ Select a row in the csv file.
@@ -84,15 +84,15 @@ class CsvFile(object):
                 index_as_dict = dict(zip(self._index_col, row.name))
             else:
                 row = self.data.loc[row_index,:]
-                
+
                 if not isinstance(row, pd.DataFrame):
                     index_as_dict = { self._index_col: row.name }
 
         except KeyError:
             msg = u"'{}' missing in index column ('{}') in {}"
             msg = msg.format(row_index, self._index_col, self.file_path)
-            raise KeyError(msg.encode("utf-8"))            
-        
+            raise KeyError(msg.encode("utf-8"))
+
 
         if isinstance(row, pd.DataFrame):
             msg = u"There are multiple rows with index '{}' in {}. Index column is '{}'."
@@ -105,6 +105,7 @@ class CsvFile(object):
 
         return row_as_dict
 
+
     def column(self, col_name):
         """ Returns the values of a column as dict with index value as key
         """
@@ -116,7 +117,7 @@ class CsvFile(object):
         valid_cols = self._validate_cols()
         unique_index = self._validate_index_uniqueness()
 
-        return valid_cols and unique_index 
+        return valid_cols and unique_index
 
     def append(self, file_or_data):
         """ Add rows to the csv file using pandas .append
@@ -125,14 +126,14 @@ class CsvFile(object):
         df_to_append = self._parse_input(file_or_data)
 
         df = df.append(df_to_append)
-        
+
         # Drop possible duplicates
         self.data = df[~df.index.duplicated(keep='first')]
 
         return self.data
 
     def to_dictlist(self):
-        """ Returns a dict list representation of table 
+        """ Returns a dict list representation of table
         """
         return self.data.reset_index().T.to_dict().values()
 
@@ -145,7 +146,7 @@ class CsvFile(object):
         if isinstance(file_or_data, str) or isinstance(file_or_data, unicode):
             # Is filepath
             df = pd.read_csv(file_or_data, encoding="utf-8", dtype=object)
-                    
+
 
         elif isinstance(file_or_data, list) and isinstance(file_or_data[0], dict):
             # Is dictlist
@@ -154,7 +155,7 @@ class CsvFile(object):
             raise ValueError(u"Unrecoginzed input data: {}".format(file_or_data))
 
         df = df.set_index(self._index_col)
-        
+
         # Replace nan => None
         df = df.where((pd.notnull(df)), None)
 
@@ -197,26 +198,21 @@ class CsvFile(object):
 
 
 class CsvFileWithLabel(object):
-    """ Use this class as a mixin for csv files that contain 
+    """ Use this class as a mixin for csv files that contain
         multilanguage labels
     """
     def label(self, row_index, lang=None):
         """ A csv file may contain a default label column ('label') and
             language specific labels ('lang__sv', 'lang__en').
             The `.label()` method tries to get get a language label
-            for a given row and falls back to the default label if it 
+            for a given row and falls back to the default label if it
             doesn't exist.
 
-            :param row_index: index of row from which to get label 
-            :param lang: Typically "sv" or "en" 
+            :param row_index: index of row from which to get label
+            :param lang: Typically "sv" or "en"
             :returns: Label as string
         """
-        if "label" not in self.data.columns:
-            msg = u"Label column missing in {}".format(self.file_path)
-            raise CsvFileError(msg)
-
         row = self.row(row_index)
-
 
         # 1. Try to get lang specific label (eg 'label__sv')
         try:
@@ -226,8 +222,12 @@ class CsvFileWithLabel(object):
                 return label
         except:
             pass
-        
-        # 2. Resort to default label if lang label doesn't exist
+
+        # 2. Return index if label is empty (or not defined)
+        if isNaN(row["label"]):
+            return row_index
+
+        # 3. Resort to default label
         return row["label"]
 
 
@@ -238,7 +238,7 @@ class DatasetCsv(CsvFile, CsvFileWithLabel):
     index_col = ["id", "measure"]
     required_cols = ["id", "label", "measure"]
 
-    def __init__(self, file_path, index_col=index_col, 
+    def __init__(self, file_path, index_col=index_col,
         required_cols=required_cols):
         super(DatasetCsv, self).__init__(file_path, index_col=index_col,
             required_cols=required_cols)
@@ -248,9 +248,9 @@ class DimensionsCsv(CsvFile, CsvFileWithLabel):
     """ For dimensions.csv files used in /schemas
     """
     index_col = "id"
-    required_cols = ["id","datatype","label"]
+    required_cols = ["id","allowed_values","label"]
 
-    def __init__(self, file_path, index_col=index_col, 
+    def __init__(self, file_path, index_col=index_col,
         required_cols=required_cols):
         super(DimensionsCsv, self).__init__(file_path, index_col=index_col,
             required_cols=required_cols)
@@ -258,4 +258,4 @@ class DimensionsCsv(CsvFile, CsvFileWithLabel):
 class CsvFileError(Exception):
     """ Custom excpetion for the CsvFile class
     """
-    pass 
+    pass

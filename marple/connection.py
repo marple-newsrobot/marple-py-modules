@@ -8,7 +8,7 @@ from collections import OrderedDict
 from requests.auth import HTTPBasicAuth
 from simplejson import JSONDecodeError
 from bson import json_util
-from marple.postgrest import Api 
+from marple.postgrest import Api
 from marple.dataset import Dataset
 from glob import glob
 from os.path import basename
@@ -75,7 +75,7 @@ class LocalConnection(Connection):
 
         with open(file_path) as json_file:
             json_data = json.load(json_file, encoding="utf-8")
-        return json_data        
+        return json_data
 
     def get_by_id(self, id_):
         return self.get_by_filename(id_ + ".json")
@@ -105,8 +105,8 @@ class LocalConnection(Connection):
             return data
 
     def store(self, filename, json_data, folder=None, on_existing="override"):
-        """ Store the file 
-        :param filename: name of file or id. ".json" added if missing  
+        """ Store the file
+        :param filename: name of file or id. ".json" added if missing
         :param json_data: json data to be stored
         :param folder: Path to output folder. Defaults to connection folder.
         :param on_existing: Currently only supporting "override"
@@ -114,7 +114,7 @@ class LocalConnection(Connection):
         if on_existing not in ["override"]:
             msg = u"{} not implemented yet for LocalConnection".format(on_existing)
             raise NotImplementedError(msg)
-            
+
         if folder == None:
             folder = self.path
 
@@ -133,8 +133,8 @@ class LocalConnection(Connection):
         """ Generate a path expression for `glob` to search for from a query.
 
         :param query: For example {"source": "AMS"}.
-        :type query: str 
-        :returns: A path expression to be passed to `glob()` 
+        :type query: str
+        :returns: A path expression to be passed to `glob()`
         :rtype: str:
         """
         # Return all files by default
@@ -145,7 +145,7 @@ class LocalConnection(Connection):
 
 
 class LocalDatasetConnection(LocalConnection):
-    """ For getting and storing datasets locally 
+    """ For getting and storing datasets locally
     """
     def _get_path_expr_from_query(self, query):
         """
@@ -171,8 +171,8 @@ class LocalDatasetConnection(LocalConnection):
         return u"-".join(fragments.values()) + ".json"
 
 class LocalAlarmConnection(LocalConnection):
-    """ For getting and storing alarms locally 
-    """    
+    """ For getting and storing alarms locally
+    """
     def _get_path_expr_from_query(self, query):
         """
         { "region": "Stockholms kommun" } =>
@@ -199,8 +199,8 @@ class LocalAlarmConnection(LocalConnection):
 
 class LocalNewsleadConnection(LocalAlarmConnection):
     """ For getting and storing alarms locally.
-    Behaves just like the alarm connection 
-    """    
+    Behaves just like the alarm connection
+    """
     pass
 
 
@@ -230,7 +230,7 @@ class DatabaseConnection(Connection):
             .request()
 
         if r.status_code != 200:
-            raise RequestException("{}: {}".format(r.status_code, r.reason), r)            
+            raise RequestException("{}: {}".format(r.status_code, r.reason), r)
         else:
             # Only return the actual json objects
             try:
@@ -254,7 +254,7 @@ class DatabaseConnection(Connection):
             .request()
 
         if r.status_code != 200:
-            raise RequestException("{}: {}".format(r.status_code, r.reason), r)        
+            raise RequestException("{}: {}".format(r.status_code, r.reason), r)
         else:
             # Only return the actual json objects
             try:
@@ -283,10 +283,10 @@ class DatabaseConnection(Connection):
 
     def store(self, filename, json_data, **kwargs):
         """ Insert, or if object already exist, update.
-        
+
         :param filename (str): File name (which should be same as id)
         :param json_data (dict): The json data to be stored.
-        :returns (Requests.Response): A response instance from the Request module. 
+        :returns (Requests.Response): A response instance from the Request module.
         """
         id = filename.replace(".json","")
         # Try insert
@@ -301,7 +301,7 @@ class DatabaseConnection(Connection):
                 .jwt_auth(self._jwt_token, { "role": self._db_role })\
                 .json(json_data)\
                 .eq("id", id)\
-                .request()  
+                .request()
 
         return r
 
@@ -324,15 +324,15 @@ class DatabaseDatasetConnection(DatabaseConnection):
     """
     def store(self, filename, json_data, on_existing="update", **kwargs):
         """ Insert, or if object already exist, append.
-        
+
         :param filename (str): File name (which should be same as id)
         :param json_data (dict): The json data to be stored.
         :param on_existing (str):
             - "override": replaces existing
             - "update": updates existing data and metadata if duplicates found
             - "preserve": preserves existing on duplicates
-            - "break": throw error 
-        :returns (Requests.Response): A response instance from the Request module. 
+            - "break": throw error
+        :returns (Requests.Response): A response instance from the Request module.
         """
         id = filename.replace(".json","")
 
@@ -354,12 +354,12 @@ class DatabaseDatasetConnection(DatabaseConnection):
 
                 # Get existing data
                 existing_ds = Dataset(_r.json()["json_data"])
-                
+
                 # Merge with new
                 new_ds = Dataset(json_data)
 
                 # Use the same action (preserve/update) for both data and metadata
-                existing_ds.append(new_ds, include_status=False, 
+                existing_ds.append(new_ds, include_status=False,
                     on_duplicates=on_existing, on_metadata_conflict=on_existing)
                 json_data = existing_ds.json
 
@@ -371,15 +371,16 @@ class DatabaseDatasetConnection(DatabaseConnection):
                 .request()
 
         if r.status_code == 400:
-            msg = r.json()["message"]
-            raise ConnectionError(msg)  
+            e = r.json()
+            raise ConnectionError(u"Message: {}\nErrors:\{}"\
+                .format(e["message"], e["error"]))
 
         return r
-        
+
 
 class DatabaseFileConnection(Connection):
-    """ 'schema' and 'recipe' are not stored in the actual 
-        postgres database. Hence the API to get these are slightly different. 
+    """ 'schema' and 'recipe' are not stored in the actual
+        postgres database. Hence the API to get these are slightly different.
     """
 
     def __init__(self, api_url, endpoint=None):
@@ -400,7 +401,7 @@ class DatabaseFileConnection(Connection):
 
         r = requests.get(self.base_url + "/" + self.endpoint)
         if r.status_code != 200:
-            raise RequestException("{}: {}".format(r.status_code, r.reason), r)        
+            raise RequestException("{}: {}".format(r.status_code, r.reason), r)
 
         return r.json()
 
@@ -413,7 +414,7 @@ class DatabaseFileConnection(Connection):
         r = requests.get(self.base_url + "/" + self.endpoint + "/" + id_)
         if r.status_code != 200:
             raise RequestException("{}: {}, trying to get {}."\
-                .format(r.status_code, r.reason, id_), r)        
+                .format(r.status_code, r.reason, id_), r)
 
         return r.json()["json_data"]
 
@@ -435,7 +436,7 @@ class DatabasePipelineConnection(DatabaseFileConnection):
         self.endpoint = "pipeline"
 
 
- 
+
 class AWSConnection(Connection):
     """ For storing files at Amazon
     """
@@ -467,10 +468,10 @@ class AWSConnection(Connection):
 
         if isinstance(file_data, file):
             return self.s3_client.upload_fileobj(file_data, self.bucket, filename)
-        
+
 class RequestException(Exception):
     """ Custom exception for request errors. Makes the
-        resonse instance availble in the raised exception 
+        resonse instance availble in the raised exception
         for debugging.
 
         :param message (str): A regular error message.
@@ -480,7 +481,7 @@ class RequestException(Exception):
     def __init__(self, message, resp):
         super(RequestException, self).__init__(message)
 
-        # Store 
+        # Store
         self.resp = resp
 
 class ConnectionError(Exception):
