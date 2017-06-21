@@ -4,7 +4,7 @@ import json
 from copy import deepcopy
 from marple.connection import (LocalConnection, DatabaseSchemaConnection,
     DatabaseDatasetConnection, DatabaseConnection, DatabaseRecipeConnection,
-    DatabasePipelineConnection, AWSConnection)    
+    DatabasePipelineConnection, AWSConnection)
 from marple.dataset import Dataset
 from data.config import (POSTGREST_URL, POSTGREST_JWT_TOKEN, POSTGREST_ROLE,
     AWS_ACCESS_ID, AWS_ACCESS_KEY)
@@ -23,7 +23,7 @@ def test_get_by_id_with_local_connection():
     """
     connection = LocalConnection("tests/data/connection")
     file_content = connection.get_by_id("file1")
-    assert file_content == { "id": "file1" } 
+    assert file_content == { "id": "file1" }
 
 
 def test_missing_file_should_not_exist():
@@ -55,7 +55,7 @@ def test_list_recipes_from_api():
     assert isinstance(recipes[0], unicode)
 
 def test_get_recipe_from_api():
-    """ 
+    """
     """
     connection = DatabaseRecipeConnection(POSTGREST_URL)
     # This test depends on the name of the production recipe
@@ -117,8 +117,8 @@ def get_existing(database_dataset_connection):
     dataset_id = existing_ds.extension["id"]
     r = connection.store(dataset_id, existing_ds.json, on_existing="override")
     if r.status_code not in [201,204]:
-        raise ValueError("Error setting up database connection")     
-    
+        raise ValueError("Error setting up database connection")
+
     return existing_ds
 
 
@@ -143,7 +143,7 @@ def test_override_existing_dataset_on_database_connection(database_dataset_conne
     """ Override an existing dataset with on_existing="override" param
     """
     connection, existing_ds = database_dataset_connection, get_existing
-    
+
     # Add a new dataset with override=Ture
     new_ds = ds = Dataset(u"tests/data/connection/dataset/ams-unemployment-monthly-count-total-2016-10.json")
     original_ds = deepcopy(existing_ds)
@@ -156,7 +156,7 @@ def test_override_existing_dataset_on_database_connection(database_dataset_conne
 
     timepoint_new = ds_from_db.dimension("timepoint").labels.keys()[0]
     timepoint_original = original_ds.dimension("timepoint").labels.keys()[0]
-    
+
     assert timepoint_new != timepoint_original
 
 
@@ -205,7 +205,7 @@ def test_delete_alarm():
         r = connection.delete(alarm["id"])
         assert r.status_code == 204
     else:
-
+        import pdb;pdb.set_trace()
         assert False, "Error setting up test"
 
 # ==========================
@@ -232,19 +232,19 @@ def test_add_newslead_on_database_connection(database_newslead_connection):
 @pytest.fixture(scope="session")
 def get_aws_connection():
     """ Connects to the test bucket
-    """ 
+    """
     return AWSConnection("marple", AWS_ACCESS_ID, AWS_ACCESS_KEY)
 
 
 def test_store_text_file_to_s3(get_aws_connection):
-    """ Store a simple text file 
+    """ Store a simple text file
     """
     connection = get_aws_connection
     resp = connection.store(u"test_text_file_åäö.txt", u"Hej världen", folder="test")
     assert resp["ResponseMetadata"]["HTTPStatusCode"] == 200
 
 def test_store_image_file_to_s3(get_aws_connection):
-    """ Store a simple text file 
+    """ Store a simple text file
     """
     connection = get_aws_connection
     with open("tests/data/connection/sample_chart.png") as f:

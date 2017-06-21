@@ -1,7 +1,7 @@
 # coding: utf-8
 """ Methods for parsing datatype data from
     https://github.com/marple-newsrobot/marple-datatypes """
-from glob import glob
+from glob2 import glob
 import pandas as pd
 from os.path import dirname, realpath, basename, splitext
 from os import sep as os_sep
@@ -22,7 +22,7 @@ class Domain(CsvFileWithLabel):
     def __init__(self, domain, datatypes_dir=datatypes_dir):
         """
         :param domain: For example "regions/*" or "regions/municipalities"
-        :param datatypes_dir: Path to base folder of datatypes. The default 
+        :param datatypes_dir: Path to base folder of datatypes. The default
         value should work if marple-datatypes is located in the same parent directory.
         """
         self.domain_name = domain
@@ -88,14 +88,14 @@ class Domain(CsvFileWithLabel):
 
     def labels(self, lang=None):
         """ Get labels for the domain
-        
+
             :param lang: language of labels, typically "sv" or "en"
             :returns: a dict with index as key and label as value
         """
         labels = {}
         for id_, row in self.data.iterrows():
             label = self.label(id_, lang=lang)
-            labels[id_] = label 
+            labels[id_] = label
 
         return labels
 

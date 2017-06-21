@@ -691,13 +691,30 @@
         }
     },
     "extension": {
-        "id": "ams-unemployment-monthly-count-total",
-        "periodicity": "monthly",
-        "source": "AMS",
+        "id": "sweden-ams-unemployment-monthly-count-total",
+        "geo_domain": {
+            "id_short": "sweden",
+            "id": "sweden",
+            "label": {
+                "en": "Swedish datasets",
+                "sv": "Svenska dataset"
+            }
+        },
+        "periodicity": {
+            "id_short": "monthly",
+            "id": "sweden-ams-unemployment-monthly"
+        },
+        "schema_version": "marple-dataset-v2",
         "topic": {
-            "decription": "Arbetsl\u00f6shetsstatistik, beskrivning",
-            "id": "unemployment",
-            "label": "Arbetsl\u00f6shetsstatistik"
+            "id": "sweden-ams-unemployment",
+            "id_short": "unemployment",
+            "description": "Arbetslöshetsstatistik, beskrivning",
+            "label": "Arbetslöshetsstatistik"
+        },
+        "source": {
+            "id_short": "ams",
+            "id": "sweden-ams",
+            "label": "Arbetsförmedlingen"
         }
     },
     "id": [
