@@ -248,7 +248,7 @@ class DimensionsCsv(CsvFile, CsvFileWithLabel):
     """ For dimensions.csv files used in /schemas
     """
     index_col = "id"
-    required_cols = ["id","allowed_values","label"]
+    required_cols = ["id","datatype","label"]
 
     def __init__(self, file_path, index_col=index_col,
         required_cols=required_cols):
