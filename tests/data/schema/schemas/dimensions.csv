@@ -1,5 +1,0 @@
-id,allowed_values,label,label__en
-region,"region",Region,Region
-measure,measure,Mått,Measure
-timepoint,date,Tidpunkt,Timepoint
-value,value,Värde,Value
