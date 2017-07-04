@@ -24,8 +24,8 @@ class JSONStatObject(object):
     def note(self):
         """ Datasets, dimensions and categories can have notes.
             https://json-stat.org/format/#note
-            
-            :returns: The note property of the json stat object as list (if any).        
+
+            :returns: The note property of the json stat object as list (if any).
         """
         try:
             return self.json["note"]
@@ -41,7 +41,7 @@ class JSONStatObject(object):
         """ Adds a note to the object. The note can be either a string or a list of strings.
             If note already exist nothing will be added
 
-            :param note: 
+            :param note:
             :type note: str|list
         """
         if self.note == None:
@@ -60,9 +60,9 @@ class JSONStatObject(object):
 
     def _schema_validation(self, schema_path, json_data):
         """
-        Validates some json data against a json schema. Raises exception 
+        Validates some json data against a json schema. Raises exception
         on error.
-        
+
         :param schema_path: Path to schema file
         :type schema_path: str
         :param json_data: The data to be validated
@@ -75,8 +75,8 @@ class JSONStatObject(object):
             validator.validate(json_data)
 
     def _get_decorated_attributes(self, decorator_class):
-        """ 
-        Get a list of names of all attributes decorated with a certain 
+        """
+        Get a list of names of all attributes decorated with a certain
         decorator.
 
         :param decorator_class: The decorator class
@@ -94,8 +94,8 @@ class JSONStatObject(object):
         """
         Take metadata from another jsonstat object (or dict) and
         apply it to self.
-        Metadata is defined as properties decorated with `@meta_property`. 
-        
+        Metadata is defined as properties decorated with `@meta_property`.
+
         :param obj: Another jsonstat object (or dict)
         :param on_existing: We to do if attribute already exist?
             - "preserve": keep existing
@@ -106,7 +106,7 @@ class JSONStatObject(object):
             meta_data = {}
             for attr in obj._get_decorated_attributes(meta_property):
                 meta_data[attr] = getattr(obj, attr)
-                
+
         elif isinstance(obj, dict):
             meta_data = obj
         else:
@@ -149,13 +149,13 @@ class Dataset(JSONStatObject):
         - error
     """
     def __init__(self, *args):
-        """ 
+        """
         A dataset can be initiated with:
         - A file path (to json file)
         - A json dict
         - A json string
         - A Pandas dataframe
-        
+
         The data can either be passed directly upon creation:
         dataset = Dataset("path/to/jsonstat.json")
 
@@ -192,7 +192,7 @@ class Dataset(JSONStatObject):
 
     # ========================
     #   INITIALIZATION METHODS
-    # ========================    
+    # ========================
     def from_file(self, file_path):
         """ Parse from json file
 
@@ -217,15 +217,15 @@ class Dataset(JSONStatObject):
         """
         json_data = json.loads(json_string)
         self.from_json(json_data)
-        
+
         return self
 
     def from_dataframe(self, df, value_column="value", status_column="status"):
-        """ 
+        """
         Parse a Pandas dataframe to a json stat object. Note that the created
         dataset won't have any labels, roles, units etc
-            
-        :param df: Data frame with only the columns to be included 
+
+        :param df: Data frame with only the columns to be included
         :type df: pandas.Dataframe
         :param value_column: name of value column
         :type value_column: str
@@ -240,9 +240,16 @@ class Dataset(JSONStatObject):
         dims = list(df.columns)
         has_status = status_column in dims
         dims.remove(value_column)
+
         if has_status:
             dims.remove(status_column)
         df = self._complete_missing(df, dims=dims)
+
+        # Make sure there are no duplicate rows
+        duplicated = df[df[dims].duplicated()]
+        n_duplicated = duplicated.shape[0]
+        if n_duplicated > 0:
+            msg = "Found {} duplicated rows in dataframe.".format(n_duplicated)
 
         # Replace numpy NaN with None for correct json formating
         df = df.where((pd.notnull(df)), None)
@@ -252,7 +259,7 @@ class Dataset(JSONStatObject):
         json_data["id"] = dims
         json_data["size"] = []
         json_data["dimension"] = {}
-                
+
         for dim in dims:
             # Populate dimensions with index
             # Dimensions and categories won't get any labels
@@ -260,20 +267,23 @@ class Dataset(JSONStatObject):
                 "label": dim,
                 "category": {},
             }
+            print dim
             dim_values = list(df[dim].unique())
+            print len(dim_values)
 
             # Hackish! This might be a source of error in the future
-            # But formating dimension values as strings comes natural 
-            # when we are exporting to json files. 
+            # But formating dimension values as strings comes natural
+            # when we are exporting to json files.
             # Introduced to handle boolean values.
             dim_values = [unicode(x) for x in dim_values ]
+            print len(dim_values)
 
             size = len(dim_values)
-            
+
             index = dict(zip(dim_values, range(0,size)))
 
             json_data["dimension"][dim]["category"]["index"] = index
-            
+
             # Populate size
             json_data["size"].append(size)
 
@@ -312,10 +322,10 @@ class Dataset(JSONStatObject):
 
     # ========================
     #   PUBLIC ATTRIBUTES
-    # ========================    
+    # ========================
     @property
     def json(self):
-        """ 
+        """
         :returns: A json representation of the dataset as dict.
         """
         return self._json_data
@@ -355,7 +365,7 @@ class Dataset(JSONStatObject):
     @meta_property
     def extension(self):
         """
-        Convenience attribute. 
+        Convenience attribute.
         :returns: The extension property of the json stat object as dict.
         """
         try:
@@ -390,10 +400,10 @@ class Dataset(JSONStatObject):
     @property
     def dimensions(self):
         """
-        :returns: A list of all dimensions as Dimension instances 
+        :returns: A list of all dimensions as Dimension instances
         """
         return [self.dimension(dim_id) for dim_id in self.json["id"]]
-    
+
     @property
     def length(self):
         """
@@ -445,14 +455,14 @@ class Dataset(JSONStatObject):
             return _statuses
 
 
-    
+
     # ========================
     #   PUBLIC METHODS
-    # ======================== 
+    # ========================
     def dimension(self, dim_id):
         """
         Get dimension by id
-        
+
         :param dim_id: Id of dimension
         :type dim_id: str
         :returns:
@@ -467,13 +477,13 @@ class Dataset(JSONStatObject):
 
     def notes_from_dictlist(self, dictlist, on_missing="pass"):
         """ Add notes from a list of dicts. Each dict should contain these keys:
-            
-            - `dimension`: id of dimension to which the note applies 
-            - `category`: id of category to which the note applies 
+
+            - `dimension`: id of dimension to which the note applies
+            - `category`: id of category to which the note applies
             - `note`: the actual note
 
             If dimension and category is empty the note will be treated as a dataset note.
-            
+
             :param dictlist: List of notes
             :type dictlist: list
             :param on_missing: "pass"|"error" – action if notes list contain dimension or category that does note exist.
@@ -509,13 +519,13 @@ class Dataset(JSONStatObject):
 
     def notes_from_csv(self, csv_path, on_missing="pass"):
         """ Add notes from a csv file. The csv file should contain these columns:
-            
-            - `dimension`: id of dimension to which the note applies 
-            - `category`: id of category to which the note applies 
+
+            - `dimension`: id of dimension to which the note applies
+            - `category`: id of category to which the note applies
             - `note`: the actual note
 
             If dimension and category is empty the note will be treated as a dataset note.
-            
+
             dimension,category,note
             ,,"My general note"
             region,,"My regional note"
@@ -529,7 +539,7 @@ class Dataset(JSONStatObject):
             :returns: self
 
         """
-        # Read csv 
+        # Read csv
         notes = pd.read_csv(csv_path, encoding="utf-8")
 
         # Numpy nan => None
@@ -544,13 +554,13 @@ class Dataset(JSONStatObject):
 
     # ========================
     #   PUBLIC METHOS: Export
-    # ========================     
-    def to_dataframe(self, content="label", value_column="value", 
+    # ========================
+    def to_dataframe(self, content="label", value_column="value",
         status_column="status", include_status=True):
         """
         Transforms the dataset to a pandas dataframe.
 
-        :param content: Can be "label" or "id". If labels are not defined index 
+        :param content: Can be "label" or "id". If labels are not defined index
             will be used instead.
         :param value_column: name of value column
         :type value_column: str
@@ -560,7 +570,7 @@ class Dataset(JSONStatObject):
         :type include_status: bool
         :returns: a list of rows, first line is the header, every row is tuple
         """
-        table = self.to_table(content=content, value_column=value_column, 
+        table = self.to_table(content=content, value_column=value_column,
             status_column="status", include_status=include_status)
         df = pd.DataFrame(table[1:], columns=table[0])
         return df
@@ -578,7 +588,7 @@ class Dataset(JSONStatObject):
                     ('Solna', 'Female', 4)
                 ]
 
-        :param content: Can be "label" or "id". If labels are not defined index 
+        :param content: Can be "label" or "id". If labels are not defined index
             will be used instead.
         :param value_column: name of value column
         :type value_column: str
@@ -646,7 +656,7 @@ class Dataset(JSONStatObject):
     #   These methods are hackish solutions to modifying datasets
     #   Ideally JSON Stat objects should just be a representation of data.
     #   Modifications should happen elsewhere
-    # ========================     
+    # ========================
 
     def filter(self, filter_fn, content="index", include_status=True):
         """ Transform the dataset to dataframe and apply a filter.
@@ -668,7 +678,7 @@ class Dataset(JSONStatObject):
 
             :param query: dimension id as key, value as value e.g. { "gender": "M" }
             :type query: dict
-            :returns: Self 
+            :returns: Self
         """
         def filter_fn(x):
             for dim_id, value in query.iteritems():
@@ -728,8 +738,8 @@ class Dataset(JSONStatObject):
             else:
                 raise Exception("'{}' is note a valid argument for 'on_duplicates'")
 
-        df = df.drop('index', 1)        
-        
+        df = df.drop('index', 1)
+
         # Restore original metadata
         self._rebuild(df)
 
@@ -745,7 +755,7 @@ class Dataset(JSONStatObject):
             cats_after_append = [ x.id for x in dim.categories ]
             cats_before_append = [ x.id for x in dim_orig.categories ]
 
-            # 1. Apply metadata from appended dataset 
+            # 1. Apply metadata from appended dataset
             for cat in dim.categories:
                 try:
                     cat2 = dim2.category(cat.id)
@@ -755,7 +765,7 @@ class Dataset(JSONStatObject):
 
             # 2. Apply metadata from categories that didn't exist before
             new_cats = list(set(cats_after_append) - set(cats_before_append))
-            
+
             for cat_id in new_cats:
                 new_cat = ds2.dimension(dim_id).category(cat_id)
                 dim.category(cat_id)._apply_meta_data(new_cat, on_existing="update")
@@ -781,7 +791,7 @@ class Dataset(JSONStatObject):
     def _validate(self, json_data):
         """Validate that this is a correctly formated jsonstat dataset. Raises
         error if validation fails.
-        
+
         :param json_data: A json stat object
         :type json_data: dict
         :returns: `None`
@@ -819,13 +829,14 @@ class Dataset(JSONStatObject):
                     .format(dim_id, _size, dim.length)
                 raise MalformedJSONStat(msg)
 
+
         # 5. Make sure that the size factors and value length are identical
         if len(self.value_list) != self.length:
             msg = "size factors don't match length of values. Got {}, expected {}."\
                 .format(self.length, len(self.value_list))
             raise MalformedJSONStat(msg)
 
-        # 6. Make sure that status and value 
+        # 6. Make sure that status and value
         # TODO:
         # Validate status against value
 
@@ -844,7 +855,7 @@ class Dataset(JSONStatObject):
         else:
             # TODO: Rebuild from other datatyps
             raise NotImplementedError()
-        
+
         self._apply_meta_data(original_dataset, on_existing="update")
 
         for dim in self.dimensions:
@@ -861,16 +872,8 @@ class Dataset(JSONStatObject):
         return self
 
     def _complete_missing(self, df, dims=[]):
-        """ 
-        Completes a long dataframe with NaN for index combos that are missing
-        Example:
-        a,x,1
-        b,y,2
-        =>
-        a,x,1
-        a,y,NaN
-        b,x,NaN
-        c,y,2
+        """
+        Completes a long dataframe with_t
 
         :param df: A pandas dataframe
         :param dims: List of dimensions to index by
@@ -889,7 +892,7 @@ class Dataset(JSONStatObject):
 class Dimension(JSONStatObject):
     """
     Represents a dimension in a Dataset
-    
+
     ..todo:: Handle these concepts:
         - child
         - coordinates
@@ -913,7 +916,7 @@ class Dimension(JSONStatObject):
         self._schema_path = "marple_py/schemas/jsonstat_dimension_schema.json"
 
         self._categories = None
-        
+
 
     @property
     def json(self):
@@ -921,11 +924,11 @@ class Dimension(JSONStatObject):
         :returns: The json representation of the dimension (as dict)
         """
         return self._json_data
-    
+
 
     @property
     def id(self):
-        """ 
+        """
         :returns: The id of the dimension
         """
         return self._id
@@ -943,7 +946,7 @@ class Dimension(JSONStatObject):
     @label.setter
     def label(self, value):
         self.json["label"] = value
-    
+
     @property
     def length(self):
         """
@@ -953,7 +956,7 @@ class Dimension(JSONStatObject):
 
     @property
     def categories(self):
-        """ 
+        """
         :returns: A list of category ids for this dimension, sorted by position.
         """
 
@@ -971,7 +974,7 @@ class Dimension(JSONStatObject):
                     categories = [ (cat_id, i) for (cat_id, i) in index.iteritems()]
 
             categories.sort(key=lambda tup: tup[1])
-            
+
             self._categories = [ Category(cat_id, pos, category_json)
                 for (cat_id, pos) in categories ]
 
@@ -984,7 +987,7 @@ class Dimension(JSONStatObject):
         :param id_or_label: Id or label of category
         :type id_or_label: str
         :returns: The category
-        :rtype: Category 
+        :rtype: Category
         """
         for category in self.categories:
             if (category.id == id_or_label) or (category.label == id_or_label):
@@ -993,11 +996,11 @@ class Dimension(JSONStatObject):
         msg = u"No category with id or label '{}'.".format(id_or_label)
         raise KeyError(msg)
 
-    
+
     @property
     def labels(self):
-        """ 
-        :returns: the category labels of this dataset (if any)  
+        """
+        :returns: the category labels of this dataset (if any)
         """
         try:
             return self.json["category"]["label"]
@@ -1015,15 +1018,15 @@ class Dimension(JSONStatObject):
         """
         if "label" not in self.json["category"]:
             self.json["category"]["label"] = {}
-        
+
         for cat in self.categories:
             if cat.id in labels:
                 self.json["category"]["label"][cat.id] = labels[cat.id]
 
     @property
     def notes(self):
-        """ 
-        :returns: the category notes of this dataset (if any)  
+        """
+        :returns: the category notes of this dataset (if any)
         """
         try:
             return self.json["category"]["note"]
@@ -1041,7 +1044,7 @@ class Dimension(JSONStatObject):
         """
         if "note" not in self.json["category"]:
             self.json["category"]["note"] = {}
-        
+
         for cat in self.categories:
             if cat.id in notes:
                 self.json["category"]["note"][cat.id] = notes[cat.id]
@@ -1072,7 +1075,7 @@ class Category(JSONStatObject):
     def label(self, value):
         if "label" not in self.json:
             self.json["label"] = {}
-        
+
         self.json["label"][self.id] = value
 
 
@@ -1093,10 +1096,10 @@ class Category(JSONStatObject):
 
         self.json["note"][self.id] = value
 
-    
+
 
 class MalformedJSONStat(Exception):
-    pass    
+    pass
 
 class MergeFailure(Exception):
     pass
