@@ -267,9 +267,7 @@ class Dataset(JSONStatObject):
                 "label": dim,
                 "category": {},
             }
-            print dim
             dim_values = list(df[dim].unique())
-            print len(dim_values)
 
             # Hackish! This might be a source of error in the future
             # But formating dimension values as strings comes natural
