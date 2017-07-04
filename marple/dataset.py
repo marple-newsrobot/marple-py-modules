@@ -274,7 +274,6 @@ class Dataset(JSONStatObject):
             # when we are exporting to json files.
             # Introduced to handle boolean values.
             dim_values = [unicode(x) for x in dim_values ]
-            print len(dim_values)
 
             size = len(dim_values)
 
