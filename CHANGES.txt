@@ -23,3 +23,4 @@ v0.0.21, 2017-05-09 -- Add function for subtracting periods from timepoint to ut
 v0.0.22, 2017-06-20 -- Use glob2 and fix label method
 v0.0.23, 2017-07-01 -- correct required column in datasets.csv
 v0.0.24, 2017-07-05 -- reintroduce datetype class
+v0.0.25, 2017-07-05 -- fix datatypes
