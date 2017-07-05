@@ -100,4 +100,72 @@ class Domain(CsvFileWithLabel):
         return labels
 
 
+class Datatype(object):
+    """ Represents a datatype in datatypes.csv
+    """
+    def __init__(self, name, datatypes_dir="marple-datatypes"):
+        """ :param name (str): name of datatype as defined in datatypes.csv
+            :param datatypes_dir: path to datatypes directory
+        """
+        self.datatypes_dir = datatypes_dir
+        datatypes_csv_path = os.path.join(datatypes_dir, "datatypes.csv")
+        self._id = name
+        self.data = self._parse_datatypes_csv(name, datatypes_csv_path)
+        self._domain = None
+
+
+    @property
+    def id(self):
+        return self._id
+
+    @property
+    def domain(self):
+        if not self._domain:
+            if self.data["allowed_values"] == "":
+                self._domain = None
+            else:
+                self._domain = Domain(
+                    self.data["allowed_values"],
+                    datatypes_dir=self.datatypes_dir,
+                    )
+
+        return self._domain
+
+    @property
+    def allowed_values(self):
+        """
+        :retruns: a list of allowed values
+        """
+        if not self.domain:
+            return []
+        else:
+            return self.domain.data.index.tolist()
+
+
+    def labels(self, lang=None):
+        """ Get labels for the dimension (via datatype)
+
+            :param lang: language of labels, typically "sv" or "en"
+            :returns: a dict with index as key and label as value
+        """
+        if not self.domain:
+            return {}
+        else:
+            return self.domain.labels(lang=lang)
+
+
+    def _parse_datatypes_csv(self, name, csv_path):
+        """ Get data (columns) about the datatype from datatypes.csv
+            :param name (str): name of datatype
+            :param csv_path: path to datatypes.csv
+            :returns (dict): the matching row as dict
+        """
+        with open(csv_path) as f:
+            reader = csv.DictReader(f)
+            try:
+                return [x for x in reader if x["id"] == name][0]
+            except IndexError:
+                msg = """{} is not a valid datatype. Check {} to correct."""\
+                    .format(name, csv_path)
+                raise ValueError(msg)
 
