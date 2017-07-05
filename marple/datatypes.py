@@ -3,8 +3,9 @@
     https://github.com/marple-newsrobot/marple-datatypes """
 from glob2 import glob
 import pandas as pd
-from os.path import dirname, realpath, basename, splitext
+from os.path import dirname, realpath, basename, splitext, join
 from os import sep as os_sep
+import csvkit as csv
 from marple.csv import CsvFileWithLabel
 from marple.utils import isNaN
 
@@ -108,7 +109,7 @@ class Datatype(object):
             :param datatypes_dir: path to datatypes directory
         """
         self.datatypes_dir = datatypes_dir
-        datatypes_csv_path = os.path.join(datatypes_dir, "datatypes.csv")
+        datatypes_csv_path = join(datatypes_dir, "datatypes.csv")
         self._id = name
         self.data = self._parse_datatypes_csv(name, datatypes_csv_path)
         self._domain = None
