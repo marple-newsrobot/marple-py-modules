@@ -63,3 +63,10 @@ def test_datatype_basics():
     assert len(allowed_values) == 5
     assert isinstance(d.data, dict)
     assert d.id == "gender"
+
+def test_labels_in_multiple_languages():
+    gender_en = Datatype("gender", datatypes_dir=DATATYPES_DIR)
+    gender_sv = Datatype("gender", datatypes_dir=DATATYPES_DIR, lang="sv")
+
+    assert gender_en.label == "Gender"
+    assert gender_sv.label == u"Kön"

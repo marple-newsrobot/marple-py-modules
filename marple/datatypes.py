@@ -7,7 +7,8 @@ from os.path import dirname, realpath, basename, splitext, join
 from os import sep as os_sep
 import csvkit as csv
 from marple.csv import CsvFileWithLabel
-from marple.utils import isNaN
+from marple.utils import isNaN, parse_lingual_object
+
 
 class Domain(CsvFileWithLabel):
     """Represents datatype data for a domain, e.g. gender or regions
@@ -104,13 +105,15 @@ class Domain(CsvFileWithLabel):
 class Datatype(object):
     """ Represents a datatype in datatypes.csv
     """
-    def __init__(self, name, datatypes_dir="marple-datatypes"):
+    def __init__(self, name, datatypes_dir="marple-datatypes", lang=None):
         """ :param name (str): name of datatype as defined in datatypes.csv
             :param datatypes_dir: path to datatypes directory
+            :param lang: "en"|"sv" (or potentially another language)
         """
         self.datatypes_dir = datatypes_dir
         datatypes_csv_path = join(datatypes_dir, "datatypes.csv")
         self._id = name
+        self.lang = lang
         self.data = self._parse_datatypes_csv(name, datatypes_csv_path)
         self._domain = None
 
@@ -118,6 +121,14 @@ class Datatype(object):
     @property
     def id(self):
         return self._id
+
+    @property
+    def label(self):
+        return parse_lingual_object(self.data, lang=self.lang, prefix="label")
+
+    @property
+    def description(self):
+        return parse_lingual_object(self.data, lang=self.lang, prefix="description")
 
     @property
     def domain(self):

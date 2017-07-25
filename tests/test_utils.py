@@ -1,5 +1,7 @@
 # encoding: utf-8
-from marple.utils import list_files, guess_periodicity, to_timepoint, subtract_periods
+from marple.utils import (list_files, guess_periodicity, to_timepoint,
+    subtract_periods, parse_lingual_object,)
+import pytest
 
 def test_list_files():
     directory = "tests/data/utils/list_files"
@@ -29,3 +31,20 @@ def test_subtract_periods():
     assert subtract_periods("2015-03", 2, "monthly") == "2015-01-01"
     assert subtract_periods("2015-07-01", 6, "monthly") == "2015-01-01"
 
+def test_parse_lingual_object():
+    obj = {
+        "en": "dog",
+        "sv": "hund",
+        "label": u"also dog",
+        "label__sv": u"också hund",
+    }
+    assert parse_lingual_object(obj, "en") == "dog"
+    assert parse_lingual_object(obj, "sv") == "hund"
+    assert parse_lingual_object(obj, None) == "dog"
+    assert parse_lingual_object("dog") == "dog"
+
+    assert parse_lingual_object(obj, prefix="label") == u"also dog"
+    assert parse_lingual_object(obj, "sv", prefix="label") == u"också hund"
+
+    with pytest.raises(KeyError):
+        parse_lingual_object(obj,"foo")

@@ -11,7 +11,7 @@ def get_timepoint_label(datestring, periodicity):
         :param datestring: an iso coded datestring. E.g. "2016-01-01"
         :param periodicity: monthly|quarterly|yearly|rolling_quarter|rolling_year
         :returns: a label for the timepoint
-        :rtype: str 
+        :rtype: str
     """
     timepoint = datetime.strptime(datestring, '%Y-%m-%d')
 
@@ -83,13 +83,13 @@ def to_timepoint(time_str):
 def subtract_periods(timepoint, n_periods, periodicity=None):
     """ Subtract n number of periods from a timepoint
     Example usage:
-    
+
         subtract_periods(2015, 2, "yearly") => "2013-01-01"
         subtract_periods("2015-03", 2, "monthly") => "2015-01-01"
         subtract_periods("2015-07-01", 6, "monthly") => "2015-01-01"
 
     :param timepoint (str|int): a timepoint
-    :param n_periods (str): number of periods 
+    :param n_periods (str): number of periods
     :param periodicity (str): "monthly"|"yearly"|"rolling_quarter"|"rolling_year"
     :returns: computed timepoint as string
     """
@@ -110,7 +110,7 @@ def subtract_periods(timepoint, n_periods, periodicity=None):
     return datetime.strftime(dt, "%Y-%m-%d")
 
 
-def list_files(dir, extension=None, file_name=None):                                                                                                  
+def list_files(dir, extension=None, file_name=None):
     """ Get a list of all files in directory and subdirectories
         :param dir: path to direcotyr to parse
         :param extension: Only include files with given extension.
@@ -137,8 +137,71 @@ def list_files(dir, extension=None, file_name=None):
 
                 r.append(subdir + "/" + file)
 
-    return r 
+    return r
 
+def parse_lingual_object(str_or_dict, lang=None, prefix=None, fallback_chain=["en","sv"]):
+    """ Json objects my contain strings in multiple languages.
+        This
+
+        Eg.
+        parse_lingual_object({"en": "dog", "sv": "hund"}, "en") => "dog"
+        parse_lingual_object({"en": "dog", "sv": "hund"}, "sv") => "hund"
+        parse_lingual_object({"en": "dog", "sv": "hund"}, None) => "dog"
+        parse_lingual_object({
+            "label__en": "dog",
+            "label__sv": "hund"}, "sv", "label") => "hund"
+        parse_lingual_object("dog") => "dog"
+
+        :param str_or_dict: string or dict to parse
+        :param prefix: ie. "label" or "description" if key name is "label__en"
+        :param fallback_chain: In case no language is defined, pick
+            one of the fallback langagues.
+        :returns: a translated string
+    """
+    #
+    x = str_or_dict
+
+    # 1. If string, return as such
+    if isinstance(x, str) or isinstance(x, unicode):
+        return x
+
+    #if lang is None and prefix is not None:
+    #    return x[prefix]
+
+    # 2. Parse dict
+    elif isinstance(x, dict):
+        # 2.1 Parse using defined languagre
+        if lang is not None:
+            try:
+                if prefix is not None:
+                    key = "{}__{}".format(prefix, lang)
+                else:
+                    key = lang
+                return x[key]
+            except KeyError:
+                raise KeyError("Unable to translate '{}' with '{}'"\
+                    .format(x, key))
+
+
+        else:
+            # 2.2 Check if there is a default ie "label" (without any
+            # language key)
+            if prefix is not None and prefix in x:
+                return x[prefix]
+
+            # 2.3 Try fallback languages
+            for fallback_lang in fallback_chain:
+                if prefix is not None:
+                    key = "{}__{}".format(prefix, fallback_lang)
+                else:
+                    key = fallback_lang
+                try:
+                    return x[key]
+                except KeyError:
+                    pass
+
+    raise ValueError("Unable to translate '{}' with '{}'"\
+            .format(x,lang))
 
 
 def isNaN(num):
