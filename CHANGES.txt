@@ -25,3 +25,4 @@ v0.0.23, 2017-07-01 -- correct required column in datasets.csv
 v0.0.24, 2017-07-05 -- reintroduce datetype class
 v0.0.25, 2017-07-05 -- fix datatypes
 v0.0.26, 2017-07-25 -- add multilingual label property to datatypes
+v0.0.27, 2017-07-25 -- actually add multilingual label property to datatypes
