@@ -27,6 +27,7 @@ pytest==3.0.3
 python-dateutil==2.2
 pytz==2016.7
 requests==2.12.1
+requests-cache-0.4.13
 requests-jwt==0.4
 s3transfer==0.1.9
 simplejson==3.10.0

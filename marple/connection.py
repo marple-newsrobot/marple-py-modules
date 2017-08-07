@@ -1,29 +1,31 @@
 # coding: utf-8
-""" Contains base classes for connecting to datasources
+"""Contains base classes for connecting to datasources
 """
 import simplejson as json
 import os
 import requests
+import requests_cache
 from collections import OrderedDict
 from requests.auth import HTTPBasicAuth
 from simplejson import JSONDecodeError
 from bson import json_util
 from marple.postgrest import Api
 from marple.dataset import Dataset
+from marple.utils import cache_initiated
 from glob import glob
 from os.path import basename
 import boto3 # S3 Client
 from botocore.client import Config
 
 class Connection(object):
-    """ Base class for connections. These are the methods that connections
+    """Base class for connections. These are the methods that connections
         are expected to handle.
     """
     def __init__(self):
         pass
 
     def get(self, **kwargs):
-        """ Get all object by a set of rules """
+        """Get all object by a set of rules """
         raise NotImplementedError("This method must be overridden")
 
     def exists(self, **kwargs):
@@ -31,24 +33,24 @@ class Connection(object):
         raise NotImplementedError("This method must be overridden")
 
     def get_by_filename(self, filename):
-        """ Get an object by file name """
+        """Get an object by file name """
         raise NotImplementedError("This method must be overridden")
 
     def get_by_id(self, id_):
-        """ Get an object by its id """
+        """Get an object by its id """
         raise NotImplementedError("This method must be overridden")
 
     def store(self, filename, json_data, folder=None):
-        """ Store the file """
+        """Store the file """
         raise NotImplementedError("This method must be overridden")
 
     def delete(self, id_):
-        """ Delete an object by id """
+        """Delete an object by id """
         raise NotImplementedError("This method must be overridden")
 
 
 class LocalConnection(Connection):
-    """ When communicating with local storage """
+    """When communicating with local storage """
     path = None
 
     def __init__(self, folder_path):
@@ -81,12 +83,12 @@ class LocalConnection(Connection):
         return self.get_by_filename(id_ + ".json")
 
     def get(self, **kwargs):
-        """ Get all json files in folder based on query
+        """Get all json files in folder based on query
         """
         if "id" in kwargs:
             return self.get_by_id(kwargs["id"])
         else:
-            """ TODO: Make it possible to query with lists.
+            """TODO: Make it possible to query with lists.
                 e.g. { "source": ["AMS", "SMS"] }
             """
             data = []
@@ -105,7 +107,7 @@ class LocalConnection(Connection):
             return data
 
     def store(self, filename, json_data, folder=None, on_existing="override"):
-        """ Store the file
+        """Store the file
         :param filename: name of file or id. ".json" added if missing
         :param json_data: json data to be stored
         :param folder: Path to output folder. Defaults to connection folder.
@@ -130,7 +132,7 @@ class LocalConnection(Connection):
 
 
     def _get_path_expr_from_query(self, query):
-        """ Generate a path expression for `glob` to search for from a query.
+        """Generate a path expression for `glob` to search for from a query.
 
         :param query: For example {"source": "AMS"}.
         :type query: str
@@ -145,7 +147,7 @@ class LocalConnection(Connection):
 
 
 class LocalDatasetConnection(LocalConnection):
-    """ For getting and storing datasets locally
+    """For getting and storing datasets locally
     """
     def _get_path_expr_from_query(self, query):
         """
@@ -171,7 +173,7 @@ class LocalDatasetConnection(LocalConnection):
         return u"-".join(fragments.values()) + ".json"
 
 class LocalAlarmConnection(LocalConnection):
-    """ For getting and storing alarms locally
+    """For getting and storing alarms locally
     """
     def _get_path_expr_from_query(self, query):
         """
@@ -198,36 +200,42 @@ class LocalAlarmConnection(LocalConnection):
 
 
 class LocalNewsleadConnection(LocalAlarmConnection):
-    """ For getting and storing alarms locally.
+    """For getting and storing alarms locally.
     Behaves just like the alarm connection
     """
     pass
 
 
 class DatabaseConnection(Connection):
-    """ A connection to the central database.
+    """A connection to the central database.
     """
-    api = None
-    model = None # dataset|alarm|newslead
 
     def __init__(self, api_url, model, jwt_token="", db_role=""):
+        """
+        :param api_url: Url of marple-api
+        :param model: Database table (ie. dataset, dataset_test, alarm...)
+        :param jwt_token: JWT Token
+        :param db_role: Database role for authentication
+        """
         self.type = "database"
         self.api = Api(api_url)
         self.model = model
         self._jwt_token = jwt_token
         self._db_role = db_role
 
-    def get(self, **kwargs):
-        """ Get object by query
+    def get(self, cache=False, **kwargs):
+        """Get object by query
 
+        :param cache: Cache request (in memory)
         :param kwargs: Query by any table column in database
         :returns (dict): A json object (or None if no match)
         """
-        r = self.api.get(self.model)\
+        self.response = self.api.get(self.model)\
             .select("json_data")\
             .match(kwargs)\
-            .jwt_auth(self._jwt_token, { "role": self._db_role})\
-            .request()
+            .jwt_auth(self._jwt_token, {"role": self._db_role})\
+            .request(cache=cache)
+        r = self.response
 
         if r.status_code != 200:
             raise RequestException("{}: {}".format(r.status_code, r.reason), r)
@@ -241,17 +249,19 @@ class DatabaseConnection(Connection):
         return data
 
 
-    def get_by_id(self, id_):
-        """ Get object by id
+    def get_by_id(self, id_, cache=False):
+        """Get object by id
 
         :param id_ (str): Id of object
         :returns (dict): A json object (or None if no match)
         """
-        r = self.api.get(self.model)\
+        self.response = self.api.get(self.model)\
             .single()\
             .eq("id", id_)\
-            .jwt_auth(self._jwt_token, { "role": self._db_role })\
-            .request()
+            .jwt_auth(self._jwt_token, {"role": self._db_role})\
+            .request(cache=cache)
+
+        r = self.response
 
         if r.status_code != 200:
             raise RequestException("{}: {}".format(r.status_code, r.reason), r)
@@ -264,14 +274,15 @@ class DatabaseConnection(Connection):
 
         return data
 
-    def exists(self, **kwargs):
-        """ Check if object exists
+    def exists(self, cache=False, **kwargs):
+        """Check if object exists
         """
         # Only select the id column to reduce traffic
-        r = self.api.get(self.model)\
+        self.response = self.api.get(self.model)\
             .select("id")\
             .match(kwargs)\
-            .request()
+            .request(cache=cache)
+        r = self.response
 
         if r.status_code == 200:
             try:
@@ -282,7 +293,7 @@ class DatabaseConnection(Connection):
             return False
 
     def store(self, filename, json_data, **kwargs):
-        """ Insert, or if object already exist, update.
+        """Insert, or if object already exist, update.
 
         :param filename (str): File name (which should be same as id)
         :param json_data (dict): The json data to be stored.
@@ -303,27 +314,31 @@ class DatabaseConnection(Connection):
                 .eq("id", id)\
                 .request()
 
+        self.response = r
+
         return r
 
 
     def delete(self, id_):
-        """ Remove an object from database by id
+        """Remove an object from database by id
         """
         # Handle both "my_id" and "my_id.json"
         id_ = id_.replace(".json","")
 
-        return self.api.delete(self.model)\
+        self.response = self.api.delete(self.model)\
             .jwt_auth(self._jwt_token, { "role": self._db_role })\
             .eq("id",id_)\
             .request()
 
+        return self.response
+
 
 class DatabaseDatasetConnection(DatabaseConnection):
-    """ Datasets behave differently than other objects (alarms and newsleads).
+    """Datasets behave differently than other objects (alarms and newsleads).
         On `.store()` we need to be able to append to existing dataset.
     """
     def store(self, filename, json_data, on_existing="update", **kwargs):
-        """ Insert, or if object already exist, append.
+        """Insert, or if object already exist, append.
 
         :param filename (str): File name (which should be same as id)
         :param json_data (dict): The json data to be stored.
@@ -375,48 +390,73 @@ class DatabaseDatasetConnection(DatabaseConnection):
             raise ConnectionError(u"Message: {}\nErrors:\{}"\
                 .format(e["message"], e["error"]))
 
+        self.response = r
+
         return r
 
 
 class DatabaseFileConnection(Connection):
-    """ 'schema' and 'recipe' are not stored in the actual
+    """'schema' and 'recipe' are not stored in the actual
         postgres database. Hence the API to get these are slightly different.
     """
 
     def __init__(self, api_url, endpoint=None):
-        """ :param base_url: Url to api
+        """:param base_url: Url to api
             :param endpoint: eg. 'recipe', 'schema'
         """
         self.base_url = api_url
         self.endpoint = endpoint
 
-    def get(self, **kwargs):
-        """ List all schemas
+    def get(self, cache=False, **kwargs):
+        """List all schemas
+        :param cache (bool): Cache request
         """
         if "id" in kwargs:
-            return self.get_by_id(kwargs["id"])
+            return self.get_by_id(kwargs["id"], cache=cache)
         elif len(kwargs.keys()) > 0:
             msg = "Query not supported for DatabaseFileConnection."
             raise ValueError(msg)
 
-        r = requests.get(self.base_url + "/" + self.endpoint)
-        if r.status_code != 200:
-            raise RequestException("{}: {}".format(r.status_code, r.reason), r)
+        url = self.base_url + "/" + self.endpoint
 
-        return r.json()
+        return self._get_request(url, cache=cache)
 
-    def get_by_id(self, id_):
-        """ Get a schema by id. Id may or may not include .json at the end
+
+    def get_by_id(self, id_, cache=False):
+        """Get a schema by id. Id may or may not include .json at the end
+        :param id_: Id of object, with or without ".json" extension
+        :param cache (bool): Cache request
         """
         if id_[-5:] != ".json":
             id_ += ".json"
 
-        r = requests.get(self.base_url + "/" + self.endpoint + "/" + id_)
-        if r.status_code != 200:
-            raise RequestException("{}: {}, trying to get {}."\
-                .format(r.status_code, r.reason, id_), r)
+        url = self.base_url + "/" + self.endpoint + "/" + id_
 
-        return r.json()["json_data"]
+        return self._get_request(url, cache=cache)["json_data"]
+
+
+    def _get_request(self, url, cache=False):
+        """Make a GET request, and possibly cache
+        :returns: response as json
+        """
+        def the_request():
+            self.response = requests.get(url)
+            r = self.response
+            if r.status_code != 200:
+                raise RequestException("{}: {}".format(r.status_code, r.reason), r)
+
+            return r.json()
+
+        if cache:
+            if not cache_initiated():
+                requests_cache.install_cache(backend='memory')
+            return the_request()
+        else:
+            with requests_cache.disabled():
+                return the_request()
+
+
+
 
 
 class DatabaseSchemaConnection(DatabaseFileConnection):
@@ -438,7 +478,7 @@ class DatabasePipelineConnection(DatabaseFileConnection):
 
 
 class AWSConnection(Connection):
-    """ For storing files at Amazon
+    """For storing files at Amazon
     """
     def __init__(self, bucket_name, aws_access_key_id, aws_secret_access_key,
         region_name="eu-central-1"):
@@ -469,8 +509,9 @@ class AWSConnection(Connection):
         if isinstance(file_data, file):
             return self.s3_client.upload_fileobj(file_data, self.bucket, filename)
 
+
 class RequestException(Exception):
-    """ Custom exception for request errors. Makes the
+    """Custom exception for request errors. Makes the
         resonse instance availble in the raised exception
         for debugging.
 
@@ -485,6 +526,6 @@ class RequestException(Exception):
         self.resp = resp
 
 class ConnectionError(Exception):
-    """ Custom excpetion for the Connection class
+    """Custom excpetion for the Connection class
     """
     pass

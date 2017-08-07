@@ -4,7 +4,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import os
 import re
-
+import requests_cache
 
 def get_timepoint_label(datestring, periodicity):
     """ Convert a datestring to a timepoint label.
@@ -209,3 +209,11 @@ def isNaN(num):
         http://stackoverflow.com/questions/944700/how-to-check-for-nan-in-python
     """
     return num != num
+
+def cache_initiated():
+    """Hackish function to test if there is an existing requests_cache"""
+    try:
+        requests_cache.get_cache()
+        return True
+    except AttributeError:
+        return False

@@ -2,6 +2,7 @@
 import pytest
 import json
 from copy import deepcopy
+import requests_cache
 from marple.connection import (LocalConnection, DatabaseSchemaConnection,
     DatabaseDatasetConnection, DatabaseConnection, DatabaseRecipeConnection,
     DatabasePipelineConnection, AWSConnection)
@@ -96,6 +97,17 @@ def test_get_pipeline_by_id_from_api():
         pipeline = connection.get_by_id(pipeline_id)
         assert pipeline["id"] == pipeline_id.replace(".json","")
 
+def test_get_recipe_with_cache():
+    """ Get a recipe twice and make sure it comes from cache second time
+    """
+    connection = DatabaseRecipeConnection(POSTGREST_URL)
+    recipe = connection.get()[0]
+
+    connection.get_by_id(recipe, cache=True)
+    assert connection.response.from_cache == False
+
+    connection.get_by_id(recipe, cache=True)
+    assert connection.response.from_cache == True
 
 
 # ===================
@@ -169,12 +181,20 @@ def database_alarm_connection():
     return DatabaseConnection(POSTGREST_URL, "alarm_test",
         jwt_token=POSTGREST_JWT_TOKEN, db_role=POSTGREST_ROLE)
 
-def test_add_alarm_on_database_connection(database_alarm_connection):
-    """ Trying adding an alarm to database
+@pytest.fixture(scope="session")
+def get_example_alarm(database_alarm_connection):
+    """Get a local example alarm
     """
-    connection = database_alarm_connection
     with open("tests/data/connection/alarm/example_alarm.json") as f:
         alarm = json.load(f)
+    return alarm
+
+
+def test_add_alarm_on_database_connection(database_alarm_connection,
+                                          get_example_alarm):
+    """Trying adding an alarm to database
+    """
+    connection, alarm = database_alarm_connection, get_example_alarm
     r = connection.store(alarm["id"], alarm)
     assert r.status_code in [201, 204]
 
@@ -195,18 +215,32 @@ def test_query_alarms_with_list_on_database_connection():
         region=[u"Älmhults kommun", u"Åmåls kommun"])
     assert len(alarms) == 7
 
-def test_delete_alarm():
-    connection = DatabaseConnection(POSTGREST_URL, "alarm_test",
-        jwt_token=POSTGREST_JWT_TOKEN, db_role=POSTGREST_ROLE)
-    with open("tests/data/connection/alarm/example_alarm.json") as f:
-        alarm = json.load(f)
+def test_delete_alarm(database_alarm_connection, get_example_alarm):
+    connection, alarm = database_alarm_connection, get_example_alarm
     r = connection.store(alarm["id"], alarm)
     if r.status_code in [201, 204]:
         r = connection.delete(alarm["id"])
         assert r.status_code == 204
     else:
-        import pdb;pdb.set_trace()
         assert False, "Error setting up test"
+
+def test_get_alarm_object_with_cache(database_alarm_connection, get_example_alarm):
+    """ Get an alarm with caching enabled
+    """
+    connection, alarm = database_alarm_connection, get_example_alarm
+
+    # Set up test by adding example alarm
+    r = connection.store(alarm["id"], alarm)
+    assert r.status_code in [201, 204], "Error setting up test"
+
+    alarms = connection.get(id=alarm["id"], cache=True)
+    r1 = connection.response
+    assert r1.from_cache == False
+
+    alarms = connection.get(id=alarm["id"], cache=True)
+    r2 = connection.response
+    assert r2.from_cache == True
+
 
 # ==========================
 #    NEWSLEAD TESTS
@@ -249,3 +283,7 @@ def test_store_image_file_to_s3(get_aws_connection):
     connection = get_aws_connection
     with open("tests/data/connection/sample_chart.png") as f:
         connection.store(u"sample_chart.png", f, folder="test")
+
+# ===================
+#   TEST CACHE
+# ===================

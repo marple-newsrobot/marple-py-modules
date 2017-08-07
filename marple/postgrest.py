@@ -4,9 +4,10 @@
     Attempts to mimic this Node counterpart: https://github.com/calebmer/postgrest-client
 """
 import requests
+import requests_cache
 from requests.auth import HTTPBasicAuth
 from requests_jwt import JWTAuth
-
+from marple.utils import cache_initiated
 
 FILTER_OPERATORS = ['eq', 'gt', 'lt', 'gte', 'lte', 'like', 'ilike', 'is', 'in', 'not']
 
@@ -15,7 +16,7 @@ class Api(object):
     def __init__(self, url):
         """Creates a new PostgREST API object.
         Use this to start building PostgREST requests.
-        Methods of this class can be chained. The final 
+        Methods of this class can be chained. The final
         execution of the request will only happen when `.request()`
         is called.
 
@@ -25,7 +26,7 @@ class Api(object):
                 .eq("id","foo")\
                 .single()\
                 .request()
-            
+
         :param url: The base URL of the API.
         :type url: str
         """
@@ -42,7 +43,7 @@ class Api(object):
         :rtype: ApiRequest
         """
 
-        # Add "/" if missing 
+        # Add "/" if missing
         if path[0] != "/":
             path = "/" + path
         return ApiRequest(method, self.url + path)
@@ -94,9 +95,9 @@ class ApiRequest(object):
     def __init__(self, method, url):
         """A request building class which contains convenience methods for
         communicating with a PostgREST server.
-        
+
         :param method (string): The HTTP method of the request.
-        :param url (string): The path to the request    
+        :param url (string): The path to the request
         """
         self.method = method
         self.url = url
@@ -108,15 +109,15 @@ class ApiRequest(object):
 
 
     def auth(self, user_and_pass):
-        """ 
-        When passed a single string, the request will be authenticated using 
-        the Bearer scheme. Two parameters will be the Basic scheme. 
+        """
+        When passed a single string, the request will be authenticated using
+        the Bearer scheme. Two parameters will be the Basic scheme.
         An object with user and pass properties will also use the Basic scheme.
-        
+
         api.get('/speakers').auth({ user: 'bob', pass: 'password' }) // Basic
         api.get('/speakers').auth('xyz') // Bearer
-        
-        :param user_and_pass (str|dict): The user, bearer token, or user/pass dict. 
+
+        :param user_and_pass (str|dict): The user, bearer token, or user/pass dict.
         :returns: The API request object.
         :rtype: ApiRequest
         """
@@ -132,7 +133,7 @@ class ApiRequest(object):
                 raise ValueError(("auth excepted a dict with" +
                     "'user' and 'password' key. Got {}."
                     ).format(user_and_pass))
-        
+
         self._auth = auth
         return self
 
@@ -140,10 +141,10 @@ class ApiRequest(object):
     def jwt_auth(self, secret, payload={}):
         """A convinience method for doing a JWT auth.
 
-        :param secret (str): Secret JWT token. 
-        :param payload (dict): Payload data. 
+        :param secret (str): Secret JWT token.
+        :param payload (dict): Payload data.
         :returns: The API request object.
-        :rtype: ApiRequest        
+        :rtype: ApiRequest
         """
         auth = JWTAuth(secret, header_format='Bearer %s')
         for key, value in payload.iteritems():
@@ -153,12 +154,12 @@ class ApiRequest(object):
         return self
 
     def json(self, json_data):
-        """ 
+        """
         Pass a json object as payload
 
         :param json_data (dict): A json object
         :returns: The API request object.
-        :rtype: ApiRequest        
+        :rtype: ApiRequest
         """
         self._json = json_data
 
@@ -172,7 +173,7 @@ class ApiRequest(object):
     def select(self, select):
         """:param select (str|list): Columns to select
         :returns: The API request object.
-        :rtype: ApiRequest        
+        :rtype: ApiRequest
         """
         if isinstance(select, list):
             select = ",".join(select)
@@ -190,21 +191,21 @@ class ApiRequest(object):
         return self
 
     def match(self, query):
-        """ 
+        """
         Takes a query object and translates it to a PostgREST filter query string.
         All string values are used to get exact match (using `eq.` prefix).
         Lists (e.g { "source": ["AMS", "SMS"] }) are matched with `in.`
 
         :param query (dict): Column names as keys, value to be selected as value.
         :returns: The API request object.
-        :rtype: ApiRequest        
+        :rtype: ApiRequest
         """
         for key, value in query.iteritems():
             if isinstance(value, list):
                 query[key] = u"in." + u",".join(value)
             else:
                 query[key] = u"eq." + value
-        
+
         self._query.update(query)
 
         return self
@@ -216,7 +217,7 @@ class ApiRequest(object):
         :param operator (str): Operator name ('eq', 'gt', 'lt', 'gte', 'lte', 'like', 'ilike', 'is', 'in', 'not').
         :param value (str): Value to filter by.
         :returns: The API request object.
-        :rtype: ApiRequest        
+        :rtype: ApiRequest
         """
         if operator not in FILTER_OPERATORS:
             raise ValueError("{} is not a valid filter operator.".format(operator))
@@ -232,7 +233,7 @@ class ApiRequest(object):
         :param column (str): Column name.
         :param value (str): Value to filter by.
         :returns: The API request object.
-        :rtype: ApiRequest        
+        :rtype: ApiRequest
 
         """
         return self.filter(column, "eq", value)
@@ -244,7 +245,7 @@ class ApiRequest(object):
         :param column (str): Column name.
         :param value (str|list): A comma separetad list of values (or list=.
         :returns: The API request object.
-        :rtype: ApiRequest        
+        :rtype: ApiRequest
         """
         if isinstance(value, list):
             value = ",".join(value)
@@ -256,7 +257,7 @@ class ApiRequest(object):
         :param column (str): Column name.
         :param value (str): Value to filter by.
         :returns: The API request object.
-        :rtype: ApiRequest        
+        :rtype: ApiRequest
 
         """
         return self.filter(column, "gt", value)
@@ -269,7 +270,7 @@ class ApiRequest(object):
         :param column (str): Column name.
         :param value (str): Value to filter by.
         :returns: The API request object.
-        :rtype: ApiRequest        
+        :rtype: ApiRequest
 
         """
         return self.filter(column, "gte", value)
@@ -281,7 +282,7 @@ class ApiRequest(object):
         :param column (str): Column name.
         :param value (str): Value to filter by.
         :returns: The API request object.
-        :rtype: ApiRequest        
+        :rtype: ApiRequest
 
         """
         return self.filter(column, "lt", value)
@@ -294,7 +295,7 @@ class ApiRequest(object):
         :param column (str): Column name.
         :param value (str): Value to filter by.
         :returns: The API request object.
-        :rtype: ApiRequest        
+        :rtype: ApiRequest
 
         """
         return self.filter(column, "lte", value)
@@ -305,16 +306,24 @@ class ApiRequest(object):
     def range(self, start, end):
         raise NotImplementedError()
 
-    def request(self):
-        """ Execute request
+    def request(self, cache=False):
+        """Execute request
 
-        :returns (Requests.Repsonse): An instance of Requests.Repsonse  
+        :cache (bool): Cache request (in memory)
+        :returns (Requests.Repsonse): An instance of Requests.Repsonse
         """
-        return requests.request(self.method,
-            auth=self._auth,
-            url=self.url,
-            params=self._query,
-            headers=self._headers,
-            json=self._json)
+        def the_request():
+            return requests.request(self.method,
+                                    auth=self._auth,
+                                    url=self.url,
+                                    params=self._query,
+                                    headers=self._headers,
+                                    json=self._json)
 
-
+        if cache:
+            if not cache_initiated():
+                requests_cache.install_cache(backend='memory')
+            return the_request()
+        else:
+            with requests_cache.disabled():
+                return the_request()
