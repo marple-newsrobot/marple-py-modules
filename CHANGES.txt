@@ -27,3 +27,4 @@ v0.0.25, 2017-07-05 -- fix datatypes
 v0.0.26, 2017-07-25 -- add multilingual label property to datatypes
 v0.0.27, 2017-07-25 -- actually add multilingual label property to datatypes
 v0.0.28, 2017-08-07 -- Enable caching on requests
+v0.0.29, 2017-08-07 -- Correct dependency
