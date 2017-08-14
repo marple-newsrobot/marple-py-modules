@@ -36,7 +36,7 @@ class Connection(object):
         """Get an object by file name """
         raise NotImplementedError("This method must be overridden")
 
-    def get_by_id(self, id_):
+    def get_by_id(self, id_, **kwargs):
         """Get an object by its id """
         raise NotImplementedError("This method must be overridden")
 
@@ -79,7 +79,7 @@ class LocalConnection(Connection):
             json_data = json.load(json_file, encoding="utf-8")
         return json_data
 
-    def get_by_id(self, id_):
+    def get_by_id(self, id_, **kwargs):
         return self.get_by_filename(id_ + ".json")
 
     def get(self, **kwargs):
