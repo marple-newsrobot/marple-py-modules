@@ -314,6 +314,12 @@ class DatabaseConnection(Connection):
                 .eq("id", id)\
                 .request()
 
+        if r.status_code == 503:
+            # Heroku throws 503, application error after timeout but is not
+            # specific about why
+            msg = "Error uploding data. Probably timeout from server."
+            raise ConnectionError(msg)
+
         self.response = r
 
         return r
