@@ -300,14 +300,17 @@ class DatabaseConnection(Connection):
         :returns (Requests.Response): A response instance from the Request module.
         """
         id = filename.replace(".json","")
-        # Try insert
-        r = self.api.post(self.model)\
-            .jwt_auth(self._jwt_token, { "role": self._db_role })\
-            .json(json_data)\
-            .request()
+        # Check if item exists
 
-        # Newslead already exist => update
-        if r.status_code == 409:
+        if not self.exists(**{"id": id}):
+            # ...if not => create new with POST
+            r = self.api.post(self.model)\
+                .jwt_auth(self._jwt_token, { "role": self._db_role })\
+                .json(json_data)\
+                .request()
+
+        else:
+            # If it does exist  => update with PATCH
             r = self.api.patch(self.model)\
                 .jwt_auth(self._jwt_token, { "role": self._db_role })\
                 .json(json_data)\
@@ -357,14 +360,16 @@ class DatabaseDatasetConnection(DatabaseConnection):
         """
         id = filename.replace(".json","")
 
-        # Try insert
-        r = self.api.post(self.model)\
-            .jwt_auth(self._jwt_token, { "role": self._db_role })\
-            .json(json_data)\
-            .request()
+        # Check if dataset exists
+        if not self.exists(**{"id": id}):
+            # Insert new
+            r = self.api.post(self.model)\
+                .jwt_auth(self._jwt_token, { "role": self._db_role })\
+                .json(json_data)\
+                .request()
 
-        # Newslead already exist => update/overrride
-        if r.status_code == 409:
+        else:
+            # Update/override existing dataset
             if on_existing in ["update", "preserve", "break"]:
                 # Append to existing dataset
                 _r = self.api.get(self.model)\
@@ -395,6 +400,12 @@ class DatabaseDatasetConnection(DatabaseConnection):
             e = r.json()
             raise ConnectionError(u"Message: {}\nErrors:\{}"\
                 .format(e["message"], e["error"]))
+
+        if r.status_code == 503:
+            # Heroku throws 503, application error after timeout but is not
+            # specific about why
+            msg = "Error uploding data. Probably timeout from server."
+            raise ConnectionError(msg)
 
         self.response = r
 
