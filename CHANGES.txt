@@ -31,3 +31,4 @@ v0.0.29, 2017-08-07 -- Correct dependency
 v0.0.29, 2017-08-07 -- Correct dependency
 v0.0.30, 2017-08-14 -- better .exists() method
 v0.0.31, 2017-08-14 -- enable cache param on get_by_id on local connection
+v0.0.32, 2017-11-09 -- add __repr__ and .all_nots
