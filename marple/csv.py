@@ -61,6 +61,8 @@ class CsvFile(object):
 
         self.validate()
 
+    def __repr__(self):
+        return u"<Csv file: {}>".format(self.file_path)
 
     def row(self, row_index):
         """ Select a row in the csv file.

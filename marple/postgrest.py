@@ -32,6 +32,10 @@ class Api(object):
         """
         self.url = url
 
+
+    def __repr__(self):
+        return u"<PostgrestAPI: {}>".format(self.url)
+
     def request(self, method, path):
         """Perform a GET request to the Postgrest API.
 
@@ -107,6 +111,8 @@ class ApiRequest(object):
         self._headers = {}
         self._json = None
 
+    def __repr__(self):
+        return u"<ApiRequest: {} ({})>".format(self.url, self.method)
 
     def auth(self, user_and_pass):
         """

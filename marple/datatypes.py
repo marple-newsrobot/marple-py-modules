@@ -39,6 +39,10 @@ class Domain(CsvFileWithLabel):
             data = data.append(df)  # , ignore_index=True
         self.data = data.set_index("id")
 
+    def __repr__(self):
+        return u"<Domain: {}>".format(self.domain_name)
+
+
     def category(self, id_):
         """ Category (defined as name of csv file) """
         row = self.row(id_)
@@ -117,6 +121,8 @@ class Datatype(object):
         self.data = self._parse_datatypes_csv(name, datatypes_csv_path)
         self._domain = None
 
+    def __repr__(self):
+        return u"<Datatype: {}>".format(self.id)
 
     @property
     def id(self):
@@ -180,4 +186,3 @@ class Datatype(object):
                 msg = """{} is not a valid datatype. Check {} to correct."""\
                     .format(name, csv_path)
                 raise ValueError(msg)
-

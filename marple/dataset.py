@@ -465,6 +465,9 @@ class Dataset(JSONStatObject):
                     notes += category.note
         return notes
 
+    def __repr__(self):
+        return u"<Dataset: {}>".format(self.label)
+
     # ========================
     #   PUBLIC METHODS
     # ========================
@@ -926,6 +929,8 @@ class Dimension(JSONStatObject):
 
         self._categories = None
 
+    def __repr__(self):
+        return u"<Dimension: {}>".format(self.label)
 
     @property
     def json(self):
@@ -1065,6 +1070,10 @@ class Category(JSONStatObject):
         self.id = cat_id
         self.pos = pos
         self._json = cat_json
+
+
+    def __repr__(self):
+        return u"<Category: {}>".format(self.label)
 
     @property
     def json(self):
