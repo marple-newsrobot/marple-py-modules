@@ -87,7 +87,6 @@ def test_add_category_labels():
     gender_labels = { "M": "Male", "F": "Female" }
     ds = Dataset().from_json(complete_dataset)
     ds.add_labels("gender", gender_labels)
-    import pdb; pdb.set_trace()
     assert ds.dimension("gender").labels == gender_labels
 
 def test_transform_to_table():
