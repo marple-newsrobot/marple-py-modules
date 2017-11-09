@@ -21,13 +21,13 @@ def test_init_from_json():
 
 
 def test_init_from_file():
-    """ Test agains all tests/data/dataset/dataset_*.json files 
+    """ Test agains all tests/data/dataset/dataset_*.json files
     """
     files = glob("tests/data/dataset/dataset_*.json")
     for file_path in files:
         ds = Dataset(file_path)
         with open(file_path) as f:
-            json_data = json.load(f) 
+            json_data = json.load(f)
         assert ds.json == json_data
 
 def test_init_from_dataframe():
@@ -65,13 +65,13 @@ def test_json_data_with_incomplete_id():
     """ Make sure that json data with missing id property throws exception
     """
     with pytest.raises(MalformedJSONStat):
-        Dataset().from_json(missing_id_dataset)  
+        Dataset().from_json(missing_id_dataset)
 
 def test_json_data_with_wrong_size():
     """ Make sure that json data with size property error throws exception
     """
     with pytest.raises(MalformedJSONStat):
-        Dataset().from_json(wrong_size_dataset)        
+        Dataset().from_json(wrong_size_dataset)
 
 def test_json_data_with_wrong_value_length():
     """ Make sure that json data with size property error throws exception
@@ -244,6 +244,7 @@ def test_read_notes():
     assert ds.note == ["My dataset note"]
     assert ds.dimension("region").note == ["My region note"]
     assert ds.dimension("region").category("Solna kommun").note == ["My Solna note"]
+    assert len(ds.all_notes) == 3
 
 def test_write_notes():
     # Write dataset note
@@ -290,5 +291,3 @@ def test_notes_from_csv_method_with_break_on_faulty_data():
     ds = Dataset(deepcopy(complete_dataset))
     with pytest.raises(KeyError):
         ds.notes_from_csv("tests/data/dataset/notes.csv", on_missing="break")
-
-

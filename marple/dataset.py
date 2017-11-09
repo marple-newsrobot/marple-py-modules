@@ -451,7 +451,19 @@ class Dataset(JSONStatObject):
                     raise MalformedJSONStat(msg)
             return _statuses
 
-
+    @property
+    def all_notes(self):
+        """Get a list of all notes on dataset, dimensions and categories."""
+        notes = []
+        if self.note:
+            notes += self.note
+        for dimension in self.dimensions:
+            if dimension.note:
+                notes += dimension.note
+            for category in dimension.categories:
+                if category.note:
+                    notes += category.note
+        return notes
 
     # ========================
     #   PUBLIC METHODS
