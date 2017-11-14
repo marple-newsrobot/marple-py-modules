@@ -80,6 +80,10 @@ def test_json_data_with_wrong_value_length():
         Dataset().from_json(wrong_value_length_dataset)
 
 # ==== TEST METHODS ====
+def test_print_unicodes():
+    ds = Dataset().from_json(complete_dataset)
+    print ds
+
 
 def test_add_category_labels():
     """ Test adding labels to a dimension
@@ -291,3 +295,33 @@ def test_notes_from_csv_method_with_break_on_faulty_data():
     ds = Dataset(deepcopy(complete_dataset))
     with pytest.raises(KeyError):
         ds.notes_from_csv("tests/data/dataset/notes.csv", on_missing="break")
+
+
+def test_read_units():
+    ds = Dataset(deepcopy(complete_dataset))
+    assert ds.dimension("gender").category("M").unit == None
+    assert ds.dimension("measure").category("share").unit == {
+        "decimals:": 1,
+        "label": "%"
+    }
+    assert ds.dimension("measure").units == {
+        "share": {
+            "decimals:": 1,
+            "label": "%"
+        }
+    }
+
+def test_set_units():
+    ds = Dataset(deepcopy(complete_dataset))
+    updated_units = {
+        "share": {
+            "decimals": 0,
+            "label": "pct"
+        },
+        "non_existing_cat": {
+            "decimals": 0
+        }
+    }
+    dim = ds.dimension("measure")
+    dim.units = updated_units
+    assert dim.category("share").unit == updated_units["share"]

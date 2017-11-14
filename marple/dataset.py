@@ -465,7 +465,7 @@ class Dataset(JSONStatObject):
                     notes += category.note
         return notes
 
-    def __repr__(self):
+    def __unicode__(self):
         return u"<Dataset: {}>".format(self.label)
 
     # ========================
@@ -929,7 +929,7 @@ class Dimension(JSONStatObject):
 
         self._categories = None
 
-    def __repr__(self):
+    def __unicode__(self):
         return u"<Dimension: {}>".format(self.label)
 
     @property
@@ -1063,6 +1063,35 @@ class Dimension(JSONStatObject):
             if cat.id in notes:
                 self.json["category"]["note"][cat.id] = notes[cat.id]
 
+    @property
+    def units(self):
+        """
+        :returns: the category units of this dataset (if any)
+        """
+        try:
+            return self.json["category"]["unit"]
+        except KeyError:
+            return {}
+
+    @units.setter
+    def units(self, units):
+        """
+        Add category units.
+
+        :param units: A dictionary with category ids as keys and units as values.
+            E.g. {
+            "rate": {
+                "decimals": 1,
+                "label": "%"
+            }}
+        :type units: dict
+        """
+        if "unit" not in self.json["category"]:
+            self.json["category"]["unit"] = {}
+
+        for cat in self.categories:
+            if cat.id in units:
+                self.json["category"]["unit"][cat.id] = units[cat.id]
 
 
 class Category(JSONStatObject):
@@ -1072,7 +1101,7 @@ class Category(JSONStatObject):
         self._json = cat_json
 
 
-    def __repr__(self):
+    def __unicode__(self):
         return u"<Category: {}>".format(self.label)
 
     @property
@@ -1114,6 +1143,22 @@ class Category(JSONStatObject):
 
         self.json["note"][self.id] = value
 
+    @meta_property
+    def unit(self):
+        """ :returns: Get category unit (if any)
+            :rtype: dict
+        """
+        try:
+            return self.json["unit"][self.id]
+        except KeyError:
+            return None
+
+    @unit.setter
+    def unit(self, value):
+        if "unit" not in self.json:
+            self.json["unit"] = {}
+
+        self.json["unit"][self.id] = value
 
 
 class MalformedJSONStat(Exception):

@@ -33,7 +33,7 @@ class Api(object):
         self.url = url
 
 
-    def __repr__(self):
+    def __unicode__(self):
         return u"<PostgrestAPI: {}>".format(self.url)
 
     def request(self, method, path):
@@ -111,7 +111,7 @@ class ApiRequest(object):
         self._headers = {}
         self._json = None
 
-    def __repr__(self):
+    def __unicode__(self):
         return u"<ApiRequest: {} ({})>".format(self.url, self.method)
 
     def auth(self, user_and_pass):

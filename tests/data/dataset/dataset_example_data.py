@@ -3,12 +3,12 @@
 complete_dataset = {
     "version": "2.0",
     "class": "dataset",
-    "id": ["region", u"gender"],
+    "id": ["region", u"gender", "measure"],
     "value": [1,2,3,4],
     "status": { 1: "x" },
-    "size": [2,2],
+    "size": [2,2,1],
     "updated": "2016-10-10",
-    "label": "Test dataset",
+    "label": u"Test dataset with åäö",
     "source": "My source",
     "note": [ "My dataset note" ],
     "dimension": {
@@ -34,6 +34,20 @@ complete_dataset = {
                 "index": [ "M", "F" ]
             },
             "label": u"Kön",
+        },
+        "measure": {
+            "category": {
+                "index": ["share"],
+                "label": {
+                    "share": "Antal"
+                },
+                "unit": {
+                    "share": {
+                        "decimals:": 1,
+                        "label": "%"
+                    }
+                }
+            }
         }
     },
     "extension": {
@@ -44,9 +58,9 @@ complete_dataset = {
 dataset_to_append = {
     "version": "2.0",
     "class": "dataset",
-    "id": ["region", u"gender"],
+    "id": ["region", u"gender", "measure"],
     "value": [5,6],
-    "size": [1,2],
+    "size": [1,2,1],
     "label": "Test dataset",
     "source": "My source",
     "dimension": {
@@ -64,6 +78,20 @@ dataset_to_append = {
             "category": {
                 "index": [ "M", "F" ]
             },
+        },
+        "measure": {
+            "category": {
+                "index": ["share"],
+                "label": {
+                    "share": "Andel"
+                },
+                "unit": {
+                    "share": {
+                        "decimals:": 1,
+                        "label": "%"
+                    }
+                }
+            }
         }
     }
 }
@@ -71,9 +99,9 @@ dataset_to_append = {
 dataset_to_append_with_overlap = {
     "version": "2.0",
     "class": "dataset",
-    "id": ["region", u"gender"],
+    "id": ["region", u"gender", "measure"],
     "value": [50,60],
-    "size": [1,2],
+    "size": [1,2,1],
     "label": "Test dataset",
     "source": "My source",
     "note": [ "This is a conflicting dataset note" ],
@@ -96,6 +124,20 @@ dataset_to_append_with_overlap = {
             "category": {
                 "index": [ "M", "F" ]
             },
+        },
+        "measure": {
+            "category": {
+                "index": ["share"],
+                "label": {
+                    "share": "Antal"
+                },
+                "unit": {
+                    "share": {
+                        "decimals:": 1,
+                        "label": "%"
+                    }
+                }
+            }
         }
     }
 }
