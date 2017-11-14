@@ -11,6 +11,10 @@ A python package for modules shared across the Marple project.
 
 `pip install git+ssh://git@github.com/marple-newsrobot/marple-py-modules.git`
 
+...or, using https:
+
+`pip install git+https://github.com/marple-newsrobot/marple-py-modules.git`
+
 ### Run tests
 
 `make tests` (run all tests)
