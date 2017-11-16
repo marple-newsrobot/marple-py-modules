@@ -20,11 +20,21 @@ def test_guess_periodicity():
     assert guess_periodicity("2015") == "yearly"
     assert guess_periodicity(2015) == "yearly"
     assert guess_periodicity("2015-01") == "monthly"
+    assert guess_periodicity("2015K1") == "quarterly"
+    assert guess_periodicity("2015Q1") == "quarterly"
+    assert guess_periodicity("2015-K1") == "quarterly"
+    assert guess_periodicity("2015-Q1") == "quarterly"
+
 
 def test_to_timepoint():
     assert to_timepoint("2015") == "2015-01-01"
     assert to_timepoint(2015) == "2015-01-01"
     assert to_timepoint("2015-03") == "2015-03-01"
+    assert to_timepoint("2015Q1") == "2015-01-01"
+    assert to_timepoint("2015K2") == "2015-04-01"
+    assert to_timepoint("2015-Q3") == "2015-07-01"
+    assert to_timepoint("2015-K4") == "2015-10-01"
+
 
 def test_subtract_periods():
     assert subtract_periods(2015, 2, "yearly") == "2013-01-01"

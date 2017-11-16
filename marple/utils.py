@@ -45,17 +45,25 @@ def get_timepoint_label(datestring, periodicity):
             timepoint.strftime("%b %Y"),
         )
 
-
+REGEX = {
+    "yearly": "^\d\d\d\d$",
+    "quarterly": "^\d\d\d\d-?[KQ][1-4]$",
+    "monthly": "^\d\d\d\d-\d\d$",
+}
 def guess_periodicity(time_str):
     """ Guess periodicity from a date string
         "2015" => "yearly"
+        "2015Q1" => "quarterly"
+        "2015-K1" => "quarterly"
         "2015-01" => "monthly"
     """
     time_str = unicode(time_str)
-    if re.match("^\d\d\d\d$", time_str):
+    if re.match(REGEX["yearly"], time_str):
         return "yearly"
-    elif re.match("^\d\d\d\d-\d\d$", time_str):
-        return "monthly"
+    elif re.match(REGEX["quarterly"], time_str):
+            return "quarterly"
+    elif re.match(REGEX["monthly"], time_str):
+            return "monthly"
     else:
         raise ValueError(u"Unknown time string: '{}'".format(time_str))
 
@@ -69,12 +77,17 @@ def to_timepoint(time_str):
     if re.match("^\d\d\d\d$", time_str):
         # "2015"
         return time_str + "-01-01"
-    elif re.match("^\d\d\d\d-\d\d$", time_str):
+    elif re.match(REGEX["monthly"], time_str):
         # "2015-01"
         return time_str + "-01"
     elif re.match("^\d\d\d\d-\d\d-\d\d$", time_str):
         # 2015-01-01
         return time_str
+    elif re.match(REGEX["quarterly"], time_str):
+        year = time_str[:4]
+        quarter_i = parse_int(time_str[4:].replace("K","").replace("Q","").replace("-",""))
+        month = quarter_i * 3 - 2
+        return "{}-{:02d}-01".format(year, month)
     else:
         raise ValueError(u"Unknown time string: '{}'".format(time_str))
 
@@ -202,6 +215,9 @@ def parse_lingual_object(str_or_dict, lang=None, prefix=None, fallback_chain=["e
 
     raise ValueError("Unable to translate '{}' with '{}'"\
             .format(x,lang))
+
+def parse_int(s):
+    return int(float(s))
 
 
 def isNaN(num):
