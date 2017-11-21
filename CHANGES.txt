@@ -35,3 +35,4 @@ v0.0.32, 2017-11-09 -- add __repr__ and .all_nots
 v0.0.33, 2017-11-14 -- Handle units + __repr__ > __unicode__
 v0.0.33, 2017-11-14 -- Handle units + __repr__ > __unicode__
 v0.0.34, 2017-11-16 -- handle quarterly data
+v0.0.35, 2017-11-21 -- richer queries with children method
