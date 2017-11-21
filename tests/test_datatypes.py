@@ -14,6 +14,10 @@ def test_that_childen_method_works():
     x = Domain("regions/*", datatypes_dir=DATATYPES_DIR)
     assert len(x.children(u"Stockholms län")) == 26
 
+def test_child_metod_with_kwargs():
+    x = Domain("regions/*", datatypes_dir=DATATYPES_DIR)
+    assert len(x.children(u"Sweden", region_level="county", end="9")) == 21
+
 def test_children_method_when_parent_column_is_missing():
     x = Domain("misc/age_groups", datatypes_dir=DATATYPES_DIR)
     assert len(x.children(u"20-64")) == 0

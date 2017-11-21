@@ -5,6 +5,8 @@ from dateutil.relativedelta import relativedelta
 import os
 import re
 import requests_cache
+import functools
+import numpy as np
 
 def get_timepoint_label(datestring, periodicity):
     """ Convert a datestring to a timepoint label.
@@ -225,6 +227,17 @@ def isNaN(num):
         http://stackoverflow.com/questions/944700/how-to-check-for-nan-in-python
     """
     return num != num
+
+def multiple_and(*conditions):
+    """Pass multiple conditions to
+
+    >>> c_1 = data.col1 == True
+    >>> c_2 = data.col2 < 64
+    >>> c_3 = data.col3 != 4
+    >>> data_filtered = data[multiple_and(c1,c2,c3)]
+    https://stackoverflow.com/questions/13611065/efficient-way-to-apply-multiple-filters-to-pandas-dataframe-or-series
+    """
+    return functools.reduce(np.logical_and, conditions)
 
 def cache_initiated():
     """Hackish function to test if there is an existing requests_cache"""

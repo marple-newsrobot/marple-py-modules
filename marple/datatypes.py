@@ -3,11 +3,12 @@
     https://github.com/marple-newsrobot/marple-datatypes """
 from glob2 import glob
 import pandas as pd
-from os.path import dirname, realpath, basename, splitext, join
+
+from os.path import basename, splitext, join
 from os import sep as os_sep
 import csvkit as csv
 from marple.csv import CsvFileWithLabel
-from marple.utils import isNaN, parse_lingual_object
+from marple.utils import isNaN, parse_lingual_object, multiple_and
 
 
 class Domain(CsvFileWithLabel):
@@ -80,14 +81,20 @@ class Domain(CsvFileWithLabel):
 
         return parent
 
-    def children(self, id_):
+    def children(self, id_, **kwargs):
         """ Get id's of rows with this id as parent, if any
             TODO (?): specify depth (child of child)
+
+            Use kwargs to pass additional query arguments. For example:
+            >>> domain.children("Sweden", region_level="county")
         """
         if "parent" in self.data.columns:
-            children =  self.data.loc[self.data.parent == id_]\
-                .index.tolist()
-            # Unicode
+            query = dict(parent=id_, **kwargs)
+            _df = self.data
+            conditions = [(_df[k] == v) for (k, v) in query.items()]
+            mask = multiple_and(*conditions)
+            children = _df[mask].index.tolist()
+
             return [x for x in children]
         else:
             return []
@@ -104,6 +111,7 @@ class Domain(CsvFileWithLabel):
             labels[id_] = label
 
         return labels
+
 
 
 class Datatype(object):
