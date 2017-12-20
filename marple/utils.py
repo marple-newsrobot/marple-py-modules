@@ -32,6 +32,9 @@ def get_timepoint_label(datestring, periodicity):
         # 2016
         return str(timepoint.year)
 
+    elif periodicity == "weekly":
+        return "week {}".format(timepoint.week)
+
     elif periodicity == "rolling_quarter":
         # 2016-03-01 => "Jan 2016-Mar 2016"
         timepoint_start = timepoint - relativedelta(months=2)
@@ -46,6 +49,8 @@ def get_timepoint_label(datestring, periodicity):
             timepoint_start.strftime("%b %Y"),
             timepoint.strftime("%b %Y"),
         )
+
+    raise Exception(u"Unknown periodicity: '{}'".format(periodicity))
 
 REGEX = {
     "yearly": "^\d\d\d\d$",
