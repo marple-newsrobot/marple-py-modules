@@ -398,8 +398,13 @@ class DatabaseDatasetConnection(DatabaseConnection):
 
         if r.status_code == 400:
             e = r.json()
+            try:
+                reason = e["error"]
+            except KeyError:
+                # Hack
+                reason = e["errors"]
             raise ConnectionError(u"Message: {}\nErrors:\{}"\
-                .format(e["message"], e["error"]))
+                .format(e["message"], reason))
 
         if r.status_code == 503:
             # Heroku throws 503, application error after timeout but is not
