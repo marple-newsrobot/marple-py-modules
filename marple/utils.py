@@ -121,7 +121,7 @@ def subtract_periods(timepoint, n_periods, periodicity=None):
 
     if periodicity in ["monthly", "rolling_quarter", "rolling_year"]:
         dt -= relativedelta(months=n_periods)
-    elif periodicity == "yearly":
+    elif periodicity in ["yearly", "school_year"]:
         dt -= relativedelta(years=n_periods)
     else:
         msg = u"Unable to subtract periods for periodicity '{}'".format(periodicity)
