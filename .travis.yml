@@ -6,4 +6,4 @@ install:
 script: PYTHONPATH=. py.test tests
 notifications:
   slack: jpp-marple:XiMBWMnbSv7MW2K7GxKdKvCg
-  email: false
+  email: true
