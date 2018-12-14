@@ -267,14 +267,17 @@ def test_add_newslead_on_database_connection(database_newslead_connection):
 def get_aws_connection():
     """ Connects to the test bucket
     """
-    return AWSConnection("marple", AWS_ACCESS_ID, AWS_ACCESS_KEY)
+    return AWSConnection("marple",
+                         folder="test",
+                         aws_access_key_id=AWS_ACCESS_ID,
+                         aws_secret_access_key=AWS_ACCESS_KEY)
 
 
 def test_store_text_file_to_s3(get_aws_connection):
     """ Store a simple text file
     """
     connection = get_aws_connection
-    resp = connection.store(u"test_text_file_åäö.txt", u"Hej världen", folder="test")
+    resp = connection.store(u"test_text_file_åäö.txt", u"Hej världen")
     assert resp["ResponseMetadata"]["HTTPStatusCode"] == 200
 
 def test_store_image_file_to_s3(get_aws_connection):
@@ -282,7 +285,20 @@ def test_store_image_file_to_s3(get_aws_connection):
     """
     connection = get_aws_connection
     with open("tests/data/connection/sample_chart.png") as f:
-        connection.store(u"sample_chart.png", f, folder="test")
+        connection.store(u"sample_chart.png", f)
+
+def test_get_json_file_from_s3(get_aws_connection):
+    connection = get_aws_connection
+
+    with open("tests/data/connection/file1.json") as f:
+        json_data = json.load(f)
+        connection.store(u"file1", json_data)
+
+    json_data = connection.get_by_id("file1")
+    assert json_data["id"] == "file1"
+
+
+
 
 # ===================
 #   TEST CACHE

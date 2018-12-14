@@ -500,36 +500,78 @@ class DatabasePipelineConnection(DatabaseFileConnection):
 
 
 class AWSConnection(Connection):
-    """For storing files at Amazon
+    """For storing files at Amazon Sw
     """
-    def __init__(self, bucket_name, aws_access_key_id, aws_secret_access_key,
-        region_name="eu-central-1"):
+    def __init__(self, bucket_name,
+                 folder=None,
+                 aws_access_key_id=None,
+                 aws_secret_access_key=None,
+                 region_name=None):
+        """
+        :param bucket_name: name of bucket
+        :param folder: subfolder to store to (optional)
+        :param aws_access_key_id: can also be passed as env var
+        :param aws_secret_access_key: can also be passed as env var
+        :param region_name: can also be passed as env var
+        """
+
+        kwargs = {}
+        if aws_access_key_id is not None:
+            kwargs["aws_access_key_id"] = aws_access_key_id
+        if aws_secret_access_key is not None:
+            kwargs["aws_secret_access_key"] = aws_secret_access_key
+        if region_name is not None:
+            kwargs["region_name"] = region_name
+
+        self.s3 = boto3.resource('s3')
         self.s3_client = boto3.client('s3',
-            aws_access_key_id=aws_access_key_id,
-            aws_secret_access_key=aws_secret_access_key,
-            region_name=region_name,
-            config=Config(signature_version='s3v4'))
+                                      config=Config(signature_version='s3v4'),
+                                      **kwargs)
         self.bucket = bucket_name
+        self.folder = folder
         self.type = "aws"
 
     def store(self, filename, file_data, folder=None):
         """
         :param filename: Name of file
-        :type filename: str
-        :param file_data: File content
-        :type file_data: str|file
-        :param folder: subfolder to store to (optional)
-        :type folder: str
+        :param file_data (str|file): File content
         """
-        if folder:
-            filename = os.path.join(folder, filename)
+        if self.folder is not None:
+            filename = os.path.join(self.folder, filename)
 
+        # dict => json file
+        if isinstance(file_data, dict):
+            if filename[-5:] != ".json":
+                filename += ".json"
+
+            file_data = json.dumps(file_data)
+            return self.s3_client.put_object(Bucket=self.bucket,
+                Key=filename, Body=file_data)
+
+        # string => text file
         if isinstance(file_data, str) or isinstance(file_data, unicode):
             return self.s3_client.put_object(Bucket=self.bucket,
                 Key=filename, Body=file_data)
 
         if isinstance(file_data, file):
             return self.s3_client.upload_fileobj(file_data, self.bucket, filename)
+
+    def get_by_id(self, id_):
+        """Get json object.
+        TODO: Handle onther file formats.
+        """
+        if id_.split(".")[-1] != "json":
+            id_ += ".json"
+
+        if self.folder is not None:
+            key = os.path.join(self.folder, id_)
+
+        obj = self.s3.Object(self.bucket, key)
+        file_content = obj.get()['Body'].read().decode('utf-8')
+        json_content = json.loads(file_content)
+
+        return json_content
+
 
 
 class RequestException(Exception):
