@@ -43,3 +43,4 @@ v0.0.39, 2018-09-03 -- trying to silence some warnings
 v0.0.40, 2018-12-14 -- add .get_by_id to aws connection
 v0.0.41, 2018-12-14 -- same as prev, but with actual commits
 v0.0.42, 2018-12-14 -- revert to old requirements
+v0.0.43, 2018-12-20 -- handle restricted datasets
