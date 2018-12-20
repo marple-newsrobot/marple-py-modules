@@ -9,7 +9,9 @@
 
 .cache*
 
+.env
 env
+venv
 
 build
 *.csv#

@@ -230,15 +230,18 @@ class DatabaseConnection(Connection):
         :param kwargs: Query by any table column in database
         :returns (dict): A json object (or None if no match)
         """
-        self.response = self.api.get(self.model)\
+        query = self.api.get(self.model)\
             .select("json_data")\
-            .match(kwargs)\
-            .jwt_auth(self._jwt_token, {"role": self._db_role})\
-            .request(cache=cache)
+            .match(kwargs)
+
+        if self._jwt_token:
+            query = query.jwt_auth(self._jwt_token, {"role": self._db_role})
+
+        self.response = query.request(cache=cache)
         r = self.response
 
         if r.status_code != 200:
-            raise RequestException("{}: {}".format(r.status_code, r.reason), r)
+            raise RequestException("{}: {}".format(r.status_code, r.content), r)
         else:
             # Only return the actual json objects
             try:
