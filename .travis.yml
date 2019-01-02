@@ -1,9 +1,12 @@
 language: python
 python:
-  - "2.7"
+- '2.7'
 install:
-  - pip install -r requirements.txt
+- pip install -r requirements.txt
 script: PYTHONPATH=. py.test tests
 notifications:
   slack: jpp-marple:XiMBWMnbSv7MW2K7GxKdKvCg
   email: true
+deploy:
+  api_key:
+    secure: M7/hJ3yRcC/oQajIemcBhwdaXeVp0LrjM+ulkxDzz00FkVrr/mSmDb1TG0yTi5IkoieR+EoNoUlmXwgdg0FlsgllhGtCKbFMm8blTmpfHXVT9O7SBsdYR5tgyN93c9k4M3m1maQkxK4ksauydHa6U27q0LHC5Avu1usjFovZ3LrGzrfZkIAosWVzK7m4UiQgj4plbzBO9/kjT0CgHnuDqg8TlDUIdKvov7QdF1sNZVV7XObidEUPpjokKcBRDOUhM5s6RH6vY/UTreXL9owHkC3f6lateGYyLB2xoj47SR+XZcpJIqGiZP5H3QvwVnYZuQIqsbk5LKDG0ZRfXxzScQGTovB2xmApElWxUyyZTMZ690PGeiew1lwFgrqhafMccMDRlrp1vR4+P+Bk/tDLsitxhyP93vzaD8/QUt29AheWFSmbXPF2QeKlb0eRY099TCnpLYdLx+INAh3rZmn8uXs9HcQVaG8ceNbO9Z9xXVXIu9JeybEhJnsrYMCeGEoHEJrQ+ciIverFa9wNzix4qhbtq8eBJDlwFF4Yr2lQdU2Dt77FmzzbXSYVik7G8lfeLE4HF/fW0GqFSZVqMFqZ31H1aU5pBuyCAxdLoZGd1byZWpXKST37I9+PxsJJFWoYNdVj9KdoNiW+Ym02zbNzGvtGtFXqNdPtprK7Fsu2c2g=
