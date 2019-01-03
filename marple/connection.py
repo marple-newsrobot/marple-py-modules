@@ -377,15 +377,15 @@ class DatabaseDatasetConnection(DatabaseConnection):
     """
     @require_jwt_auth
     def get(self, *arg, **kwargs):
-        super(DatabaseDatasetConnection, self).get(*arg, **kwargs)
+        return super(DatabaseDatasetConnection, self).get(*arg, **kwargs)
 
     @require_jwt_auth
     def get_by_id(self, *arg, **kwargs):
-        super(DatabaseDatasetConnection, self).get_by_id(*arg, **kwargs)
+        return super(DatabaseDatasetConnection, self).get_by_id(*arg, **kwargs)
 
     @require_jwt_auth
     def exists(self, *arg, **kwargs):
-        super(DatabaseDatasetConnection, self).exists(*arg, **kwargs)
+        return super(DatabaseDatasetConnection, self).exists(*arg, **kwargs)
 
 
     @require_jwt_auth
