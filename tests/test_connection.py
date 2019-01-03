@@ -5,7 +5,7 @@ from copy import deepcopy
 import requests_cache
 from marple.connection import (LocalConnection, DatabaseSchemaConnection,
     DatabaseDatasetConnection, DatabaseConnection, DatabaseRecipeConnection,
-    DatabasePipelineConnection, AWSConnection)
+    DatabasePipelineConnection, AWSConnection, ConnectionError)
 from marple.dataset import Dataset
 from data.config import (POSTGREST_URL, POSTGREST_JWT_TOKEN, POSTGREST_ROLE,
     AWS_ACCESS_ID, AWS_ACCESS_KEY)
@@ -132,6 +132,20 @@ def get_existing(database_dataset_connection):
         raise ValueError("Error setting up database connection")
 
     return existing_ds
+
+def test_get_dataset_on_database_connection(database_dataset_connection, get_existing):
+    connection, existing_ds = database_dataset_connection, get_existing
+
+    dataset_id = existing_ds.extension["id"]
+    r = connection.get_by_id(dataset_id)
+    assert isinstance(r, dict)
+
+def test_get_dataset_without_token(get_existing):
+    existing_ds = get_existing
+    dataset_id = existing_ds.extension["id"]
+    connection = DatabaseDatasetConnection(POSTGREST_URL, "dataset_test")
+    with pytest.raises(ConnectionError):
+        connection.get_by_id(dataset_id)
 
 
 def test_append_dataset_on_database_connection(database_dataset_connection, get_existing):

@@ -48,6 +48,22 @@ class Connection(object):
         """Delete an object by id """
         raise NotImplementedError("This method must be overridden")
 
+def require_jwt_auth(func):
+    """Decorator for methods that require jwt auth to be set up."""
+    def wrapper(self, *args, **kwargs):
+        """Raises error if JWT auth is not set up."""
+        if self._jwt_token is '':
+            raise ConnectionError("JWT_TOKEN must be set to perform this "
+                                  "request. Use the 'jwt_auth' argument when "
+                                  "you set up the connection")
+
+        if self._db_role is '':
+            raise ConnectionError("DB_ROLE must be set to perform this "
+                                  "request. Use the 'db_role' argument when "
+                                  "you set up the connection")
+
+        return func(self, *args, **kwargs)
+    return wrapper
 
 class LocalConnection(Connection):
     """When communicating with local storage """
@@ -251,18 +267,20 @@ class DatabaseConnection(Connection):
 
         return data
 
-
     def get_by_id(self, id_, cache=False):
         """Get object by id
 
         :param id_ (str): Id of object
         :returns (dict): A json object (or None if no match)
         """
-        self.response = self.api.get(self.model)\
+        query = self.api.get(self.model)\
             .single()\
-            .eq("id", id_)\
-            .jwt_auth(self._jwt_token, {"role": self._db_role})\
-            .request(cache=cache)
+            .eq("id", id_)
+
+        if self._jwt_token:
+            query = query.jwt_auth(self._jwt_token, {"role": self._db_role})
+
+        self.response = query.request(cache=cache)
 
         r = self.response
 
@@ -281,10 +299,15 @@ class DatabaseConnection(Connection):
         """Check if object exists
         """
         # Only select the id column to reduce traffic
-        self.response = self.api.get(self.model)\
+        query = self.api.get(self.model)\
             .select("id")\
-            .match(kwargs)\
-            .request(cache=cache)
+            .match(kwargs)
+
+        if self._jwt_token:
+            query = query.jwt_auth(self._jwt_token, {"role": self._db_role})
+
+        self.response = query.request(cache=cache)
+
         r = self.response
 
         if r.status_code == 200:
@@ -295,6 +318,7 @@ class DatabaseConnection(Connection):
         else:
             return False
 
+    @require_jwt_auth
     def store(self, filename, json_data, **kwargs):
         """Insert, or if object already exist, update.
 
@@ -331,6 +355,7 @@ class DatabaseConnection(Connection):
         return r
 
 
+    @require_jwt_auth
     def delete(self, id_):
         """Remove an object from database by id
         """
@@ -347,8 +372,23 @@ class DatabaseConnection(Connection):
 
 class DatabaseDatasetConnection(DatabaseConnection):
     """Datasets behave differently than other objects (alarms and newsleads).
-        On `.store()` we need to be able to append to existing dataset.
+        On `.store()` we need to be able to append to existing dataset +
+        authentication is stricter.
     """
+    @require_jwt_auth
+    def get(self, *arg, **kwargs):
+        super(DatabaseDatasetConnection, self).get(*arg, **kwargs)
+
+    @require_jwt_auth
+    def get_by_id(self, *arg, **kwargs):
+        super(DatabaseDatasetConnection, self).get_by_id(*arg, **kwargs)
+
+    @require_jwt_auth
+    def exists(self, *arg, **kwargs):
+        super(DatabaseDatasetConnection, self).exists(*arg, **kwargs)
+
+
+    @require_jwt_auth
     def store(self, filename, json_data, on_existing="update", **kwargs):
         """Insert, or if object already exist, append.
 
@@ -378,6 +418,7 @@ class DatabaseDatasetConnection(DatabaseConnection):
                 _r = self.api.get(self.model)\
                     .eq("id", id)\
                     .single()\
+                    .jwt_auth(self._jwt_token, { "role": self._db_role })\
                     .request()
 
 
