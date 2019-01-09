@@ -239,6 +239,7 @@ class DatabaseConnection(Connection):
         self._jwt_token = jwt_token
         self._db_role = db_role
 
+    @require_jwt_auth
     def get(self, cache=False, **kwargs):
         """Get object by query
 
@@ -267,6 +268,7 @@ class DatabaseConnection(Connection):
 
         return data
 
+    @require_jwt_auth
     def get_by_id(self, id_, cache=False):
         """Get object by id
 
@@ -295,6 +297,7 @@ class DatabaseConnection(Connection):
 
         return data
 
+    @require_jwt_auth
     def exists(self, cache=False, **kwargs):
         """Check if object exists
         """

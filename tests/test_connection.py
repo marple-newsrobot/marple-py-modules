@@ -140,6 +140,11 @@ def test_get_dataset_on_database_connection(database_dataset_connection, get_exi
     r = connection.get_by_id(dataset_id)
     assert isinstance(r, dict)
 
+    dataset_id = existing_ds.extension["id"]
+    r = connection.exists(id=dataset_id)
+    assert isinstance(r, bool)
+    assert r is True
+
 def test_get_dataset_without_token(get_existing):
     existing_ds = get_existing
     dataset_id = existing_ds.extension["id"]
@@ -216,7 +221,9 @@ def test_add_alarm_on_database_connection(database_alarm_connection,
 def test_alarm_connection_on_database_without_auth():
     """ Make a basic request without auth
     """
-    connection = DatabaseConnection(POSTGREST_URL, "alarm_test")
+    connection = DatabaseConnection(POSTGREST_URL, "alarm_test",
+                                    jwt_token=POSTGREST_JWT_TOKEN,
+                                    db_role=POSTGREST_ROLE)
     # Sample query
     assert connection.exists(id="foo") == False
 
@@ -224,7 +231,9 @@ def test_query_alarms_with_list_on_database_connection():
     """ Make a query with a list of regions
         This test depends on the old db entries not changing
     """
-    connection = DatabaseConnection(POSTGREST_URL, "alarm")
+    connection = DatabaseConnection(POSTGREST_URL, "alarm",
+                                    jwt_token=POSTGREST_JWT_TOKEN,
+                                    db_role=POSTGREST_ROLE)
     alarms = connection.get(source="AMS", trigger_date="2016-10-01",
         region=[u"Älmhults kommun", u"Åmåls kommun"])
     assert len(alarms) == 7
