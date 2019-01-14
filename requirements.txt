@@ -1,5 +1,5 @@
 alabaster==0.7.12
-boto3==1.4.8
+boto3==1.9.78
 csvkit==1.0.3
 docutils==0.14
 glob2==0.6
