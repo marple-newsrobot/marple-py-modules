@@ -7,7 +7,7 @@ glob2==0.6
 jsonschema==2.6.0
 numpy==1.11.3
 pandas==0.23.4
-py==1.4.34
+py==1.7.0
 Pygments==2.3.1
 pytest==3.10.1
 requests==2.21.0
