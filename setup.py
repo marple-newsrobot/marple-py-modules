@@ -1,9 +1,19 @@
 from setuptools import setup
 from new_version import get_current_version
 
-# Get list of requirements
-with open('requirements.txt') as f:
-    required = f.read().splitlines()
+requires = [
+    'boto3>=1.4,<2',
+    'botocore>=1.4,<2',
+    'csvkit>=1,<2',
+    'glob2>=0.4,<1',
+    'jsonschema>=2.5,<3',
+    'numpy>=1.11,<2',
+    'pandas>=0.20,<1',
+    'requests>=2,<3',
+    'requests-cache>=0.4,<1',
+    'requests-jwt>=0.4,<1',
+    'simplejson>=3,<4',
+]
 
 # Get current version
 current_version = get_current_version()
