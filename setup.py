@@ -13,6 +13,7 @@ requires = [
     'requests-cache>=0.4,<1',
     'requests-jwt>=0.4,<1',
     'simplejson>=3,<4',
+    'bson>=0.5,<1'
 ]
 
 # Get current version

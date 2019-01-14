@@ -15,3 +15,5 @@ requests-cache==0.4.13
 requests-jwt==0.5.3
 simplejson==3.16.0
 Sphinx==1.8.3
+bson==0.5.7
+dotenv==0.0.5
