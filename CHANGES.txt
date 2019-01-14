@@ -47,3 +47,4 @@ v0.0.43, 2018-12-20 -- handle restricted datasets
 v0.0.44, 2019-01-03 -- handle stricter auth on datasets
 v0.0.45, 2019-01-09 -- update to handle database restrictions
 v0.0.46, 2019-01-14 -- Significantly reduce number of dependencies, and upgrade the remaining ones where possible
+v0.0.47, 2019-01-14 -- Fix setup error
