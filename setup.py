@@ -1,7 +1,7 @@
 from setuptools import setup
 from new_version import get_current_version
 
-requires = [
+required = [
     'boto3>=1.4,<2',
     'csvkit>=1,<2',
     'glob2>=0.4,<1',
