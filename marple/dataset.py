@@ -285,7 +285,7 @@ class Dataset(JSONStatObject):
             json_data["size"].append(size)
 
         # Populate value
-        json_data["value"] = list(df[value_column])
+        json_data["value"] = df[value_column].tolist()
 
         if has_status:
             status = list(df[status_column])
@@ -653,11 +653,14 @@ class Dataset(JSONStatObject):
 
         return table
 
-    def to_json_file(self, filename):
+    def to_json_file(self, filename, decimals=None):
         """ Save to file as json
 
         :param filename: path to output file.
         """
+        if decimals is not None:
+            json.encoder.FLOAT_REPR = lambda o: format(o, '.{}f'.format(decimals))
+
         with open(filename, 'w') as f:
             json.dump(self.json, f, indent=4, sort_keys=True)
 

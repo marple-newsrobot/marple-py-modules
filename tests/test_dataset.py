@@ -325,3 +325,14 @@ def test_set_units():
     dim = ds.dimension("measure")
     dim.units = updated_units
     assert dim.category("share").unit == updated_units["share"]
+
+def test_round():
+    df = pd.DataFrame([
+        ["2018-01-01", "A", 0.1234],
+        ["2018-01-02", "A", 0.9876],
+    ], columns=["timepoint", "category", "value"])
+    ds = Dataset().from_dataframe(df)
+
+    # TODO: Validate
+    #ds.to_json_file(output_dir + "/ds1.json", decimals=1)
+    #ds.to_json_file("/ds2.json", decimals=2)
