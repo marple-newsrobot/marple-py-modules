@@ -326,13 +326,15 @@ def test_set_units():
     dim.units = updated_units
     assert dim.category("share").unit == updated_units["share"]
 
-def test_round():
+def test_to_json_with_round():
     df = pd.DataFrame([
         ["2018-01-01", "A", 0.1234],
         ["2018-01-02", "A", 0.9876],
     ], columns=["timepoint", "category", "value"])
     ds = Dataset().from_dataframe(df)
 
-    # TODO: Validate
-    #ds.to_json_file(output_dir + "/ds1.json", decimals=1)
-    #ds.to_json_file("/ds2.json", decimals=2)
+    one_dec = json.loads(ds.to_json(decimals=1))["value"]
+    assert one_dec == [0.1, 1.0]
+
+    two_dec = json.loads(ds.to_json(decimals=2))["value"]
+    assert two_dec == [0.12, 0.99]

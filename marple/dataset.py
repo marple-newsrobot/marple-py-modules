@@ -653,16 +653,23 @@ class Dataset(JSONStatObject):
 
         return table
 
+    def to_json(self, decimals=None):
+        """Format as json string.
+        """
+        if decimals is not None:
+            json.encoder.FLOAT_REPR = lambda o: format(o, '.{}f'.format(decimals))
+
+        return json.dumps(self.json, indent=4, sort_keys=True)
+
+
     def to_json_file(self, filename, decimals=None):
         """ Save to file as json
 
         :param filename: path to output file.
         """
-        if decimals is not None:
-            json.encoder.FLOAT_REPR = lambda o: format(o, '.{}f'.format(decimals))
-
+        json_str = self.to_json(decimals=decimals)
         with open(filename, 'w') as f:
-            json.dump(self.json, f, indent=4, sort_keys=True)
+            f.write(json_str)
 
         return self
 
