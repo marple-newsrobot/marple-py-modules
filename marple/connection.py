@@ -108,7 +108,7 @@ class LocalConnection(Connection):
                 e.g. { "source": ["AMS", "SMS"] }
             """
             data = []
-            for key, value in kwargs.iteritems():
+            for key, value in kwargs.items():
                 if isinstance(value, list):
                     msg = ("Making queries with lists is only possible on database " +
                         "connection at the moment.")
@@ -178,7 +178,7 @@ class LocalDatasetConnection(LocalConnection):
             ("measure", "*"),
             ("name", "*"),
         ))
-        for key, value in query.iteritems():
+        for key, value in query.items():
             if key in fragments:
                 fragments[key] = query[key].lower()
             else:
@@ -204,7 +204,7 @@ class LocalAlarmConnection(LocalConnection):
             ("alarm_type", "*"),
             ("hash", "*"),
         ))
-        for key, value in query.iteritems():
+        for key, value in query.items():
             if key in fragments:
                 fragments[key] = query[key].replace(" ", "-")
             else:

@@ -112,7 +112,7 @@ class JSONStatObject(object):
         else:
             raise ValueError("'obj' must be dict or JSONStatObject instance")
 
-        for attr, value in meta_data.iteritems():
+        for attr, value in meta_data.items():
             has_attr = hasattr(self, attr)
             has_value = getattr(self, attr)
 
@@ -442,7 +442,7 @@ class Dataset(JSONStatObject):
         if isinstance(self.json["status"], list):
             return self.json["status"]
         else:
-            for pos, status in self.json["status"].iteritems():
+            for pos, status in self.json["status"].items():
                 try:
                     _statuses[int(pos)] = status
                 except:
@@ -518,7 +518,7 @@ class Dataset(JSONStatObject):
                 else:
                     self.add_note(row["note"])
 
-            except KeyError, msg:
+            except (KeyError, msg):
                 if on_missing == "pass":
                     pass
                 elif on_missing == "break":
@@ -703,7 +703,7 @@ class Dataset(JSONStatObject):
             :returns: Self
         """
         def filter_fn(x):
-            for dim_id, value in query.iteritems():
+            for dim_id, value in query.items():
                 if x[dim_id] != value:
                     return False
             return True
@@ -995,7 +995,7 @@ class Dimension(JSONStatObject):
                 if isinstance(index, list):
                     categories = [(cat_id, i) for i,cat_id in enumerate(index)]
                 elif isinstance(index,dict):
-                    categories = [ (cat_id, i) for (cat_id, i) in index.iteritems()]
+                    categories = [ (cat_id, i) for (cat_id, i) in index.items()]
 
             categories.sort(key=lambda tup: tup[1])
 

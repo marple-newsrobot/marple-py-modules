@@ -1,14 +1,14 @@
 # encoding: utf-8
 
 import re
-import sys 
+import sys
 from datetime import datetime
 
 VERSION_FILE = "CURRENT_VERSION.txt"
 CHANGELOG_FILE = "CHANGES.txt"
 
 def is_valid_version(version):
-    """ Check if a string is a valid version 
+    """ Check if a string is a valid version
     """
     return bool(re.search("[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}", version))
 
@@ -61,15 +61,15 @@ def main():
     new_version = sys.argv[1]
     validate(new_version)
     msg = sys.argv[2]
-    
+
     date = datetime.now().strftime("%Y-%m-%d")
-    
+
     # Update changelog
     # Format: v<version>, <date> -- Initial release.
     change_log_row = "v{}, {} -- {}".format(new_version, date, msg)
     with open(CHANGELOG_FILE, 'a') as file:
         file.write(change_log_row + "\n")
-        print u"{} updated: '{}'".format(CHANGELOG_FILE, change_log_row)
+        print(u"{} updated: '{}'".format(CHANGELOG_FILE, change_log_row))
 
     # Update CURRENT_VERSION
     with open(VERSION_FILE, 'r+') as file:
@@ -77,4 +77,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main() 
+    main()

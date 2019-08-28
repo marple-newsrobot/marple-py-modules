@@ -153,7 +153,7 @@ class ApiRequest(object):
         :rtype: ApiRequest
         """
         auth = JWTAuth(secret, header_format='Bearer %s')
-        for key, value in payload.iteritems():
+        for key, value in payload.items():
             auth.add_field(key, value)
 
         self._auth = auth
@@ -206,7 +206,7 @@ class ApiRequest(object):
         :returns: The API request object.
         :rtype: ApiRequest
         """
-        for key, value in query.iteritems():
+        for key, value in query.items():
             if isinstance(value, list):
                 query[key] = u"in." + u",".join(value)
             else:

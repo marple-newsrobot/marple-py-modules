@@ -82,7 +82,7 @@ def test_json_data_with_wrong_value_length():
 # ==== TEST METHODS ====
 def test_print_unicodes():
     ds = Dataset().from_json(complete_dataset)
-    print ds
+    print(ds)
 
 
 def test_add_category_labels():

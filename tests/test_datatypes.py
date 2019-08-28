@@ -48,11 +48,11 @@ def test_labels():
 
     regions_domain = Domain("regions/*", datatypes_dir=DATATYPES_DIR)
 
-    for index, label in regions_domain.labels().iteritems():
+    for index, label in regions_domain.labels().items():
         msg = u"No label for '{}'".format(index)
         assert not isNaN(label) and label is not None, msg
 
-    for index, label in regions_domain.labels(lang="en").iteritems():
+    for index, label in regions_domain.labels(lang="en").items():
         msg = u"No label for '{}'".format(index)
         assert not isNaN(label) and label is not None, msg
 
