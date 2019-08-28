@@ -3,6 +3,7 @@ import pytest
 import json
 from copy import deepcopy
 import requests_cache
+from six import string_types
 from marple.connection import (LocalConnection, DatabaseSchemaConnection,
     DatabaseDatasetConnection, DatabaseConnection, DatabaseRecipeConnection,
     DatabasePipelineConnection, AWSConnection, ConnectionError)
@@ -44,7 +45,7 @@ def test_list_schemas_from_api():
     connection = DatabaseSchemaConnection(POSTGREST_URL)
     schemas = connection.get()
     assert len(schemas) > 0
-    assert isinstance(schemas[0], unicode)
+    assert isinstance(schemas[0], string_types)
 
 def test_list_recipes_from_api():
     """ Try to get every recipe one by one
@@ -53,7 +54,7 @@ def test_list_recipes_from_api():
     connection = DatabaseRecipeConnection(POSTGREST_URL)
     recipes = connection.get()
     assert len(recipes) > 0
-    assert isinstance(recipes[0], unicode)
+    assert isinstance(recipes[0], string_types)
 
 def test_get_recipe_from_api():
     """

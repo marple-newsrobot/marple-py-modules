@@ -13,6 +13,7 @@ from marple.postgrest import Api
 from marple.dataset import Dataset
 from marple.utils import cache_initiated
 from glob import glob
+from six import string_types
 from os.path import basename
 import boto3 # S3 Client
 from botocore.client import Config
@@ -596,7 +597,7 @@ class AWSConnection(Connection):
                 Key=filename, Body=file_data)
 
         # string => text file
-        if isinstance(file_data, str) or isinstance(file_data, unicode):
+        if isinstance(file_data, string_types):
             return self.s3_client.put_object(Bucket=self.bucket,
                 Key=filename, Body=file_data)
 

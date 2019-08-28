@@ -7,6 +7,7 @@ import re
 import requests_cache
 import functools
 import numpy as np
+from six import string_types, text_type
 
 def get_timepoint_label(datestring, periodicity):
     """ Convert a datestring to a timepoint label.
@@ -64,7 +65,7 @@ def guess_periodicity(time_str):
         "2015-K1" => "quarterly"
         "2015-01" => "monthly"
     """
-    time_str = unicode(time_str)
+    time_str = text_type(time_str)
     if re.match(REGEX["yearly"], time_str):
         return "yearly"
     elif re.match(REGEX["quarterly"], time_str):
@@ -80,7 +81,7 @@ def to_timepoint(time_str):
         "2015" => "2015-01-01"
         "2015-03" => "2015-03-01"
     """
-    time_str = unicode(time_str)
+    time_str = text_type(time_str)
     if re.match("^\d\d\d\d$", time_str):
         # "2015"
         return time_str + "-01-01"
@@ -182,7 +183,7 @@ def parse_lingual_object(str_or_dict, lang=None, prefix=None, fallback_chain=["e
     x = str_or_dict
 
     # 1. If string, return as such
-    if isinstance(x, str) or isinstance(x, unicode):
+    if isinstance(x, string_types):
         return x
 
     #if lang is None and prefix is not None:

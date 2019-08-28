@@ -6,6 +6,9 @@ from copy import deepcopy
 import pandas as pd
 import os
 from jsonschema import Draft4Validator, FormatChecker
+from six import string_types, text_type
+import sys
+
 
 class meta_property(property):
     """
@@ -48,7 +51,7 @@ class JSONStatObject(object):
             self.note = []
 
         if note not in self.note:
-            if isinstance(note, str) or isinstance(note, unicode):
+            if isinstance(note, string_types):
                 self.note.append(note)
             elif isinstance(note, list):
                 self.note += note
@@ -178,7 +181,7 @@ class Dataset(JSONStatObject):
             elif isinstance(data, pd.DataFrame):
                 # Init with dataframe
                 self.from_dataframe(data)
-            elif isinstance(data, str) or isinstance(data, unicode):
+            elif isinstance(data, string_types):
                 try:
                     # Init with json string
                     json_data = json.loads(data)
@@ -273,7 +276,7 @@ class Dataset(JSONStatObject):
             # But formating dimension values as strings comes natural
             # when we are exporting to json files.
             # Introduced to handle boolean values.
-            dim_values = [unicode(x) for x in dim_values ]
+            dim_values = [text_type(x) for x in dim_values ]
 
             size = len(dim_values)
 

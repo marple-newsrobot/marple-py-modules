@@ -3,6 +3,7 @@
 import pandas as pd
 import os
 from marple.utils import isNaN
+from six import text_type, string_types
 
 
 class CsvFile(object):
@@ -145,7 +146,7 @@ class CsvFile(object):
 
             :returns: A pandas dataframe
         """
-        if isinstance(file_or_data, str) or isinstance(file_or_data, unicode):
+        if isinstance(file_or_data, string_types):
             # Is filepath
             df = pd.read_csv(file_or_data, encoding="utf-8", dtype=object)
 
@@ -219,7 +220,7 @@ class CsvFileWithLabel(object):
         # 1. Try to get lang specific label (eg 'label__sv')
         try:
 
-            label = row["label__" + unicode(lang)]
+            label = row["label__" + text_type(lang)]
             if label is not None and not isNaN(label):
                 return label
         except:
