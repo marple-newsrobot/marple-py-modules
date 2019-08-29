@@ -16,7 +16,8 @@ def test_basic_csv_file():
 
     assert csv_file.row("ok_id")["empty"] is None
 
-    assert csv_file.to_dictlist() == [
+    dictlist = csv_file.to_dictlist()
+    assert list(dictlist) == [
         {
             "id": "ok_id",
             "label": "This is a valid row",
@@ -55,7 +56,7 @@ def test_append_to_csv_file():
     assert len(csv_file.data) == 2
 
     # Try to add a row with existing id
-    csv_file.append([{ "id": "new_id", "label": "ignore me, this index already exist" }])    
+    csv_file.append([{ "id": "new_id", "label": "ignore me, this index already exist" }])
     assert len(csv_file.data) == 2
     assert csv_file.data.iloc[-1]["label"] == "new label"
 
@@ -132,4 +133,3 @@ def test_get_labels_from_csv_file():
     assert csv_file.label("my_untranslated_row") == "My untranslated row"
     assert csv_file.label("my_untranslated_row", lang="sv") == "My untranslated row"
     assert csv_file.label("my_untranslated_row", lang="en") == "My untranslated row"
-
