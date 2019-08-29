@@ -186,8 +186,8 @@ def test_override_existing_dataset_on_database_connection(database_dataset_conne
     json_data_from_db = connection.get_by_id(dataset_id)
     ds_from_db = Dataset(json_data_from_db)
 
-    timepoint_new = ds_from_db.dimension("timepoint").labels.keys()[0]
-    timepoint_original = original_ds.dimension("timepoint").labels.keys()[0]
+    timepoint_new = list(ds_from_db.dimension("timepoint").labels.keys())[0]
+    timepoint_original = list(original_ds.dimension("timepoint").labels.keys())[0]
 
     assert timepoint_new != timepoint_original
 
