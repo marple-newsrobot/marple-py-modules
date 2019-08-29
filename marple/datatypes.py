@@ -10,6 +10,15 @@ import csvkit as csv
 from marple.csv import CsvFileWithLabel
 from marple.utils import isNaN, parse_lingual_object, multiple_and
 
+# Pandas 0.24 makes filtering with unicodes incompatible with python 2.7
+# https://github.com/pandas-dev/pandas/issues/25287
+import sys
+try:
+    reload(sys)
+    sys.setdefaultencoding("utf-8")
+except NameError:
+    # python3 compatibility
+    pass
 
 class Domain(CsvFileWithLabel):
     """Represents datatype data for a domain, e.g. gender or regions
