@@ -6,6 +6,8 @@ import os
 import re
 import requests_cache
 import functools
+import json
+from decimal import Decimal
 import numpy as np
 from six import string_types, text_type
 
@@ -140,7 +142,7 @@ def list_files(dir, extension=None, file_name=None):
     r = []
     subdirs = [x[0] for x in os.walk(dir)]
     for subdir in subdirs:
-        files = os.walk(subdir).next()[2]
+        files = next(os.walk(subdir))[2]
         if (len(files) > 0):
             for file in files:
                 _file_name, _file_extension = os.path.splitext(file)
@@ -252,3 +254,37 @@ def cache_initiated():
         return True
     except AttributeError:
         return False
+
+
+def get_decimal_encoder(prec=None, BaseEncoder=json.JSONEncoder):
+    """Returns a JSONEncoder that forces Decimals to a given precision
+    on string dump.
+
+    Hackish worksround as these suggested solutions did not work in python3:
+    https://stackoverflow.com/questions/1447287/format-floats-with-standard-json-module
+
+    Example usage:
+
+        data = {
+            "value": Decimal(1.543),
+        }
+        print(json.dumps(data, cls=get_decimal_encoder(2)))
+        # '{"value": 1.54}'
+
+    :param prec (int): number of decimals
+    """
+    class DecimalEncoder(BaseEncoder):
+        def default(self, o):
+            if isinstance(o, Decimal):
+                p = self.PRECISION
+                if p is not None:
+                    # Make the decimal a string with N decimal and then float it 
+                    o_str ='%.{0}f'.format(p) % o
+                    return float(o_str)
+                else:
+                    return float(o)
+            return super(DecimalEncoder, self).default(o)
+
+    DecimalEncoder.PRECISION = prec
+
+    return DecimalEncoder

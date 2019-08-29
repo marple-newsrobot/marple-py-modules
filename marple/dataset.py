@@ -7,6 +7,7 @@ import pandas as pd
 import os
 from jsonschema import Draft4Validator, FormatChecker
 from six import string_types, text_type
+from six.moves import reduce
 import sys
 
 
@@ -88,7 +89,7 @@ class JSONStatObject(object):
         """
         _class = type(self)
         _parent_class = _class.__bases__[0]
-        attrs = vars(_class).items() + vars(_parent_class).items()
+        attrs = list(vars(_class).items()) + list(vars(_parent_class).items())
 
         return [attr for attr, value in attrs
                 if isinstance(value, decorator_class)]
@@ -521,7 +522,8 @@ class Dataset(JSONStatObject):
                 else:
                     self.add_note(row["note"])
 
-            except (KeyError, msg):
+            except KeyError as e:
+                msg = repr(e)
                 if on_missing == "pass":
                     pass
                 elif on_missing == "break":
@@ -658,11 +660,20 @@ class Dataset(JSONStatObject):
 
     def to_json(self, decimals=None):
         """Format as json string.
-        """
-        if decimals is not None:
-            json.encoder.FLOAT_REPR = lambda o: format(o, '.{}f'.format(decimals))
 
-        return json.dumps(self.json, indent=4, sort_keys=True)
+        :param decimals: number of decimals of values
+        """
+        # Hack: Force N float decimals
+        from marple.utils import get_decimal_encoder
+        # Get our custom decimal encoder
+        decimal_encoder = get_decimal_encoder(prec=decimals)
+
+        # Make values Decimals
+        json_data = deepcopy(self.json)
+        from decimal import Decimal
+        json_data["value"] = list(map(Decimal, json_data["value"]))
+
+        return json.dumps(json_data, indent=4, sort_keys=True, cls=decimal_encoder)
 
 
     def to_json_file(self, filename, decimals=None):
@@ -991,7 +1002,7 @@ class Dimension(JSONStatObject):
             category_json = self.json["category"]
 
             if "index" not in category_json:
-                cat_id = category_json["label"].keys()[0]
+                cat_id = list(category_json["label"].keys())[0]
                 categories = [(cat_id, 0)]
             else:
                 index = category_json["index"]
