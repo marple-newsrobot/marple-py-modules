@@ -330,11 +330,12 @@ def test_to_json_with_round():
     df = pd.DataFrame([
         ["2018-01-01", "A", 0.1234],
         ["2018-01-02", "A", 0.9876],
+        ["2018-01-03", "A", None],
     ], columns=["timepoint", "category", "value"])
     ds = Dataset().from_dataframe(df)
 
     one_dec = json.loads(ds.to_json(decimals=1))["value"]
-    assert one_dec == [0.1, 1.0]
+    assert one_dec == [0.1, 1.0, None]
 
     two_dec = json.loads(ds.to_json(decimals=2))["value"]
-    assert two_dec == [0.12, 0.99]
+    assert two_dec == [0.12, 0.99, None]

@@ -229,6 +229,13 @@ def parse_lingual_object(str_or_dict, lang=None, prefix=None, fallback_chain=["e
 def parse_int(s):
     return int(float(s))
 
+def parse_decimal(val):
+    if isinstance(val, float):
+        return Decimal(val)
+    elif val is None or np.is_na(val):
+        return None
+    else:
+        raise NotImplementedError(u"Unable to parse Decimal from {}".format(val))
 
 def isNaN(num):
     """ Check if a value is nan
@@ -278,7 +285,7 @@ def get_decimal_encoder(prec=None, BaseEncoder=json.JSONEncoder):
             if isinstance(o, Decimal):
                 p = self.PRECISION
                 if p is not None:
-                    # Make the decimal a string with N decimal and then float it 
+                    # Make the decimal a string with N decimal and then float it
                     o_str ='%.{0}f'.format(p) % o
                     return float(o_str)
                 else:

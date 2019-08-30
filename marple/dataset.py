@@ -9,6 +9,7 @@ from jsonschema import Draft4Validator, FormatChecker
 from six import string_types, text_type
 from six.moves import reduce
 import sys
+from marple.utils import parse_decimal
 
 
 class meta_property(property):
@@ -670,8 +671,7 @@ class Dataset(JSONStatObject):
 
         # Make values Decimals
         json_data = deepcopy(self.json)
-        from decimal import Decimal
-        json_data["value"] = list(map(Decimal, json_data["value"]))
+        json_data["value"] = list(map(parse_decimal, json_data["value"]))
 
         return json.dumps(json_data, indent=4, sort_keys=True, cls=decimal_encoder)
 
