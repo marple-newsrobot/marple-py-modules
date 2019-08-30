@@ -5,7 +5,7 @@ docutils==0.14
 glob2==0.6
 jsonschema==2.6.0
 numpy==1.16.5
-pandas==0.25.1
+pandas==0.24.2
 py==1.7.0
 Pygments==2.3.1
 pytest==3.10.1
