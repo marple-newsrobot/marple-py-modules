@@ -665,6 +665,10 @@ class PostgrestTabDataConnection():
         req = self._parse_query(req, query)
         r = req.request()
 
+        try:
+            r.raise_for_status()
+        except:
+            raise ConnectionError("{}: {}".format(r.status_code, r.json()))
         return r.json()
 
     def delete(self, query={}):
@@ -679,7 +683,10 @@ class PostgrestTabDataConnection():
                 .jwt_auth(self._jwt_token, { "role": self._db_role })
         req = self._parse_query(req, query)
         r = req.request()
-        r.raise_for_status()
+        try:
+            r.raise_for_status()
+        except:
+            raise ConnectionError("{}: {}".format(r.status_code, r.json()))
 
         return r
 
@@ -689,7 +696,10 @@ class PostgrestTabDataConnection():
             .jwt_auth(self._jwt_token, { "role": self._db_role })\
             .json(row_or_rows)\
             .request()
-        r.raise_for_status()
+        try:
+            r.raise_for_status()
+        except:
+            raise ConnectionError("{}: {}".format(r.status_code, r.json()))
         return r
 
     def upsert(self, data):
@@ -698,6 +708,11 @@ class PostgrestTabDataConnection():
             .upsert()\
             .json(data)\
             .request()
+        try:
+            r.raise_for_status()
+        except:
+            raise ConnectionError("{}: {}".format(r.status_code, r.json()))
+        return r
 
 
     @staticmethod
