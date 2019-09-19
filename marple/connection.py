@@ -53,12 +53,12 @@ def require_jwt_auth(func):
     """Decorator for methods that require jwt auth to be set up."""
     def wrapper(self, *args, **kwargs):
         """Raises error if JWT auth is not set up."""
-        if self._jwt_token is '':
+        if self._jwt_token is '' or self._jwt_token is None:
             raise ConnectionError("JWT_TOKEN must be set to perform this "
                                   "request. Use the 'jwt_auth' argument when "
                                   "you set up the connection")
 
-        if self._db_role is '':
+        if self._db_role is '' or self._db_role is None:
             raise ConnectionError("DB_ROLE must be set to perform this "
                                   "request. Use the 'db_role' argument when "
                                   "you set up the connection")
@@ -619,6 +619,96 @@ class AWSConnection(Connection):
         json_content = json.loads(file_content)
 
         return json_content
+
+
+class TabDataConnection():
+    """For fetching and inserting data to in tabular, two-dimensional format
+    (like an Excel-sheet or a database)
+    """
+    def get(self, **kwargs):
+        raise NotImplementedError()
+
+    def delete(self, **kwargs):
+        raise NotImplementedError()
+
+    def insert(self, data, **kwargs):
+        raise NotImplementedError()
+
+    def upsert(self, data, **kwargs):
+        raise NotImplementedError()
+
+
+class PostgrestTabDataConnection():
+    """For speaking to a PostgREST interface.
+    https://postgrest.org/en/v6.0/index.html
+
+    NB! Some features require Postgrest >5.0.0
+    """
+    def __init__(self, url, table, jwt_token=None, db_role=None):
+        """
+        :param url: Url of postgrest api
+        :param model: Name of database table
+        :param jwt_token: JWT Token
+        :param db_role: Database role for authentication
+        """
+        self.type = "database"
+        self.table = table
+        self._jwt_token = jwt_token
+        self._db_role = db_role
+
+        self.api = Api(url)
+
+    def get(self, query={}):
+        req = self.api.get(self.table)\
+                .jwt_auth(self._jwt_token, { "role": self._db_role })
+
+        req = self._parse_query(req, query)
+        r = req.request()
+
+        return r.json()
+
+    def delete(self, query={}):
+        """
+        Warning: if no query is passed the whole table will be droped.
+        :param query (dict): column-value(s) pairs to delete. For example
+            `{"id": 123}` drops row(s) with id 123.
+            `{"id": [123, 124]}` would delete 123 and 124.
+            ``
+        """
+        req = self.api.delete(self.table)\
+                .jwt_auth(self._jwt_token, { "role": self._db_role })
+        req = self._parse_query(req, query)
+        r = req.request()
+        r.raise_for_status()
+
+        return r
+
+
+    def insert(self, row_or_rows):
+        r = self.api.post(self.table)\
+            .jwt_auth(self._jwt_token, { "role": self._db_role })\
+            .json(row_or_rows)\
+            .request()
+        r.raise_for_status()
+        return r
+
+    def upsert(self, data):
+        r = self.api.post(self.table)\
+            .jwt_auth(self._jwt_token, { "role": self._db_role })\
+            .upsert()\
+            .json(data)\
+            .request()
+
+
+    @staticmethod
+    def _parse_query(req, query):
+        for col, value in query.items():
+            if isinstance(value, list):
+                req = req.is_in(col, value)
+            else:
+                req = req.eq(col, value)
+        return req
+
 
 
 

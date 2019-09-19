@@ -193,7 +193,6 @@ class ApiRequest(object):
         self._headers.update({
             'Prefer': 'plurality=singular'
         })
-
         return self
 
     def match(self, query):
@@ -305,6 +304,20 @@ class ApiRequest(object):
 
         """
         return self.filter(column, "lte", value)
+
+    def upsert(self, duplicates="merge"):
+        """Enable bulk upsert.
+
+        For single item upsert use PUT + eq. parameter
+        http://postgrest.org/en/v6.0/api.html#upsert
+        """
+        allowed_values = ["ignore", "merge"]
+        if duplicates not in allowed_values:
+            raise ValueError("duplicates must be one of {}".format(allowed_values))
+        self._headers.update({
+            "Prefer": "resolution={}-duplicates".format(duplicates)
+        })
+        return self
 
     def order(self):
         raise NotImplementedError()

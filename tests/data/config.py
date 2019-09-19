@@ -19,3 +19,7 @@ assert POSTGREST_JWT_TOKEN is not None
 
 AWS_ACCESS_ID = os.environ.get('AWS_ACCESS_ID')
 AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
+
+TAB_DATA_URL = os.environ['TAB_DATA_URL']
+TAB_DATA_DB_ROLE = os.environ['TAB_DATA_DB_ROLE']
+TAB_DATA_JWT_TOKEN = os.environ['TAB_DATA_JWT_TOKEN']

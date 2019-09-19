@@ -9,7 +9,9 @@ from marple.connection import (LocalConnection, DatabaseSchemaConnection,
     DatabasePipelineConnection, AWSConnection, ConnectionError)
 from marple.dataset import Dataset
 from data.config import (POSTGREST_URL, POSTGREST_JWT_TOKEN, POSTGREST_ROLE,
-    AWS_ACCESS_ID, AWS_ACCESS_KEY)
+    AWS_ACCESS_ID, AWS_ACCESS_KEY, TAB_DATA_DB_ROLE,TAB_DATA_JWT_TOKEN,
+    TAB_DATA_URL)
+
 
 
 def test_get_with_local_connection():
@@ -282,6 +284,58 @@ def test_add_newslead_on_database_connection(database_newslead_connection):
         newslead = json.load(f)
     r = connection.store(newslead["id"], newslead)
     assert r.status_code in [201, 204]
+
+# ==========================
+#    TAB DATA CONNECTION TESTS
+# ==========================
+from marple.connection import PostgrestTabDataConnection
+
+@pytest.fixture(scope="session")
+def postgrest_tab_data_connection():
+    conn = PostgrestTabDataConnection(TAB_DATA_URL, "test_table",
+                                      jwt_token=TAB_DATA_JWT_TOKEN,
+                                      db_role=TAB_DATA_DB_ROLE)
+
+    # empty test table
+    conn.delete()
+    return conn
+
+def test_tab_data_connection_postgrest(postgrest_tab_data_connection):
+    conn = postgrest_tab_data_connection
+
+    n_rows = len(conn.get())
+    assert(n_rows == 0)
+
+    r = conn.insert({
+        "col_a": "john",
+        "col_b": 123,
+    })
+    n_rows = len(conn.get())
+    assert(n_rows == 1)
+
+    # add some new data
+    conn.upsert(
+        [
+        {
+            "col_a": "john",
+            "col_b": 234,
+        },
+        {
+            "col_a": "mike",
+            "col_b": 345,
+
+        }
+        ])
+    n_rows = len(conn.get())
+    assert(n_rows == 2)
+
+    john_row = conn.get({"col_a": "john"})[0]
+    assert(john_row["col_b"] == 234)
+
+    # and delete john
+    r = conn.delete({"col_a": "john"})
+    n_rows = len(conn.get())
+    assert(n_rows == 1)
 
 
 # ============================
