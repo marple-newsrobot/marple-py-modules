@@ -55,3 +55,4 @@ v0.0.51, 2019-08-30 -- handle missing values
 v0.0.52, 2019-09-19 -- add connection for tabular data
 v0.0.53, 2019-09-19 -- make sure upsert returns something
 v0.0.54, 2019-09-19 -- better error message on connection error
+v0.0.55, 2019-09-30 -- add custom method to postgrest api
