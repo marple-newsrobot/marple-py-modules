@@ -319,6 +319,11 @@ class ApiRequest(object):
         })
         return self
 
+    def custom(self, key, value):
+        """Adds a custom query parameter.
+        """
+        self._query[key] = value
+
     def order(self):
         raise NotImplementedError()
 
