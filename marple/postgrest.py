@@ -323,6 +323,7 @@ class ApiRequest(object):
         """Adds a custom query parameter.
         """
         self._query[key] = value
+        return self
 
     def order(self):
         raise NotImplementedError()
