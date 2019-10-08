@@ -7,6 +7,7 @@ required = [
     'glob2>=0.4,<1',
     'jsonschema>=2.5,<3',
     'numpy>=1.11,<2',
+    'nw-connections>=1.0.1',
     'pandas>=0.20,<1',
     'requests>=2,<3',
     'requests-cache>=0.4,<1',
