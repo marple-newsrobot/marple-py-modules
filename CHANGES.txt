@@ -58,3 +58,4 @@ v0.0.54, 2019-09-19 -- better error message on connection error
 v0.0.55, 2019-09-30 -- add custom method to postgrest api
 v0.0.56, 2019-09-30 -- bug fix: enable chaning
 v0.1.0, 2019-10-08 -- move connections to separate package
+v0.1.1, 2019-10-08 -- move connections to separate package
