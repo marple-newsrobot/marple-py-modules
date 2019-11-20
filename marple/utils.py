@@ -9,6 +9,7 @@ import functools
 import json
 from decimal import Decimal
 import numpy as np
+import pandas as pd
 from six import string_types, text_type
 
 def get_timepoint_label(datestring, periodicity):
@@ -229,11 +230,12 @@ def parse_lingual_object(str_or_dict, lang=None, prefix=None, fallback_chain=["e
 def parse_int(s):
     return int(float(s))
 
+
 def parse_decimal(val):
-    if isinstance(val, float):
-        return Decimal(val)
-    elif val is None or np.is_na(val):
+    if val is None or pd.isna(val):
         return None
+    elif isinstance(val, float):
+        return Decimal(val)
     else:
         raise NotImplementedError(u"Unable to parse Decimal from {}".format(val))
 

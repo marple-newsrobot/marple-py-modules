@@ -1,8 +1,9 @@
 # encoding: utf-8
 from marple.utils import (list_files, guess_periodicity, to_timepoint,
-    subtract_periods, parse_lingual_object, get_decimal_encoder)
+    subtract_periods, parse_lingual_object, get_decimal_encoder, parse_decimal)
 import pytest
 import json
+import numpy as np
 from decimal import Decimal
 
 def test_list_files():
@@ -60,6 +61,11 @@ def test_parse_lingual_object():
 
     with pytest.raises(KeyError):
         parse_lingual_object(obj,"foo")
+
+def test_parse_decimal():
+    assert parse_decimal(1.23) == 1.23
+    assert parse_decimal(None) == None
+    assert parse_decimal(np.nan) == None
 
 def test_decimal_encoder():
     data = {
