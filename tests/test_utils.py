@@ -64,6 +64,7 @@ def test_parse_lingual_object():
 
 def test_parse_decimal():
     assert parse_decimal(1.23) == 1.23
+    assert parse_decimal(123) == 123
     assert parse_decimal(None) == None
     assert parse_decimal(np.nan) == None
 

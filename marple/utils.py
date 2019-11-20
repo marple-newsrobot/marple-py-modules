@@ -234,7 +234,7 @@ def parse_int(s):
 def parse_decimal(val):
     if val is None or pd.isna(val):
         return None
-    elif isinstance(val, float):
+    elif isinstance(val, float) or isinstance(val, int):
         return Decimal(val)
     else:
         raise NotImplementedError(u"Unable to parse Decimal from {}".format(val))
