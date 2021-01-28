@@ -64,3 +64,4 @@ v0.1.18, 2019-11-20 -- handle integers in parse_decimal
 v0.1.19, 2021-01-14 -- new version of nw connections
 v0.1.19, 2021-01-14 -- nw connections 1.1.1
 v0.1.20, 2021-01-28 -- enable higher versions of jsonschema, pandas and numpy
+v0.1.21, 2021-01-28 -- enable higher versions of jsonschema, pandas and numpy in setup.pyas well
