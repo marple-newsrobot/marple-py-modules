@@ -46,8 +46,9 @@ class CsvFile(object):
                 # Empty multi index
                 index = pd.MultiIndex(
                     levels=[[] for x in index_col],
-                    labels=[[] for x in index_col],
+                    codes=[[] for x in index_col],
                     names=index_col)
+
                 self.data = pd.DataFrame(columns=cols, index=index)
             else:
                 # Empyt single index
