@@ -3,7 +3,6 @@ from new_version import get_current_version
 
 required = [
     'boto3>=1.4,<2',
-    'csvkit>=1,<2',
     'glob2>=0.4,<1',
     'jsonschema>=2.5',
     'numpy>=1.11',
