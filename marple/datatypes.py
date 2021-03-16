@@ -6,7 +6,7 @@ import pandas as pd
 
 from os.path import basename, splitext, join
 from os import sep as os_sep
-import csvkit as csv
+import csv
 from marple.csv import CsvFileWithLabel
 from marple.utils import isNaN, parse_lingual_object, multiple_and
 
