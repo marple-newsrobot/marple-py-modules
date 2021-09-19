@@ -68,3 +68,4 @@ v0.1.21, 2021-01-28 -- enable higher versions of jsonschema, pandas and numpy in
 v0.1.22, 2021-03-16 -- Remove csvkit dependency
 v0.1.23, 2021-03-16 -- Remove csvkit dependency - from setup.py as well
 v0.2.0, 2021-09-19 -- Bump nw-connections
+v0.2.1, 2021-09-19 -- Bump nw-connections
