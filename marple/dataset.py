@@ -8,6 +8,7 @@ import os
 from jsonschema import Draft4Validator, FormatChecker
 from six import string_types, text_type
 from six.moves import reduce
+import numpy as np
 import sys
 from marple.utils import parse_decimal
 
@@ -258,6 +259,10 @@ class Dataset(JSONStatObject):
 
         # Replace numpy NaN with None for correct json formating
         df = df.where((pd.notnull(df)), None)
+        # As of pandas 1.3.0 the line above does not work
+        # but we keep both for backward compability
+        # https://stackoverflow.com/questions/14162723/replacing-pandas-or-numpy-nan-with-a-none-to-use-with-mysqldb/54403705#54403705
+        df = df.replace({np.nan: None})
 
         json_data = {}
 
