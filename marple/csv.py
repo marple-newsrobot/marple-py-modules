@@ -129,7 +129,7 @@ class CsvFile(object):
         df = self.data
         df_to_append = self._parse_input(file_or_data)
 
-        df = df.append(df_to_append, sort=False)
+        df = pd.concat([df, df_to_append])
 
         # Drop possible duplicates
         self.data = df[~df.index.duplicated(keep='first')]

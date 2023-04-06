@@ -46,7 +46,7 @@ class Domain(CsvFileWithLabel):
             df = pd.read_csv(file_, encoding="utf-8", dtype=object)  # , names=columns
             df['_category'] = splitext(basename(file_))[0]
             df['_file'] = file_
-            data = data.append(df, sort=False)  # , ignore_index=True
+            data = pd.concat([data, df])
         self.data = data.set_index("id")
 
     def __unicode__(self):
