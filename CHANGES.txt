@@ -71,3 +71,4 @@ v0.2.0, 2021-09-19 -- Bump nw-connections
 v0.2.1, 2021-09-19 -- Bump nw-connections
 v0.2.14, 2021-09-30 -- bug fix: handle nan in pandas>1.2.0
 v0.2.15, 2021-11-18 -- update nw connections
+v0.2.16, 2023-04-06 -- Use concat instead of append in pandas
