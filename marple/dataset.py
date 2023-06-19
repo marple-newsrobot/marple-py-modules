@@ -779,7 +779,7 @@ class Dataset(JSONStatObject):
             else:
                 raise Exception("'{}' is note a valid argument for 'on_duplicates'")
 
-        df = df.drop('index', 1)
+        df = df.drop('index', axis=1)
 
         # Restore original metadata
         self._rebuild(df)
@@ -927,7 +927,7 @@ class Dataset(JSONStatObject):
 
         return pd.merge(df,empty_df,left_index=True, right_index=True, how='right')\
             .reset_index()\
-            .drop('empty', 1)
+            .drop('empty', axis=1)
 
 
 class Dimension(JSONStatObject):
