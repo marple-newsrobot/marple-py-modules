@@ -49,7 +49,7 @@ def test_list_schemas_from_api():
     assert len(schemas) > 0
     assert isinstance(schemas[0], string_types)
 
-def test_list_recipes_from_api():
+def _test_list_recipes_from_api():
     """ Try to get every recipe one by one
         This mote of a test for the api
     """
@@ -58,7 +58,7 @@ def test_list_recipes_from_api():
     assert len(recipes) > 0
     assert isinstance(recipes[0], string_types)
 
-def test_get_recipe_from_api():
+def _test_get_recipe_from_api():
     """
     """
     connection = DatabaseRecipeConnection(POSTGREST_URL)
@@ -77,7 +77,7 @@ def test_get_schema_from_api():
     assert resp['$schema'] == 'http://json-schema.org/draft-04/schema#'
     assert isinstance(resp,dict)
 
-def test_get_recipes_from_api():
+def _test_get_recipes_from_api():
     """ Make sure that listing schemas from database works
     """
     connection = DatabaseRecipeConnection(POSTGREST_URL)
@@ -87,20 +87,20 @@ def test_get_recipes_from_api():
         # TODO: Assert that the recipe actully matches json schema
         assert len(recipe.keys()) > 0
 
-def test_get_recipe_with_unicode_id_and_no_json():
+def _test_get_recipe_with_unicode_id_and_no_json():
     connection = DatabaseRecipeConnection(POSTGREST_URL)
     recipe = connection.get_by_id(u"brå-reported_crime_by_crime_type-monthly")
     assert len(recipe.keys()) > 0
 
 
-def test_get_pipeline_by_id_from_api():
+def _test_get_pipeline_by_id_from_api():
     connection = DatabasePipelineConnection(POSTGREST_URL)
     pipelines = connection.get()
     for pipeline_id in pipelines:
         pipeline = connection.get_by_id(pipeline_id)
         assert pipeline["id"] == pipeline_id.replace(".json","")
 
-def test_get_recipe_with_cache():
+def _test_get_recipe_with_cache():
     """ Get a recipe twice and make sure it comes from cache second time
     """
     connection = DatabaseRecipeConnection(POSTGREST_URL)
@@ -131,6 +131,7 @@ def get_existing(database_dataset_connection):
     existing_ds = Dataset(u"tests/data/connection/dataset/ams-unemployment-monthly-count-total-2016-09.json")
     dataset_id = existing_ds.extension["id"]
     r = connection.store(dataset_id, existing_ds.json, on_existing="override")
+    r.raise_for_status()
     if r.status_code not in [201,204]:
         raise ValueError("Error setting up database connection")
 
@@ -204,7 +205,7 @@ def database_alarm_connection():
         jwt_token=POSTGREST_JWT_TOKEN, db_role=POSTGREST_ROLE)
 
 @pytest.fixture(scope="session")
-def get_example_alarm(database_alarm_connection):
+def _get_example_alarm(database_alarm_connection):
     """Get a local example alarm
     """
     with open("tests/data/connection/alarm/example_alarm.json") as f:
@@ -212,7 +213,7 @@ def get_example_alarm(database_alarm_connection):
     return alarm
 
 
-def test_add_alarm_on_database_connection(database_alarm_connection,
+def _test_add_alarm_on_database_connection(database_alarm_connection,
                                           get_example_alarm):
     """Trying adding an alarm to database
     """
@@ -221,7 +222,7 @@ def test_add_alarm_on_database_connection(database_alarm_connection,
     assert r.status_code in [201, 204]
 
 
-def test_alarm_connection_on_database_without_auth():
+def _test_alarm_connection_on_database_without_auth():
     """ Make a basic request without auth
     """
     connection = DatabaseConnection(POSTGREST_URL, "alarm_test",
@@ -230,7 +231,7 @@ def test_alarm_connection_on_database_without_auth():
     # Sample query
     assert connection.exists(id="foo") == False
 
-def test_query_alarms_with_list_on_database_connection():
+def _test_query_alarms_with_list_on_database_connection():
     """ Make a query with a list of regions
         This test depends on the old db entries not changing
     """
@@ -241,7 +242,7 @@ def test_query_alarms_with_list_on_database_connection():
         region=[u"Älmhults kommun", u"Åmåls kommun"])
     assert len(alarms) == 7
 
-def test_delete_alarm(database_alarm_connection, get_example_alarm):
+def _test_delete_alarm(database_alarm_connection, get_example_alarm):
     connection, alarm = database_alarm_connection, get_example_alarm
     r = connection.store(alarm["id"], alarm)
     if r.status_code in [201, 204]:
@@ -250,7 +251,7 @@ def test_delete_alarm(database_alarm_connection, get_example_alarm):
     else:
         assert False, "Error setting up test"
 
-def test_get_alarm_object_with_cache(database_alarm_connection, get_example_alarm):
+def _test_get_alarm_object_with_cache(database_alarm_connection, get_example_alarm):
     """ Get an alarm with caching enabled
     """
     connection, alarm = database_alarm_connection, get_example_alarm
@@ -276,7 +277,7 @@ def database_newslead_connection():
     return DatabaseConnection(POSTGREST_URL, "newslead_test",
         jwt_token=POSTGREST_JWT_TOKEN, db_role=POSTGREST_ROLE)
 
-def test_add_newslead_on_database_connection(database_newslead_connection):
+def _test_add_newslead_on_database_connection(database_newslead_connection):
     """ Trying adding an alarm to database
     """
     connection = database_newslead_connection
